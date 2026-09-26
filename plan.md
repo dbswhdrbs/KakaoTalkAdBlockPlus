@@ -60,7 +60,7 @@
 - [x] 이진 값을 읽는다 — `ShouldReadBinaryValue`
 
 ### 6. 명령줄 — `CommandLineOptions`
-- [ ] `--autostart`를 대소문자 구분 없이 알아본다 — `ShouldDetectAutostartFlag`
+- [x] `--autostart`를 대소문자 구분 없이 알아본다 — `ShouldDetectAutostartFlag`
 - [ ] 인자가 없으면 직접 실행한 것이다 — `ShouldTreatNoArgumentsAsManualStart`
 
 ### 7. 광고 제거 엔진 — `AdBlockEngine` (가짜 창 트리)
