@@ -19,5 +19,13 @@ namespace KakaoTalkAdBlockPlus.Tests.Native
 
             CollectionAssert.Contains(new System.Collections.Generic.List<int>(ids), current.Id);
         }
+
+        [TestMethod]
+        public void ShouldReturnEmptyForUnknownImageName()
+        {
+            var ids = new ToolhelpProcessIdSource("no-such-process-" + System.Guid.NewGuid().ToString("N") + ".exe").GetProcessIds();
+
+            Assert.AreEqual(0, ids.Count);
+        }
     }
 }
