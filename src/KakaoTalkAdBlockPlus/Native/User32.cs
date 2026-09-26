@@ -10,6 +10,7 @@ namespace KakaoTalkAdBlockPlus.Native
         public const uint SmtoAbortIfHung = 0x0002;
         public const int SwHide = 0;
         public const uint SwpNoMove = 0x0002;
+        public const int AsfwAny = -1;
 
         public delegate bool EnumWindowsProc(IntPtr window, IntPtr parameter);
 
@@ -61,6 +62,11 @@ namespace KakaoTalkAdBlockPlus.Native
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPos(IntPtr window, IntPtr insertAfter, int x, int y, int width, int height, uint flags);
+
+        /// <summary>두 번째 실행이 첫 번째 인스턴스의 설정창을 앞으로 가져올 수 있게 허락한다.</summary>
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool AllowSetForegroundWindow(int processId);
 
         [DllImport("user32.dll", EntryPoint = "SendMessageTimeoutW")]
         public static extern IntPtr SendMessageTimeout(

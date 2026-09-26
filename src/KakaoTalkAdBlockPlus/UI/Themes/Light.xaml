@@ -1,0 +1,35 @@
+<!-- 라이트 테마 색. Dark.xaml과 키가 같아야 한다. -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#F4F5F7" />
+    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="CardBorderBrush" Color="#E5E8EB" />
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="#191F28" />
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#6B7684" />
+    <SolidColorBrush x:Key="TextTertiaryBrush" Color="#8B95A1" />
+    <SolidColorBrush x:Key="DividerBrush" Color="#EEF0F3" />
+    <SolidColorBrush x:Key="HoverBrush" Color="#F2F4F6" />
+    <SolidColorBrush x:Key="PressedBrush" Color="#E5E8EB" />
+
+    <SolidColorBrush x:Key="AccentBrush" Color="#FEE500" />
+    <SolidColorBrush x:Key="AccentHoverBrush" Color="#F7DC00" />
+    <SolidColorBrush x:Key="AccentPressedBrush" Color="#E9CF00" />
+    <SolidColorBrush x:Key="OnAccentBrush" Color="#191919" />
+    <SolidColorBrush x:Key="AccentBorderBrush" Color="#E3CC00" />
+
+    <SolidColorBrush x:Key="SliderTrackBrush" Color="#E5E8EB" />
+    <SolidColorBrush x:Key="SliderFillBrush" Color="#FFD400" />
+    <SolidColorBrush x:Key="SliderThumbBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="SliderThumbBorderBrush" Color="#D1D6DB" />
+
+    <SolidColorBrush x:Key="ToggleOffTrackBrush" Color="#D1D6DB" />
+    <SolidColorBrush x:Key="ToggleOffThumbBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="ToggleOnTrackBrush" Color="#FEE500" />
+    <SolidColorBrush x:Key="ToggleOnThumbBrush" Color="#3C1E1E" />
+
+    <SolidColorBrush x:Key="InputFocusBorderBrush" Color="#FFD400" />
+    <SolidColorBrush x:Key="StatusRunningBrush" Color="#12B886" />
+    <SolidColorBrush x:Key="StatusWaitingBrush" Color="#ADB5BD" />
+    <SolidColorBrush x:Key="ErrorBrush" Color="#F04452" />
+    <Color x:Key="ShadowColor">#1A000000</Color>
+</ResourceDictionary>
