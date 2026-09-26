@@ -14,9 +14,9 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
 
         public List<IntPtr> Closed { get; } = new List<IntPtr>();
 
-        public FakeWindow AddTopLevel(int processId, string className, string text)
+        public FakeWindow AddTopLevel(int processId, string className, string text, FakeWindow? owner = null)
         {
-            var window = Register(new FakeWindow(NextHandle(), processId, className, text, parent: null));
+            var window = Register(new FakeWindow(NextHandle(), processId, className, text, parent: null) { Owner = owner });
             _topLevelWindows.Add(window);
             return window;
         }
@@ -40,7 +40,8 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
 
         public string GetText(IntPtr window) => _windows[window].Text;
 
-        public IntPtr GetParent(IntPtr window) => _windows[window].Parent?.Handle ?? IntPtr.Zero;
+        public IntPtr GetParent(IntPtr window) =>
+            _windows[window].Parent?.Handle ?? _windows[window].Owner?.Handle ?? IntPtr.Zero;
 
         public void Close(IntPtr window) => Closed.Add(window);
 
@@ -76,6 +77,9 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
         public string Text { get; }
 
         public FakeWindow? Parent { get; }
+
+        /// <summary>최상위 창의 소유자 (GetParent가 돌려주는 값).</summary>
+        public FakeWindow? Owner { get; set; }
 
         public List<FakeWindow> Children { get; } = new List<FakeWindow>();
     }

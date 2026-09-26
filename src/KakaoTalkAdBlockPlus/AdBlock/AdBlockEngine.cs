@@ -25,6 +25,7 @@ namespace KakaoTalkAdBlockPlus.AdBlock
             foreach (var window in _windows.GetTopLevelWindows())
             {
                 if (!kakaoTalkProcessIds.Contains(_windows.GetProcessId(window))) continue;
+                if (!IsMainWindowCandidate(window)) continue;
 
                 var descendants = _windows.GetDescendantWindows(window);
                 if (!HasMainOrLockView(descendants)) continue;
@@ -44,6 +45,12 @@ namespace KakaoTalkAdBlockPlus.AdBlock
 
             return new AdBlockReport(isKakaoTalkRunning: false);
         }
+
+        /// <summary>메인 창 후보: 제목이 있고 소유자가 없는 EVA_Window_Dblclk.</summary>
+        private bool IsMainWindowCandidate(IntPtr window) =>
+            _windows.GetClassName(window) == "EVA_Window_Dblclk" &&
+            _windows.GetText(window).Length > 0 &&
+            _windows.GetParent(window) == IntPtr.Zero;
 
         /// <summary>카카오톡 자체 스크롤(_EVA_…)이 들어 있으면 광고가 아닌 화면이다 (이모티콘 화면 등, 원본 #97).</summary>
         private bool HasCustomScroll(IntPtr window) =>

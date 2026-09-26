@@ -108,6 +108,24 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
             CollectionAssert.DoesNotContain(_windows.Closed, scene.MainView.Handle);
         }
 
+        [DataTestMethod]
+        [DataRow("EVA_Window_Dblclk", "", false, DisplayName = "제목 없음")]
+        [DataRow("EVA_Window_Dblclk", "카카오톡", true, DisplayName = "소유자 있음")]
+        [DataRow("EVA_Window", "카카오톡", false, DisplayName = "다른 클래스")]
+        public void ShouldIgnoreUntitledOrOwnedWindows(string className, string title, bool owned)
+        {
+            _kakaoTalkProcesses.Add(KakaoTalkPid);
+            var owner = owned ? _windows.AddTopLevel(KakaoTalkPid, "EVA_Window_Dblclk", "카카오톡") : null;
+            var window = _windows.AddTopLevel(KakaoTalkPid, className, title, owner);
+            _windows.AddChild(window, "EVA_ChildWindow", "");
+            _windows.AddChild(window, "EVA_ChildWindow", "OnlineMainView_0x00A1B2C3");
+            var banner = _windows.AddChild(window, "EVA_ChildWindow", "");
+
+            CreateEngine().RunOnce();
+
+            CollectionAssert.DoesNotContain(_windows.Closed, banner.Handle);
+        }
+
         /// <summary>
         /// 카카오톡 메인 창 구조:
         /// "카카오톡" EVA_Window_Dblclk ─┬─ "" EVA_ChildWindow (첫 번째 자식)
