@@ -26,5 +26,13 @@ namespace KakaoTalkAdBlockPlus.Tests.UI
             Assert.AreEqual("아직 정리한 광고가 없어요", StatusText.Detail(noAdsYet));
             Assert.AreEqual("이번 실행에서 광고 3개를 정리했어요", StatusText.Detail(someAds));
         }
+
+        [TestMethod]
+        public void ShouldSummarizeInOneLine()
+        {
+            Assert.AreEqual("카카오톡 실행을 기다리는 중", StatusText.Summary(new AdBlockStatus(false, 0)));
+            Assert.AreEqual("광고를 차단하고 있어요", StatusText.Summary(new AdBlockStatus(true, 0)));
+            Assert.AreEqual("광고를 차단하고 있어요 · 3개 정리", StatusText.Summary(new AdBlockStatus(true, 3)));
+        }
     }
 }

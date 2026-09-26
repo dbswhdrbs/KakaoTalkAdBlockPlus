@@ -106,6 +106,7 @@
 ### 11. 상태 문구 — `StatusText`
 - [x] 카카오톡이 없으면 "카카오톡 실행을 기다리는 중" — `ShouldDescribeWaitingForKakaoTalk`
 - [x] 카카오톡이 있으면 제거 수와 함께 "광고를 차단하고 있어요" — `ShouldDescribeBlockingWithCount`
+- [x] 트레이 메뉴용 한 줄 요약 ("광고를 차단하고 있어요 · 3개 정리") — `ShouldSummarizeInOneLine`
 
 ### 12. 백그라운드 실행 — `AdBlockService`
 - [x] 시작하면 주기마다 엔진을 실행한다 — `ShouldRunEngineRepeatedlyAfterStart`
