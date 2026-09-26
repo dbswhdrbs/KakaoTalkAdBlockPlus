@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Threading;
 using KakaoTalkAdBlockPlus.Settings;
 
@@ -50,7 +51,16 @@ namespace KakaoTalkAdBlockPlus.AdBlock
         {
             while (!_stopRequested)
             {
-                _engine.RunOnce();
+                try
+                {
+                    _engine.RunOnce();
+                }
+                catch (Exception exception)
+                {
+                    // 검사 도중 카카오톡 창이 사라지는 등 한 번의 실패로 차단을 멈추지 않는다.
+                    Trace.TraceWarning("광고 검사 실패: {0}", exception);
+                }
+
                 _wakeUp.WaitOne(_intervalMilliseconds);
             }
         }
