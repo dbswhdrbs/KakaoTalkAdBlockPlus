@@ -89,6 +89,11 @@
 - [x] 캐시: 갱신 주기가 지나면 다시 조회한다 — `ShouldRefreshAfterRefreshPeriod`
 - [x] Toolhelp: 실행 파일 이름(대소문자 무시)으로 현재 프로세스를 찾는다 — `ShouldFindCurrentProcessByImageName`
 - [x] Toolhelp: 없는 이름이면 빈 목록이다 — `ShouldReturnEmptyForUnknownImageName`
+- [x] 창 소유 프로세스: 최상위 창을 가진 프로세스 중 실행 파일 이름(대소문자 무시)이 같은 것을 찾는다 — `ShouldFindWindowOwnersByImageName`
+  (전체 프로세스 스냅숏은 이 PC에서 1회 14ms라 1초마다 찍으면 CPU를 많이 쓴다)
+- [ ] 창 소유 프로세스: 프로세스 이름은 한 번만 조회해 기억한다 — `ShouldResolveEachProcessNameOnce`
+- [ ] 창 소유 프로세스: 창이 사라진 프로세스는 잊는다 (PID 재사용 대비) — `ShouldForgetProcessesWithoutWindows`
+- [ ] 실제 프로세스 이름 조회: 현재 프로세스의 실행 파일 이름을 얻는다 — `ShouldResolveCurrentProcessImageName`
 
 ### 9. Win32 창 API — `Win32WindowApi` (테스트 프로세스 안의 진짜 창)
 - [x] 최상위 창과 그 프로세스 ID를 얻는다 — `ShouldListTopLevelWindowWithProcessId`
