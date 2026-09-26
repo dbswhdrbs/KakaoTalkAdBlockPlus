@@ -1,0 +1,42 @@
+using System;
+using System.Threading;
+using KakaoTalkAdBlockPlus.AdBlock;
+using KakaoTalkAdBlockPlus.Settings;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace KakaoTalkAdBlockPlus.Tests.AdBlock
+{
+    [TestClass]
+    public class AdBlockServiceTests
+    {
+        private static readonly TimeSpan Timeout = TimeSpan.FromSeconds(3);
+        private static readonly CheckInterval Fastest = CheckInterval.FromMilliseconds(CheckInterval.MinMilliseconds);
+
+        private readonly CountingEngine _engine = new CountingEngine();
+
+        [TestMethod]
+        public void ShouldRunEngineRepeatedlyAfterStart()
+        {
+            using var service = new AdBlockService(_engine, Fastest);
+
+            service.Start();
+
+            Assert.IsTrue(_engine.WaitForCalls(3, Timeout), $"엔진 실행 횟수: {_engine.Calls}");
+        }
+
+        private sealed class CountingEngine : IAdBlockEngine
+        {
+            private int _calls;
+
+            public int Calls => Volatile.Read(ref _calls);
+
+            public AdBlockReport RunOnce()
+            {
+                Interlocked.Increment(ref _calls);
+                return new AdBlockReport(isKakaoTalkRunning: false, new IntPtr[0]);
+            }
+
+            public bool WaitForCalls(int count, TimeSpan timeout) => SpinWait.SpinUntil(() => Calls >= count, timeout);
+        }
+    }
+}

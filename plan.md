@@ -108,7 +108,7 @@
 - [x] 카카오톡이 있으면 제거 수와 함께 "광고를 차단하고 있어요" — `ShouldDescribeBlockingWithCount`
 
 ### 12. 백그라운드 실행 — `AdBlockService`
-- [ ] 시작하면 주기마다 엔진을 실행한다 — `ShouldRunEngineRepeatedlyAfterStart`
+- [x] 시작하면 주기마다 엔진을 실행한다 — `ShouldRunEngineRepeatedlyAfterStart`
 - [ ] 멈추면 더 실행하지 않는다 — `ShouldStopRunningAfterStop`
 - [ ] 주기를 바꾸면 이전 대기를 끝내고 바로 반영한다 — `ShouldApplyNewIntervalWithoutWaitingForOldOne`
 - [ ] 엔진에서 예외가 나도 계속 실행한다 — `ShouldKeepRunningWhenEngineThrows`
