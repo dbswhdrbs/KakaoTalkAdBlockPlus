@@ -118,7 +118,7 @@ namespace KakaoTalkAdBlockPlus.UI
             OnPropertyChanged(nameof(StatusDetail));
         }
 
-        /// <summary>원본과 같은 기본 주기(0.1초)로 되돌린다.</summary>
+        /// <summary>기본 주기(0.1초)로 되돌린다.</summary>
         public void ResetInterval() => ApplyInterval(CheckInterval.Default);
 
         private void ApplyInterval(CheckInterval interval)

@@ -11,7 +11,7 @@ namespace KakaoTalkAdBlockPlus
 
         public const string DisplayName = "카카오톡 광고 차단";
 
-        /// <summary>감시할 카카오톡 PC 실행 파일 (원본과 같음).</summary>
+        /// <summary>감시할 카카오톡 PC 실행 파일.</summary>
         public const string KakaoTalkExecutable = "KakaoTalk.exe";
 
         /// <summary>같은 사용자 세션에서 한 번만 실행되도록 쓰는 이름.</summary>

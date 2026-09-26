@@ -24,10 +24,10 @@ namespace KakaoTalkAdBlockPlus.AdBlock
         /// <summary>잠금 모드 화면.</summary>
         public const string LockViewTextPrefix = "LockModeView";
 
-        /// <summary>메인 창 테두리 그림자 폭 (원본 LayoutShadowPadding).</summary>
+        /// <summary>메인 창 테두리 그림자 폭.</summary>
         public const int LayoutShadowPadding = 2;
 
-        /// <summary>메인 창 위쪽 제목 영역 높이 (원본 MainViewPadding).</summary>
+        /// <summary>메인 창 위쪽 제목 영역 높이.</summary>
         public const int MainViewPadding = 31;
     }
 }

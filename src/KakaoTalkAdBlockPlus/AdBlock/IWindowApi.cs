@@ -31,10 +31,10 @@ namespace KakaoTalkAdBlockPlus.AdBlock
         /// <summary>WM_CLOSE를 보낸다.</summary>
         void Close(IntPtr window);
 
-        /// <summary>ShowWindow(SW_HIDE).</summary>
+        /// <summary>숨긴다. 창 주인이 처리할 때까지 기다리지 않는다.</summary>
         void Hide(IntPtr window);
 
-        /// <summary>원본과 같이 UpdateWindow 후 SetWindowPos(HWND_TOP, SWP_NOMOVE)로 크기를 바꾼다.</summary>
+        /// <summary>위치는 그대로 두고 크기만 바꾼다. 창 주인이 처리할 때까지 기다리지 않는다.</summary>
         void Resize(IntPtr window, int width, int height);
     }
 }

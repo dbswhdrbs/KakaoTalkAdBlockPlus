@@ -6,8 +6,8 @@ using static KakaoTalkAdBlockPlus.AdBlock.KakaoTalkWindowNames;
 namespace KakaoTalkAdBlockPlus.AdBlock
 {
     /// <summary>
-    /// 카카오톡 창에서 광고를 찾아 없앤다.
-    /// 규칙은 원본 KakaoTalkAdBlock 최신판(2.2.4)의 일반(Win32) 클라이언트 규칙을 옮겼다.
+    /// 카카오톡 PC(일반 Win32 클라이언트) 창에서 광고를 찾아 없앤다.
+    /// 규칙은 README의 "동작 방식"에 정리했다.
     /// </summary>
     public sealed class AdBlockEngine : IAdBlockEngine
     {
@@ -53,7 +53,7 @@ namespace KakaoTalkAdBlockPlus.AdBlock
         {
             var mainRect = _windows.GetRect(mainWindow);
 
-            // 원본(#99 수정)과 같이 첫 번째 자식은 건너뛴다.
+            // 첫 번째 자식(잠금 화면 등)은 건드리지 않는다.
             foreach (var child in descendants.Skip(1))
             {
                 if (_windows.GetParent(child) != mainWindow) continue;
@@ -80,7 +80,7 @@ namespace KakaoTalkAdBlockPlus.AdBlock
             }
         }
 
-        /// <summary>목록 화면은 배너 자리까지, 잠금 화면은 창 높이 전체로 늘린다 (원본 HideMainViewAdArea/HideLockScreenAdArea).</summary>
+        /// <summary>목록 화면은 배너 자리까지, 잠금 화면은 창 높이 전체로 늘린다.</summary>
         private void ExpandViewOverAdArea(IntPtr view, WindowRect mainRect)
         {
             var text = _windows.GetText(view);
@@ -98,8 +98,7 @@ namespace KakaoTalkAdBlockPlus.AdBlock
         }
 
         /// <summary>
-        /// 원본은 매번 크기를 다시 맞췄지만, 이미 맞으면 건너뛴다:
-        /// 카카오톡에 검사마다 창 메시지를 보내지 않고, 카카오톡이 멈췄을 때 기다릴 일도 줄인다.
+        /// 이미 맞는 크기면 건너뛴다: 검사할 때마다 카카오톡에 창 메시지를 보내지 않는다.
         /// </summary>
         private void ResizeIfNeeded(IntPtr view, int width, int height)
         {
@@ -138,12 +137,12 @@ namespace KakaoTalkAdBlockPlus.AdBlock
             _windows.GetText(window).Length > 0 &&
             _windows.GetParent(window) == IntPtr.Zero;
 
-        /// <summary>카카오톡 자체 스크롤(_EVA_…)이 들어 있으면 광고가 아닌 화면이다 (이모티콘 화면 등, 원본 #97).</summary>
+        /// <summary>카카오톡 자체 스크롤(_EVA_…)이 들어 있으면 광고가 아닌 화면이다 (이모티콘 화면 등).</summary>
         private bool HasCustomScroll(IntPtr window) =>
             _windows.GetDescendantWindows(window).Any(child =>
                 _windows.GetClassName(child).StartsWith(CustomControlClassPrefix, StringComparison.Ordinal));
 
-        /// <summary>친구/채팅 목록(OnlineMainView)이나 잠금 화면(LockModeView)이 있어야 진짜 메인 창이다 (동영상 플레이어 등 제외, 원본 #99).</summary>
+        /// <summary>친구/채팅 목록(OnlineMainView)이나 잠금 화면(LockModeView)이 있어야 진짜 메인 창이다 (동영상 플레이어 등은 제외).</summary>
         private bool HasMainOrLockView(IEnumerable<IntPtr> descendants) =>
             descendants.Any(child =>
                 _windows.GetClassName(child) == ChildWindowClass &&
