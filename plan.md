@@ -83,7 +83,7 @@
 - [x] 제거한 광고 창 목록을 보고한다 — `ShouldReportRemovedAds`
 
 ### 8. 카카오톡 프로세스 찾기
-- [ ] 캐시: 처음 호출하면 실제로 조회한다 — `ShouldQueryInnerSourceOnFirstCall`
+- [x] 캐시: 처음 호출하면 실제로 조회한다 — `ShouldQueryInnerSourceOnFirstCall`
 - [ ] 캐시: 갱신 주기 안에서는 결과를 재사용한다 — `ShouldReuseIdsWithinRefreshPeriod`
 - [ ] 캐시: 갱신 주기가 지나면 다시 조회한다 — `ShouldRefreshAfterRefreshPeriod`
 - [ ] Toolhelp: 실행 파일 이름(대소문자 무시)으로 현재 프로세스를 찾는다 — `ShouldFindCurrentProcessByImageName`
