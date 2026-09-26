@@ -90,5 +90,17 @@ namespace KakaoTalkAdBlockPlus.Tests.Settings
 
             Assert.AreEqual(CheckInterval.DefaultMilliseconds, settings.CheckInterval.Milliseconds);
         }
+
+        [TestMethod]
+        public void ShouldOverwritePreviousSettings()
+        {
+            var store = new JsonSettingsStore(SettingsPath);
+
+            store.Save(new AppSettings(CheckInterval.FromMilliseconds(2_000)));
+            store.Save(new AppSettings(CheckInterval.FromMilliseconds(500)));
+
+            Assert.AreEqual(500, store.Load().CheckInterval.Milliseconds);
+            CollectionAssert.AreEqual(new[] { SettingsPath }, Directory.GetFiles(_directory));
+        }
     }
 }
