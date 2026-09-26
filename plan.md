@@ -87,8 +87,9 @@
 - [x] 캐시: 처음 호출하면 실제로 조회한다 — `ShouldQueryInnerSourceOnFirstCall`
 - [x] 캐시: 갱신 주기 안에서는 결과를 재사용한다 — `ShouldReuseIdsWithinRefreshPeriod`
 - [x] 캐시: 갱신 주기가 지나면 다시 조회한다 — `ShouldRefreshAfterRefreshPeriod`
-- [x] Toolhelp: 실행 파일 이름(대소문자 무시)으로 현재 프로세스를 찾는다 — `ShouldFindCurrentProcessByImageName`
-- [x] Toolhelp: 없는 이름이면 빈 목록이다 — `ShouldReturnEmptyForUnknownImageName`
+- [x] ~~Toolhelp: 실행 파일 이름(대소문자 무시)으로 현재 프로세스를 찾는다~~ — `ShouldFindCurrentProcessByImageName`
+- [x] ~~Toolhelp: 없는 이름이면 빈 목록이다~~ — `ShouldReturnEmptyForUnknownImageName`
+  (Toolhelp 방식은 아래 "창 소유 프로세스" 방식으로 바꾸면서 코드와 테스트를 지웠다)
 - [x] 창 소유 프로세스: 최상위 창을 가진 프로세스 중 실행 파일 이름(대소문자 무시)이 같은 것을 찾는다 — `ShouldFindWindowOwnersByImageName`
   (전체 프로세스 스냅숏은 이 PC에서 1회 14ms라 1초마다 찍으면 CPU를 많이 쓴다)
 - [x] 창 소유 프로세스: 프로세스 이름은 한 번만 조회해 기억한다 — `ShouldResolveEachProcessNameOnce`
