@@ -95,6 +95,19 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
             CollectionAssert.DoesNotContain(_windows.Closed, nested.Handle);
         }
 
+        [TestMethod]
+        public void ShouldNotCloseNamedChildren()
+        {
+            _kakaoTalkProcesses.Add(KakaoTalkPid);
+            var scene = AddMainWindowWithBanner(KakaoTalkPid);
+            var named = _windows.AddChild(scene.Main, "EVA_ChildWindow", "ChatRoomListView_0x0042");
+
+            CreateEngine().RunOnce();
+
+            CollectionAssert.DoesNotContain(_windows.Closed, named.Handle);
+            CollectionAssert.DoesNotContain(_windows.Closed, scene.MainView.Handle);
+        }
+
         /// <summary>
         /// 카카오톡 메인 창 구조:
         /// "카카오톡" EVA_Window_Dblclk ─┬─ "" EVA_ChildWindow (첫 번째 자식)
