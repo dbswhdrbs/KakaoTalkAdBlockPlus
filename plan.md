@@ -118,7 +118,7 @@
 - [x] 처음 실행하면 첫 인스턴스다 — `ShouldBeFirstInstanceWhenNameIsFree`
 - [x] 이미 실행 중이면 첫 인스턴스가 아니다 — `ShouldNotBeFirstInstanceWhenAlreadyRunning`
 - [x] 두 번째 실행이 알리면 첫 인스턴스가 신호를 받는다(설정창 열기) — `ShouldSignalFirstInstanceWhenSecondStarts`
-- [ ] 해제하면 다시 첫 인스턴스가 될 수 있다 — `ShouldReleaseNameOnDispose`
+- [x] 해제하면 다시 첫 인스턴스가 될 수 있다 — `ShouldReleaseNameOnDispose`
 
 ### 14. 설정창 뷰모델 — `SettingsViewModel`
 - [ ] 현재 주기를 초 단위로 보여 준다 — `ShouldShowCurrentIntervalInSeconds`

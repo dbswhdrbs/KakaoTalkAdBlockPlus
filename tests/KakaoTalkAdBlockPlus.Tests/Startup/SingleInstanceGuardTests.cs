@@ -40,5 +40,15 @@ namespace KakaoTalkAdBlockPlus.Tests.Startup
 
             Assert.IsTrue(signaled.Wait(TimeSpan.FromSeconds(3)));
         }
+
+        [TestMethod]
+        public void ShouldReleaseNameOnDispose()
+        {
+            SingleInstanceGuard.Acquire(_name).Dispose();
+
+            using var again = SingleInstanceGuard.Acquire(_name);
+
+            Assert.IsTrue(again.IsFirstInstance);
+        }
     }
 }
