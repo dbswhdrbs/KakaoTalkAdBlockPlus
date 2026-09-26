@@ -47,6 +47,10 @@ namespace KakaoTalkAdBlockPlus.Settings
             return IntervalParseResult.Success(new CheckInterval(milliseconds));
         }
 
+        /// <summary>초 단위 표시 문자열 (예: 100ms → "0.1").</summary>
+        public string ToSecondsText() =>
+            (Milliseconds / 1000m).ToString("0.###", CultureInfo.InvariantCulture);
+
         /// <summary>앞뒤 공백과 "초"/"s" 단위를 떼고, 쉼표 소수점을 점으로 바꾼다.</summary>
         private static string NormalizeSecondsText(string? text)
         {
@@ -62,9 +66,5 @@ namespace KakaoTalkAdBlockPlus.Settings
 
             return normalized.Replace(',', '.');
         }
-
-        /// <summary>초 단위 표시 문자열 (예: 100ms → "0.1").</summary>
-        public string ToSecondsText() =>
-            (Milliseconds / 1000m).ToString("0.###", CultureInfo.InvariantCulture);
     }
 }
