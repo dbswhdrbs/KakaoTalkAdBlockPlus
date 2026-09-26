@@ -28,5 +28,15 @@ namespace KakaoTalkAdBlockPlus.Tests.Startup
                 "\"" + ExecutablePath + "\" --autostart",
                 _registry.GetString(@"Software\Microsoft\Windows\CurrentVersion\Run", AppName));
         }
+
+        [TestMethod]
+        public void ShouldBeEnabledAfterEnable()
+        {
+            var registration = CreateRegistration();
+
+            registration.Enable();
+
+            Assert.IsTrue(registration.IsEnabled);
+        }
     }
 }

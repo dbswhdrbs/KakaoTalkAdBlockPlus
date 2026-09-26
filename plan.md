@@ -46,7 +46,7 @@
 ### 4. 윈도우 시작 시 자동 실행 — `StartupRegistration` (가짜 레지스트리)
 - [x] Run 값이 없으면 꺼져 있다 — `ShouldBeDisabledWhenRunValueIsMissing`
 - [x] 켜면 `"실행파일 경로" --autostart`를 기록한다 — `ShouldWriteQuotedPathWithAutostartArgumentWhenEnabled`
-- [ ] 켠 뒤에는 켜져 있다 — `ShouldBeEnabledAfterEnable`
+- [x] 켠 뒤에는 켜져 있다 — `ShouldBeEnabledAfterEnable`
 - [ ] 끄면 Run 값을 지운다 — `ShouldDeleteRunValueWhenDisabled`
 - [ ] 작업 관리자에서 "사용 안 함"이면 꺼져 있다 — `ShouldBeDisabledWhenTaskManagerDisabledIt`
 - [ ] 켜면 작업 관리자의 "사용 안 함" 표시를 지운다 — `ShouldClearTaskManagerFlagWhenEnabled`

@@ -16,7 +16,7 @@ namespace KakaoTalkAdBlockPlus.Startup
             _executablePath = executablePath;
         }
 
-        public bool IsEnabled => false;
+        public bool IsEnabled => _registry.GetString(RunKeyPath, _appName) != null;
 
         public void Enable() => _registry.SetString(RunKeyPath, _appName, "\"" + _executablePath + "\" --autostart");
     }
