@@ -38,6 +38,18 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
             Assert.AreEqual(callsAfterStop, _engine.Calls);
         }
 
+        [TestMethod]
+        public void ShouldApplyNewIntervalWithoutWaitingForOldOne()
+        {
+            using var service = new AdBlockService(_engine, CheckInterval.FromMilliseconds(CheckInterval.MaxMilliseconds));
+            service.Start();
+            Assert.IsTrue(_engine.WaitForCalls(1, Timeout));
+
+            service.Interval = Fastest;
+
+            Assert.IsTrue(_engine.WaitForCalls(3, Timeout), $"엔진 실행 횟수: {_engine.Calls}");
+        }
+
         private sealed class CountingEngine : IAdBlockEngine
         {
             private int _calls;

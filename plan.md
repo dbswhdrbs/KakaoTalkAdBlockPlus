@@ -110,7 +110,7 @@
 ### 12. 백그라운드 실행 — `AdBlockService`
 - [x] 시작하면 주기마다 엔진을 실행한다 — `ShouldRunEngineRepeatedlyAfterStart`
 - [x] 멈추면 더 실행하지 않는다 — `ShouldStopRunningAfterStop`
-- [ ] 주기를 바꾸면 이전 대기를 끝내고 바로 반영한다 — `ShouldApplyNewIntervalWithoutWaitingForOldOne`
+- [x] 주기를 바꾸면 이전 대기를 끝내고 바로 반영한다 — `ShouldApplyNewIntervalWithoutWaitingForOldOne`
 - [ ] 엔진에서 예외가 나도 계속 실행한다 — `ShouldKeepRunningWhenEngineThrows`
 - [ ] 엔진 보고서를 상태에 반영한다 — `ShouldPublishStatusFromEngineReports`
 

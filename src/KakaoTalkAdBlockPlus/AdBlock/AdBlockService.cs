@@ -8,14 +8,26 @@ namespace KakaoTalkAdBlockPlus.AdBlock
     public sealed class AdBlockService : IDisposable
     {
         private readonly IAdBlockEngine _engine;
-        private readonly CheckInterval _interval;
+        private readonly AutoResetEvent _wakeUp = new AutoResetEvent(initialState: false);
+        private volatile int _intervalMilliseconds;
         private volatile bool _stopRequested;
         private Thread? _thread;
 
         public AdBlockService(IAdBlockEngine engine, CheckInterval interval)
         {
             _engine = engine;
-            _interval = interval;
+            _intervalMilliseconds = interval.Milliseconds;
+        }
+
+        /// <summary>바꾸면 기다리던 중이라도 바로 새 주기로 다시 시작한다.</summary>
+        public CheckInterval Interval
+        {
+            get => CheckInterval.FromMilliseconds(_intervalMilliseconds);
+            set
+            {
+                _intervalMilliseconds = value.Milliseconds;
+                _wakeUp.Set();
+            }
         }
 
         public void Start()
@@ -28,6 +40,7 @@ namespace KakaoTalkAdBlockPlus.AdBlock
         public void Stop()
         {
             _stopRequested = true;
+            _wakeUp.Set();
             _thread?.Join();
         }
 
@@ -38,7 +51,7 @@ namespace KakaoTalkAdBlockPlus.AdBlock
             while (!_stopRequested)
             {
                 _engine.RunOnce();
-                Thread.Sleep(_interval.Milliseconds);
+                _wakeUp.WaitOne(_intervalMilliseconds);
             }
         }
     }
