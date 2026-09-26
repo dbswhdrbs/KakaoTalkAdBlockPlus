@@ -19,7 +19,16 @@ namespace KakaoTalkAdBlockPlus.Native
             return windows;
         }
 
-        public IReadOnlyList<IntPtr> GetDescendantWindows(IntPtr parent) => throw new NotImplementedException();
+        public IReadOnlyList<IntPtr> GetDescendantWindows(IntPtr parent)
+        {
+            var windows = new List<IntPtr>();
+            User32.EnumChildWindows(parent, (window, _) =>
+            {
+                windows.Add(window);
+                return true;
+            }, IntPtr.Zero);
+            return windows;
+        }
 
         public int GetProcessId(IntPtr window)
         {

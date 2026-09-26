@@ -13,6 +13,10 @@ namespace KakaoTalkAdBlockPlus.Native
         public static extern bool EnumWindows(EnumWindowsProc callback, IntPtr parameter);
 
         [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool EnumChildWindows(IntPtr parent, EnumWindowsProc callback, IntPtr parameter);
+
+        [DllImport("user32.dll")]
         public static extern uint GetWindowThreadProcessId(IntPtr window, out uint processId);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassNameW")]
