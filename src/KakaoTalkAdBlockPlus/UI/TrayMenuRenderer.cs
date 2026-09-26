@@ -5,7 +5,7 @@ using System.Windows.Forms;
 namespace KakaoTalkAdBlockPlus.UI
 {
     /// <summary>트레이 우클릭 메뉴 색 (테마에서 가져온다).</summary>
-    internal sealed class TrayMenuPalette
+    public sealed class TrayMenuPalette
     {
         public TrayMenuPalette(Color background, Color border, Color text, Color secondaryText, Color hover, Color separator)
         {
@@ -29,7 +29,7 @@ namespace KakaoTalkAdBlockPlus.UI
 
         public Color Separator { get; }
 
-        public static TrayMenuPalette From(ThemeManager theme) => new TrayMenuPalette(
+        internal static TrayMenuPalette From(ThemeManager theme) => new TrayMenuPalette(
             FromRgb(theme.GetRgb("CardBackgroundBrush")),
             FromRgb(theme.GetRgb("CardBorderBrush")),
             FromRgb(theme.GetRgb("TextPrimaryBrush")),
@@ -41,7 +41,7 @@ namespace KakaoTalkAdBlockPlus.UI
     }
 
     /// <summary>회색 그라데이션 없는 평평한 메뉴: 둥근 선택 표시, 얇은 구분선.</summary>
-    internal sealed class TrayMenuRenderer : ToolStripProfessionalRenderer
+    public sealed class TrayMenuRenderer : ToolStripProfessionalRenderer
     {
         private readonly TrayMenuPalette _palette;
 
