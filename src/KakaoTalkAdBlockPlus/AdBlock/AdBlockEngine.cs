@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace KakaoTalkAdBlockPlus.AdBlock
 {
     /// <summary>
@@ -19,7 +21,8 @@ namespace KakaoTalkAdBlockPlus.AdBlock
         {
             foreach (var window in _windows.GetTopLevelWindows())
             {
-                foreach (var child in _windows.GetDescendantWindows(window))
+                // 원본(#99 수정)과 같이 첫 번째 자식은 건너뛴다.
+                foreach (var child in _windows.GetDescendantWindows(window).Skip(1))
                 {
                     if (_windows.GetClassName(child) == "EVA_ChildWindow" && _windows.GetText(child).Length == 0)
                     {

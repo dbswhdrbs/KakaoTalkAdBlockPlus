@@ -66,7 +66,7 @@
 ### 7. 광고 제거 엔진 — `AdBlockEngine` (가짜 창 트리)
 - [x] 카카오톡 프로세스가 없으면 "실행 안 함"으로 보고한다 — `ShouldReportNotRunningWhenNoKakaoTalkProcess`
 - [x] 메인 창의 이름 없는 `EVA_ChildWindow`(배너)에 WM_CLOSE를 보낸다 — `ShouldCloseUnnamedBannerChildOfMainWindow`
-- [ ] 메인 창의 첫 번째 자식은 닫지 않는다 — `ShouldNotCloseFirstChildOfMainWindow`
+- [x] 메인 창의 첫 번째 자식은 닫지 않는다 — `ShouldNotCloseFirstChildOfMainWindow`
 - [ ] 다른 프로세스의 창은 건드리지 않는다 — `ShouldIgnoreWindowsOfOtherProcesses`
 - [ ] `OnlineMainView`/`LockModeView`가 없는 창(동영상 플레이어 등, 원본 #99)은 건드리지 않는다 — `ShouldIgnoreWindowWithoutMainOrLockView`
 - [ ] `_EVA_` 클래스 자손이 있는 자식(이모티콘 화면 등, 원본 #97)은 닫지 않는다 — `ShouldNotCloseChildContainingCustomScroll`

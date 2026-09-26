@@ -34,5 +34,19 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
 
             CollectionAssert.Contains(_windows.Closed, banner.Handle);
         }
+
+        [TestMethod]
+        public void ShouldNotCloseFirstChildOfMainWindow()
+        {
+            _kakaoTalkProcesses.Add(KakaoTalkPid);
+            var main = _windows.AddTopLevel(KakaoTalkPid, "EVA_Window_Dblclk", "카카오톡");
+            var first = _windows.AddChild(main, "EVA_ChildWindow", "");
+            _windows.AddChild(main, "EVA_ChildWindow", "OnlineMainView_0x00A1B2C3");
+            _windows.AddChild(main, "EVA_ChildWindow", "");
+
+            CreateEngine().RunOnce();
+
+            CollectionAssert.DoesNotContain(_windows.Closed, first.Handle);
+        }
     }
 }
