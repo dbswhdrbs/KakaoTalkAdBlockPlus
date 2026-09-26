@@ -53,16 +53,24 @@ namespace KakaoTalkAdBlockPlus.AdBlock
 
                 if (IsBannerAd(child)) _windows.Close(child);
 
-                if (_windows.GetText(child).StartsWith(MainViewTextPrefix, StringComparison.Ordinal) &&
-                    mainRect.Height - MainViewPadding >= 1)
-                {
-                    _windows.Resize(child, mainRect.Width - LayoutShadowPadding, mainRect.Height - MainViewPadding);
-                }
+                ExpandViewOverAdArea(child, mainRect);
+            }
+        }
 
-                if (_windows.GetText(child).StartsWith(LockViewTextPrefix, StringComparison.Ordinal))
-                {
-                    _windows.Resize(child, mainRect.Width - LayoutShadowPadding, mainRect.Height);
-                }
+        /// <summary>목록 화면은 배너 자리까지, 잠금 화면은 창 높이 전체로 늘린다 (원본 HideMainViewAdArea/HideLockScreenAdArea).</summary>
+        private void ExpandViewOverAdArea(IntPtr view, WindowRect mainRect)
+        {
+            var text = _windows.GetText(view);
+            var width = mainRect.Width - LayoutShadowPadding;
+
+            if (text.StartsWith(MainViewTextPrefix, StringComparison.Ordinal))
+            {
+                var height = mainRect.Height - MainViewPadding;
+                if (height >= 1) _windows.Resize(view, width, height);
+            }
+            else if (text.StartsWith(LockViewTextPrefix, StringComparison.Ordinal))
+            {
+                _windows.Resize(view, width, mainRect.Height);
             }
         }
 
