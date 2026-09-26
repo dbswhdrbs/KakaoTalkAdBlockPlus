@@ -42,14 +42,15 @@ namespace KakaoTalkAdBlockPlus.Native
         public void Close(IntPtr window) =>
             User32.SendMessageTimeout(window, User32.WmClose, IntPtr.Zero, IntPtr.Zero, User32.SmtoAbortIfHung, CloseTimeoutMilliseconds, out _);
 
-        public void Hide(IntPtr window) => User32.ShowWindow(window, User32.SwHide);
+        public void Hide(IntPtr window) => User32.ShowWindowAsync(window, User32.SwHide);
 
-        /// <summary>원본 HideMainViewAdArea와 같이 UpdateWindow 후 SetWindowPos(HWND_TOP, SWP_NOMOVE).</summary>
-        public void Resize(IntPtr window, int width, int height)
-        {
-            User32.UpdateWindow(window);
-            User32.SetWindowPos(window, IntPtr.Zero, 0, 0, width, height, User32.SwpNoMove);
-        }
+        /// <summary>
+        /// 원본 HideMainViewAdArea와 같이 SetWindowPos(HWND_TOP, SWP_NOMOVE)로 크기를 바꾼다.
+        /// 원본의 UpdateWindow는 빼고 요청만 보낸다: 카카오톡이 응답 없음이어도 기다리지 않는다.
+        /// </summary>
+        public void Resize(IntPtr window, int width, int height) =>
+            User32.SetWindowPos(window, IntPtr.Zero, 0, 0, width, height,
+                User32.SwpNoMove | User32.SwpNoActivate | User32.SwpAsyncWindowPos);
 
         private string ToName(int length) => length > 0 ? new string(_nameBuffer, 0, length) : string.Empty;
 

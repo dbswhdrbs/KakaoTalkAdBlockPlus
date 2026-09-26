@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using KakaoTalkAdBlockPlus.AdBlock;
 using KakaoTalkAdBlockPlus.Native;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -74,6 +76,7 @@ namespace KakaoTalkAdBlockPlus.Tests.Native
             Assert.IsTrue(_api.IsVisible(popup));
 
             _api.Hide(popup);
+            TestWindowFactory.PumpMessages();
 
             Assert.IsFalse(_api.IsVisible(popup));
         }
@@ -90,6 +93,36 @@ namespace KakaoTalkAdBlockPlus.Tests.Native
             var rect = _api.GetRect(mainView);
             Assert.AreEqual(321, rect.Width);
             Assert.AreEqual(123, rect.Height);
+        }
+
+        [TestMethod]
+        public void ShouldNotWaitForHungWindowOwner()
+        {
+            // 창을 만든 스레드가 메시지를 처리하지 않는다 = "응답 없음" 카카오톡.
+            var windows = new IntPtr[2];
+            using var ready = new ManualResetEventSlim();
+            using var release = new ManualResetEventSlim();
+            var owner = new Thread(() =>
+            {
+                using var factory = new TestWindowFactory();
+                windows[0] = factory.CreateTopLevel("EVA_Window", "", visible: true);
+                windows[1] = factory.CreateChild(windows[0], "EVA_ChildWindow", "OnlineMainView_0x0001");
+                ready.Set();
+                release.Wait();
+            });
+            owner.Start();
+            Assert.IsTrue(ready.Wait(TimeSpan.FromSeconds(5)));
+
+            var calls = Task.Run(() =>
+            {
+                _api.Hide(windows[0]);
+                _api.Resize(windows[1], 50, 50);
+            });
+            var finished = calls.Wait(TimeSpan.FromSeconds(2));
+
+            release.Set();
+            owner.Join();
+            Assert.IsTrue(finished, "멈춘 창에 대한 숨기기/크기 조정이 기다리지 않고 돌아와야 한다");
         }
 
         [TestMethod]

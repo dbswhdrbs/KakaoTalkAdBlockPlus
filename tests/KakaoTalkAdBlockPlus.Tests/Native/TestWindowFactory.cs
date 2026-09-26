@@ -19,6 +19,7 @@ namespace KakaoTalkAdBlockPlus.Tests.Native
         private const uint WsExNoActivate = 0x08000000;
         private const int SwShowNoActivate = 8;
         private const int ErrorClassAlreadyExists = 1410;
+        private const uint PmRemove = 0x0001;
 
         private static readonly WndProc WindowProcedure = DefWindowProc;
         private static readonly HashSet<string> RegisteredClasses = new HashSet<string>();
@@ -38,6 +39,16 @@ namespace KakaoTalkAdBlockPlus.Tests.Native
             Create(className, text, WsChild | WsVisible, 0, parent, 0, 0, 100, 100);
 
         public static bool Exists(IntPtr window) => IsWindow(window);
+
+        /// <summary>이 스레드의 메시지 큐를 비운다 (ShowWindowAsync처럼 게시된 요청을 처리시킨다).</summary>
+        public static void PumpMessages()
+        {
+            while (PeekMessage(out var message, IntPtr.Zero, 0, 0, PmRemove))
+            {
+                TranslateMessage(ref message);
+                DispatchMessage(ref message);
+            }
+        }
 
         public void Dispose()
         {
@@ -74,6 +85,29 @@ namespace KakaoTalkAdBlockPlus.Tests.Native
         }
 
         private delegate IntPtr WndProc(IntPtr window, uint message, IntPtr wParam, IntPtr lParam);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct Message
+        {
+            public IntPtr Window;
+            public uint Id;
+            public IntPtr WParam;
+            public IntPtr LParam;
+            public uint Time;
+            public int X;
+            public int Y;
+        }
+
+        [DllImport("user32.dll", EntryPoint = "PeekMessageW")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool PeekMessage(out Message message, IntPtr window, uint filterMin, uint filterMax, uint remove);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool TranslateMessage(ref Message message);
+
+        [DllImport("user32.dll", EntryPoint = "DispatchMessageW")]
+        private static extern IntPtr DispatchMessage(ref Message message);
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         private struct WndClassEx
