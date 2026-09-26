@@ -101,7 +101,7 @@
 ### 10. 상태 집계 — `AdBlockStatusTracker`
 - [x] 처음에는 카카오톡 미실행, 제거 0개다 — `ShouldStartWithNothingRemoved`
 - [x] 보고서를 반영해 실행 여부와 제거 수를 누적한다 — `ShouldAccumulateRemovedAds`
-- [ ] 같은 창은 한 번만 센다 — `ShouldCountSameWindowOnce`
+- [x] 같은 창은 한 번만 센다 — `ShouldCountSameWindowOnce`
 
 ### 11. 상태 문구 — `StatusText`
 - [ ] 카카오톡이 없으면 "카카오톡 실행을 기다리는 중" — `ShouldDescribeWaitingForKakaoTalk`

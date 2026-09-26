@@ -27,5 +27,16 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
             Assert.IsTrue(tracker.Current.IsKakaoTalkRunning);
             Assert.AreEqual(3, tracker.Current.RemovedAdCount);
         }
+
+        [TestMethod]
+        public void ShouldCountSameWindowOnce()
+        {
+            var tracker = new AdBlockStatusTracker();
+
+            tracker.Apply(new AdBlockReport(isKakaoTalkRunning: true, new[] { new IntPtr(1) }));
+            tracker.Apply(new AdBlockReport(isKakaoTalkRunning: true, new[] { new IntPtr(1) }));
+
+            Assert.AreEqual(1, tracker.Current.RemovedAdCount);
+        }
     }
 }
