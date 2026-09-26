@@ -16,5 +16,15 @@ namespace KakaoTalkAdBlockPlus.Tests.Startup
 
             Assert.IsTrue(guard.IsFirstInstance);
         }
+
+        [TestMethod]
+        public void ShouldNotBeFirstInstanceWhenAlreadyRunning()
+        {
+            using var first = SingleInstanceGuard.Acquire(_name);
+
+            using var second = SingleInstanceGuard.Acquire(_name);
+
+            Assert.IsFalse(second.IsFirstInstance);
+        }
     }
 }
