@@ -74,5 +74,19 @@ namespace KakaoTalkAdBlockPlus.Tests.UI
             Assert.AreEqual(500, _store.Stored.CheckInterval.Milliseconds);
             Assert.AreEqual("0.5", viewModel.IntervalText);
         }
+
+        [TestMethod]
+        public void ShouldMoveSliderToNearestStepWhenTextApplied()
+        {
+            _store.Stored = new AppSettings(CheckInterval.FromMilliseconds(3_000));
+            var viewModel = CreateViewModel();
+            Assert.AreEqual(7, viewModel.IntervalStepIndex, "처음 슬라이더 위치: 3초");
+
+            viewModel.IntervalText = "0.25";
+            viewModel.ApplyIntervalText();
+
+            Assert.AreEqual(2, viewModel.IntervalStepIndex, "0.25초와 가장 가까운 단계: 0.2초");
+            Assert.AreEqual(250, _service.Interval.Milliseconds, "슬라이더 단계가 아니라 입력한 값이 적용돼야 한다");
+        }
     }
 }

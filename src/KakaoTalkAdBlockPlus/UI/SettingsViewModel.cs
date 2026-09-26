@@ -17,7 +17,9 @@ namespace KakaoTalkAdBlockPlus.UI
             _store = store;
             _service = service;
             _startup = startup;
-            IntervalText = store.Load().CheckInterval.ToSecondsText();
+            var interval = store.Load().CheckInterval;
+            IntervalText = interval.ToSecondsText();
+            _intervalStepIndex = IntervalSteps.IndexOfNearest(interval);
         }
 
         /// <summary>확인 주기 입력칸 (초 단위).</summary>
@@ -56,6 +58,7 @@ namespace KakaoTalkAdBlockPlus.UI
             _service.Interval = interval;
             _store.Save(new AppSettings(interval));
             IntervalText = interval.ToSecondsText();
+            _intervalStepIndex = IntervalSteps.IndexOfNearest(interval);
         }
 
         private static string ErrorMessageFor(IntervalParseStatus status) =>
