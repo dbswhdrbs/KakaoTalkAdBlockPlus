@@ -25,6 +25,9 @@ namespace KakaoTalkAdBlockPlus.AdBlock
         /// <summary>GetWindowRect: 화면 좌표.</summary>
         WindowRect GetRect(IntPtr window);
 
+        /// <summary>IsWindowVisible.</summary>
+        bool IsVisible(IntPtr window);
+
         /// <summary>WM_CLOSE를 보낸다.</summary>
         void Close(IntPtr window);
 

@@ -49,6 +49,8 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
 
         public WindowRect GetRect(IntPtr window) => _windows[window].Rect;
 
+        public bool IsVisible(IntPtr window) => _windows[window].IsVisible;
+
         public void Close(IntPtr window) => Closed.Add(window);
 
         public void Resize(IntPtr window, int width, int height) => Resized.Add(new ResizedWindow(window, width, height));
@@ -94,6 +96,8 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
         public List<FakeWindow> Children { get; } = new List<FakeWindow>();
 
         public WindowRect Rect { get; set; } = new WindowRect(0, 0, 400, 600);
+
+        public bool IsVisible { get; set; } = true;
     }
 
     /// <summary>엔진이 Resize를 부른 기록.</summary>

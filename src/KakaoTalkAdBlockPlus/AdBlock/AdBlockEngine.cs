@@ -38,7 +38,7 @@ namespace KakaoTalkAdBlockPlus.AdBlock
 
             foreach (var popup in kakaoTalkWindows.Where(window => IsPopupAdCandidate(window, mainWindows)))
             {
-                if (ContainsChromeLegacyWindow(popup)) _windows.Hide(popup);
+                if (_windows.IsVisible(popup) && ContainsChromeLegacyWindow(popup)) _windows.Hide(popup);
             }
 
             return new AdBlockReport(isKakaoTalkRunning: false);
