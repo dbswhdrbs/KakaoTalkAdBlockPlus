@@ -31,21 +31,27 @@ namespace KakaoTalkAdBlockPlus.AdBlock
                 var descendants = _windows.GetDescendantWindows(window);
                 if (!HasMainOrLockView(descendants)) continue;
 
-                // 원본(#99 수정)과 같이 첫 번째 자식은 건너뛴다.
-                foreach (var child in descendants.Skip(1))
-                {
-                    if (_windows.GetParent(child) != window) continue;
-
-                    if (_windows.GetClassName(child) == ChildWindowClass && _windows.GetText(child).Length == 0 &&
-                        !HasCustomScroll(child))
-                    {
-                        _windows.Close(child);
-                    }
-                }
+                CloseBannerAds(window, descendants);
             }
 
             return new AdBlockReport(isKakaoTalkRunning: false);
         }
+
+        /// <summary>메인 창의 직계 자식 중 이름 없는 EVA_ChildWindow(하단 배너 광고)에 WM_CLOSE를 보낸다.</summary>
+        private void CloseBannerAds(IntPtr mainWindow, IReadOnlyList<IntPtr> descendants)
+        {
+            // 원본(#99 수정)과 같이 첫 번째 자식은 건너뛴다.
+            foreach (var child in descendants.Skip(1))
+            {
+                if (IsBannerAd(mainWindow, child)) _windows.Close(child);
+            }
+        }
+
+        private bool IsBannerAd(IntPtr mainWindow, IntPtr child) =>
+            _windows.GetParent(child) == mainWindow &&
+            _windows.GetClassName(child) == ChildWindowClass &&
+            _windows.GetText(child).Length == 0 &&
+            !HasCustomScroll(child);
 
         /// <summary>메인 창 후보: 제목이 있고 소유자가 없는 EVA_Window_Dblclk.</summary>
         private bool IsMainWindowCandidate(IntPtr window) =>
