@@ -6,7 +6,7 @@ using KakaoTalkAdBlockPlus.Settings;
 namespace KakaoTalkAdBlockPlus.AdBlock
 {
     /// <summary>백그라운드 스레드에서 확인 주기마다 광고 제거 엔진을 실행한다.</summary>
-    public sealed class AdBlockService : IDisposable
+    public sealed class AdBlockService : IAdBlockService, IDisposable
     {
         private readonly IAdBlockEngine _engine;
         private readonly AutoResetEvent _wakeUp = new AutoResetEvent(initialState: false);
