@@ -169,9 +169,7 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
         public void ShouldHidePopupAdContainingChromeLegacyWindow()
         {
             _kakaoTalkProcesses.Add(KakaoTalkPid);
-            var popup = _windows.AddTopLevel(KakaoTalkPid, "EVA_Window", "");
-            var host = _windows.AddChild(popup, "Chrome_WidgetWin_0", "");
-            _windows.AddChild(host, "Chrome_RenderWidgetHostHWND", "Chrome Legacy Window");
+            var popup = AddWebAdPopup("EVA_Window");
 
             CreateEngine().RunOnce();
 
@@ -183,9 +181,7 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
         {
             _kakaoTalkProcesses.Add(KakaoTalkPid);
             var scene = AddMainWindowWithBanner(KakaoTalkPid);
-            var popup = _windows.AddTopLevel(KakaoTalkPid, "EVA_Window_Dblclk", "", owner: scene.Main);
-            var host = _windows.AddChild(popup, "Chrome_WidgetWin_0", "");
-            _windows.AddChild(host, "Chrome_RenderWidgetHostHWND", "Chrome Legacy Window");
+            var popup = AddWebAdPopup("EVA_Window_Dblclk", owner: scene.Main);
 
             CreateEngine().RunOnce();
 
@@ -211,10 +207,8 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
         public void ShouldNotHideAlreadyHiddenPopup()
         {
             _kakaoTalkProcesses.Add(KakaoTalkPid);
-            var popup = _windows.AddTopLevel(KakaoTalkPid, "EVA_Window", "");
+            var popup = AddWebAdPopup("EVA_Window");
             popup.IsVisible = false;
-            var host = _windows.AddChild(popup, "Chrome_WidgetWin_0", "");
-            _windows.AddChild(host, "Chrome_RenderWidgetHostHWND", "Chrome Legacy Window");
 
             CreateEngine().RunOnce();
 
@@ -226,9 +220,7 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
         {
             _kakaoTalkProcesses.Add(KakaoTalkPid);
             var scene = AddMainWindowWithBanner(KakaoTalkPid);
-            var popup = _windows.AddTopLevel(KakaoTalkPid, "EVA_Window", "");
-            var host = _windows.AddChild(popup, "Chrome_WidgetWin_0", "");
-            _windows.AddChild(host, "Chrome_RenderWidgetHostHWND", "Chrome Legacy Window");
+            var popup = AddWebAdPopup("EVA_Window");
 
             var report = CreateEngine().RunOnce();
 
@@ -250,6 +242,18 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
                 firstChild: _windows.AddChild(main, "EVA_ChildWindow", ""),
                 mainView: _windows.AddChild(main, "EVA_ChildWindow", "OnlineMainView_0x00A1B2C3"),
                 banner: _windows.AddChild(main, "EVA_ChildWindow", ""));
+        }
+
+        /// <summary>
+        /// 광고 팝업 구조:
+        /// "" EVA_Window (또는 메인 창 소유의 EVA_Window_Dblclk) ── "" Chrome_WidgetWin_0 ── "Chrome Legacy Window"
+        /// </summary>
+        private FakeWindow AddWebAdPopup(string className, FakeWindow? owner = null)
+        {
+            var popup = _windows.AddTopLevel(KakaoTalkPid, className, "", owner);
+            var host = _windows.AddChild(popup, "Chrome_WidgetWin_0", "");
+            _windows.AddChild(host, "Chrome_RenderWidgetHostHWND", "Chrome Legacy Window");
+            return popup;
         }
 
         private sealed class MainWindowScene
