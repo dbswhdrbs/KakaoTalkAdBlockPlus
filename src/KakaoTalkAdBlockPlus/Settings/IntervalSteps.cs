@@ -1,3 +1,5 @@
+using System;
+
 namespace KakaoTalkAdBlockPlus.Settings
 {
     /// <summary>설정창 슬라이더가 고를 수 있는 확인 주기 단계.</summary>
@@ -23,7 +25,7 @@ namespace KakaoTalkAdBlockPlus.Settings
 
             return nearest;
 
-            int Distance(int index) => System.Math.Abs(StepMilliseconds[index] - interval.Milliseconds);
+            int Distance(int index) => Math.Abs(StepMilliseconds[index] - interval.Milliseconds);
         }
     }
 }
