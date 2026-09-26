@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <StartupObject>KakaoTalkAdBlockPlus.Program</StartupObject>
+    <ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,6 +43,7 @@
     <Compile Include="**\*.cs" Exclude="obj\**;bin\**" />
     <Page Include="**\*.xaml" Exclude="obj\**;bin\**" />
     <None Include="app.manifest" />
+    <Resource Include="Assets\AppIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
