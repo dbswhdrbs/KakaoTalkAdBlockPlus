@@ -44,7 +44,7 @@
   (원자적 저장은 하지 않음: 파일이 깨져도 기본값으로 읽는 테스트가 있어 충분)
 
 ### 4. 윈도우 시작 시 자동 실행 — `StartupRegistration` (가짜 레지스트리)
-- [ ] Run 값이 없으면 꺼져 있다 — `ShouldBeDisabledWhenRunValueIsMissing`
+- [x] Run 값이 없으면 꺼져 있다 — `ShouldBeDisabledWhenRunValueIsMissing`
 - [ ] 켜면 `"실행파일 경로" --autostart`를 기록한다 — `ShouldWriteQuotedPathWithAutostartArgumentWhenEnabled`
 - [ ] 켠 뒤에는 켜져 있다 — `ShouldBeEnabledAfterEnable`
 - [ ] 끄면 Run 값을 지운다 — `ShouldDeleteRunValueWhenDisabled`
