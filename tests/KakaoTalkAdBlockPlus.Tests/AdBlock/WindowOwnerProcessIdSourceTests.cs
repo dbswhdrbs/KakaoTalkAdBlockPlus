@@ -41,6 +41,23 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
             CollectionAssert.AreEquivalent(new[] { 10, 20 }, _names.Resolved);
         }
 
+        [TestMethod]
+        public void ShouldForgetProcessesWithoutWindows()
+        {
+            _names.Add(10, "KakaoTalk.exe");
+            var window = _windows.AddTopLevel(10, "EVA_Window_Dblclk", "카카오톡");
+            var source = CreateSource();
+            source.GetProcessIds();
+
+            // 카카오톡이 끝나고 창이 사라진 뒤, 같은 PID를 다른 프로그램이 받았다.
+            _windows.Remove(window);
+            source.GetProcessIds();
+            _names.Add(10, "notepad.exe");
+            _windows.AddTopLevel(10, "Notepad", "메모장");
+
+            CollectionAssert.AreEquivalent(new int[0], new List<int>(source.GetProcessIds()));
+        }
+
         private sealed class FakeProcessNames : IProcessNameResolver
         {
             private readonly Dictionary<int, string> _names = new Dictionary<int, string>();

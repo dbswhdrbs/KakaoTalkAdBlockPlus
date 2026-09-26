@@ -23,12 +23,18 @@ namespace KakaoTalkAdBlockPlus.AdBlock
             _imageName = imageName;
         }
 
-        public IReadOnlyCollection<int> GetProcessIds() =>
-            _windows.GetTopLevelWindows()
-                .Select(_windows.GetProcessId)
-                .Distinct()
-                .Where(IsTarget)
-                .ToList();
+        public IReadOnlyCollection<int> GetProcessIds()
+        {
+            var owners = new HashSet<int>(_windows.GetTopLevelWindows().Select(_windows.GetProcessId));
+
+            // 창이 없어진 프로세스는 잊는다: 끝난 프로세스의 PID를 다른 프로그램이 받아도 헷갈리지 않게.
+            foreach (var gone in _isTargetByProcessId.Keys.Where(processId => !owners.Contains(processId)).ToList())
+            {
+                _isTargetByProcessId.Remove(gone);
+            }
+
+            return owners.Where(IsTarget).ToList();
+        }
 
         private bool IsTarget(int processId)
         {

@@ -25,6 +25,9 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
             return window;
         }
 
+        /// <summary>최상위 창이 닫힌 것처럼 목록에서 뺀다.</summary>
+        public void Remove(FakeWindow window) => _topLevelWindows.Remove(window);
+
         public FakeWindow AddChild(FakeWindow parent, string className, string text)
         {
             var window = Register(new FakeWindow(NextHandle(), parent.ProcessId, className, text, parent));
