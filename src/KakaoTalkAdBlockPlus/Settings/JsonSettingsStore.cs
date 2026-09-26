@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
@@ -29,8 +30,9 @@ namespace KakaoTalkAdBlockPlus.Settings
                     ? new AppSettings(CheckInterval.FromMilliseconds(milliseconds))
                     : AppSettings.Default;
             }
-            catch (SerializationException)
+            catch (Exception exception) when (exception is SerializationException or IOException or UnauthorizedAccessException)
             {
+                // 설정을 못 읽어도 광고 차단은 기본값으로 시작한다.
                 return AppSettings.Default;
             }
         }

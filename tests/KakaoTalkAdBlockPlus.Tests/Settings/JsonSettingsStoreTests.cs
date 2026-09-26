@@ -92,6 +92,17 @@ namespace KakaoTalkAdBlockPlus.Tests.Settings
         }
 
         [TestMethod]
+        public void ShouldLoadDefaultsWhenFileIsLocked()
+        {
+            File.WriteAllText(SettingsPath, "{ \"checkIntervalMs\": 750 }");
+            using var exclusive = new FileStream(SettingsPath, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+
+            var settings = new JsonSettingsStore(SettingsPath).Load();
+
+            Assert.AreEqual(CheckInterval.DefaultMilliseconds, settings.CheckInterval.Milliseconds);
+        }
+
+        [TestMethod]
         public void ShouldOverwritePreviousSettings()
         {
             var store = new JsonSettingsStore(SettingsPath);

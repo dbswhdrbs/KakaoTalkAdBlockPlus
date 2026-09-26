@@ -40,6 +40,7 @@
 - [x] 파일이 손상됐으면 기본 설정을 읽는다 — `ShouldLoadDefaultsWhenFileIsCorrupted`
 - [x] 범위를 벗어난 값은 보정해서 읽는다 — `ShouldClampOutOfRangeIntervalWhenLoading`
 - [x] 값이 빠져 있으면 기본값을 쓴다 — `ShouldUseDefaultIntervalWhenFieldIsMissing`
+- [x] 파일을 읽을 수 없으면(다른 프로그램이 잠금) 기본 설정을 읽는다 — `ShouldLoadDefaultsWhenFileIsLocked`
 - [x] 다시 저장하면 이전 값을 덮어쓰고 다른 파일은 만들지 않는다 — `ShouldOverwritePreviousSettings`
   (원자적 저장은 하지 않음: 파일이 깨져도 기본값으로 읽는 테스트가 있어 충분)
 
