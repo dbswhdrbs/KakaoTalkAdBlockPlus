@@ -20,8 +20,8 @@ namespace KakaoTalkAdBlockPlus.UI
             InitializeComponent();
             _viewModel = viewModel;
             _theme = theme;
+            IntervalSlider.Maximum = IntervalSteps.Count - 1; // 값이 바인딩되기 전에 범위를 먼저 정한다.
             DataContext = viewModel;
-            IntervalSlider.Maximum = IntervalSteps.Count - 1;
 
             _statusTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromSeconds(1) };
             _statusTimer.Tick += (_, _) => _viewModel.RefreshStatus();
