@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace KakaoTalkAdBlockPlus.AdBlock
@@ -24,8 +26,11 @@ namespace KakaoTalkAdBlockPlus.AdBlock
             {
                 if (!kakaoTalkProcessIds.Contains(_windows.GetProcessId(window))) continue;
 
+                var descendants = _windows.GetDescendantWindows(window);
+                if (!HasMainOrLockView(descendants)) continue;
+
                 // 원본(#99 수정)과 같이 첫 번째 자식은 건너뛴다.
-                foreach (var child in _windows.GetDescendantWindows(window).Skip(1))
+                foreach (var child in descendants.Skip(1))
                 {
                     if (_windows.GetClassName(child) == "EVA_ChildWindow" && _windows.GetText(child).Length == 0)
                     {
@@ -36,5 +41,12 @@ namespace KakaoTalkAdBlockPlus.AdBlock
 
             return new AdBlockReport(isKakaoTalkRunning: false);
         }
+
+        /// <summary>친구/채팅 목록(OnlineMainView)이나 잠금 화면(LockModeView)이 있어야 진짜 메인 창이다 (동영상 플레이어 등 제외, 원본 #99).</summary>
+        private bool HasMainOrLockView(IEnumerable<IntPtr> descendants) =>
+            descendants.Any(child =>
+                _windows.GetClassName(child) == "EVA_ChildWindow" &&
+                (_windows.GetText(child).StartsWith("OnlineMainView", StringComparison.Ordinal) ||
+                 _windows.GetText(child).StartsWith("LockModeView", StringComparison.Ordinal)));
     }
 }
