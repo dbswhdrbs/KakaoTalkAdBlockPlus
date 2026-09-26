@@ -33,5 +33,8 @@ namespace KakaoTalkAdBlockPlus.Startup
         }
 
         public void Disable() => _registry.DeleteValue(RunKeyPath, _appName);
+
+        /// <summary>자동 실행이 켜져 있으면 Run 값을 현재 실행 파일 경로로 다시 쓴다 (실행 파일을 옮긴 경우 대비).</summary>
+        public void RepairIfEnabled() => _registry.SetString(RunKeyPath, _appName, "\"" + _executablePath + "\" --autostart");
     }
 }

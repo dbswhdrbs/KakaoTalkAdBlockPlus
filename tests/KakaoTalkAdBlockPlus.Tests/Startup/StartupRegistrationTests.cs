@@ -86,6 +86,18 @@ namespace KakaoTalkAdBlockPlus.Tests.Startup
             Assert.IsTrue(registration.IsEnabled);
         }
 
+        [TestMethod]
+        public void ShouldRepairCommandWhenExecutableMoved()
+        {
+            new StartupRegistration(_registry, AppName, @"D:\Old\Place\KakaoTalkAdBlockPlus.exe").Enable();
+
+            CreateRegistration().RepairIfEnabled();
+
+            Assert.AreEqual(
+                "\"" + ExecutablePath + "\" --autostart",
+                _registry.GetString(StartupRegistration.RunKeyPath, AppName));
+        }
+
         /// <summary>작업 관리자가 기록하는 12바이트 값: 첫 바이트가 상태, 나머지는 시각.</summary>
         private static byte[] TaskManagerFlag(byte state) => new byte[] { state, 0, 0, 0, 0x5B, 0x2E, 0x1F, 0x83, 0x3A, 0x9D, 0xDA, 0x01 };
     }
