@@ -50,7 +50,11 @@ namespace KakaoTalkAdBlockPlus.AdBlock
             _thread?.Join();
         }
 
-        public void Dispose() => Stop();
+        public void Dispose()
+        {
+            Stop();
+            _wakeUp.Dispose();
+        }
 
         private void Run()
         {
