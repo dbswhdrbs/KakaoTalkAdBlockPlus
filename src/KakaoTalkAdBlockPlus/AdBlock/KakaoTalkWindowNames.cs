@@ -1,0 +1,21 @@
+namespace KakaoTalkAdBlockPlus.AdBlock
+{
+    /// <summary>카카오톡 PC(일반 Win32 클라이언트)의 창 클래스 이름과 창 텍스트.</summary>
+    internal static class KakaoTalkWindowNames
+    {
+        /// <summary>메인 창, 메인 창이 소유한 팝업.</summary>
+        public const string MainWindowClass = "EVA_Window_Dblclk";
+
+        /// <summary>메인 창 안의 화면 조각 (목록, 배너 광고 등).</summary>
+        public const string ChildWindowClass = "EVA_ChildWindow";
+
+        /// <summary>카카오톡 자체 컨트롤(스크롤 등) 클래스 이름 접두사.</summary>
+        public const string CustomControlClassPrefix = "_EVA_";
+
+        /// <summary>친구/채팅 목록 화면.</summary>
+        public const string MainViewTextPrefix = "OnlineMainView";
+
+        /// <summary>잠금 모드 화면.</summary>
+        public const string LockViewTextPrefix = "LockModeView";
+    }
+}

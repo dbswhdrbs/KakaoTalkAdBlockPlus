@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static KakaoTalkAdBlockPlus.AdBlock.KakaoTalkWindowNames;
 
 namespace KakaoTalkAdBlockPlus.AdBlock
 {
@@ -35,7 +36,7 @@ namespace KakaoTalkAdBlockPlus.AdBlock
                 {
                     if (_windows.GetParent(child) != window) continue;
 
-                    if (_windows.GetClassName(child) == "EVA_ChildWindow" && _windows.GetText(child).Length == 0 &&
+                    if (_windows.GetClassName(child) == ChildWindowClass && _windows.GetText(child).Length == 0 &&
                         !HasCustomScroll(child))
                     {
                         _windows.Close(child);
@@ -48,20 +49,20 @@ namespace KakaoTalkAdBlockPlus.AdBlock
 
         /// <summary>메인 창 후보: 제목이 있고 소유자가 없는 EVA_Window_Dblclk.</summary>
         private bool IsMainWindowCandidate(IntPtr window) =>
-            _windows.GetClassName(window) == "EVA_Window_Dblclk" &&
+            _windows.GetClassName(window) == MainWindowClass &&
             _windows.GetText(window).Length > 0 &&
             _windows.GetParent(window) == IntPtr.Zero;
 
         /// <summary>카카오톡 자체 스크롤(_EVA_…)이 들어 있으면 광고가 아닌 화면이다 (이모티콘 화면 등, 원본 #97).</summary>
         private bool HasCustomScroll(IntPtr window) =>
             _windows.GetDescendantWindows(window).Any(child =>
-                _windows.GetClassName(child).StartsWith("_EVA_", StringComparison.Ordinal));
+                _windows.GetClassName(child).StartsWith(CustomControlClassPrefix, StringComparison.Ordinal));
 
         /// <summary>친구/채팅 목록(OnlineMainView)이나 잠금 화면(LockModeView)이 있어야 진짜 메인 창이다 (동영상 플레이어 등 제외, 원본 #99).</summary>
         private bool HasMainOrLockView(IEnumerable<IntPtr> descendants) =>
             descendants.Any(child =>
-                _windows.GetClassName(child) == "EVA_ChildWindow" &&
-                (_windows.GetText(child).StartsWith("OnlineMainView", StringComparison.Ordinal) ||
-                 _windows.GetText(child).StartsWith("LockModeView", StringComparison.Ordinal)));
+                _windows.GetClassName(child) == ChildWindowClass &&
+                (_windows.GetText(child).StartsWith(MainViewTextPrefix, StringComparison.Ordinal) ||
+                 _windows.GetText(child).StartsWith(LockViewTextPrefix, StringComparison.Ordinal)));
     }
 }
