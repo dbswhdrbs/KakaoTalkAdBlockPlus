@@ -6,6 +6,8 @@ namespace KakaoTalkAdBlockPlus.Settings
     /// <summary>카카오톡 창을 검사해 광고를 제거하는 간격.</summary>
     public readonly struct CheckInterval
     {
+        /// <summary>원본(KakaoTalkAdBlock)의 sleepTime과 같은 100ms.</summary>
+        public const int DefaultMilliseconds = 100;
         public const int MinMilliseconds = 50;
         public const int MaxMilliseconds = 60_000;
 
@@ -16,8 +18,7 @@ namespace KakaoTalkAdBlockPlus.Settings
             Milliseconds = milliseconds;
         }
 
-        /// <summary>원본(KakaoTalkAdBlock)의 sleepTime과 같은 100ms.</summary>
-        public static CheckInterval Default => new CheckInterval(100);
+        public static CheckInterval Default => new CheckInterval(DefaultMilliseconds);
 
         public int Milliseconds { get; }
 
