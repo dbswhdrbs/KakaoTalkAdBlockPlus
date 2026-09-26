@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using KakaoTalkAdBlockPlus.Native;
@@ -17,13 +19,13 @@ namespace KakaoTalkAdBlockPlus.Tests.Native
 
             var ids = new ToolhelpProcessIdSource(imageName).GetProcessIds();
 
-            CollectionAssert.Contains(new System.Collections.Generic.List<int>(ids), current.Id);
+            CollectionAssert.Contains(new List<int>(ids), current.Id);
         }
 
         [TestMethod]
         public void ShouldReturnEmptyForUnknownImageName()
         {
-            var ids = new ToolhelpProcessIdSource("no-such-process-" + System.Guid.NewGuid().ToString("N") + ".exe").GetProcessIds();
+            var ids = new ToolhelpProcessIdSource("no-such-process-" + Guid.NewGuid().ToString("N") + ".exe").GetProcessIds();
 
             Assert.AreEqual(0, ids.Count);
         }
