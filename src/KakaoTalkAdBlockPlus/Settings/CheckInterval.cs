@@ -40,6 +40,8 @@ namespace KakaoTalkAdBlockPlus.Settings
             }
 
             var milliseconds = (int)decimal.Round(seconds * 1000m, MidpointRounding.AwayFromZero);
+            if (milliseconds < MinMilliseconds) return new IntervalParseResult(IntervalParseStatus.TooSmall, Default);
+
             return new IntervalParseResult(IntervalParseStatus.Ok, new CheckInterval(milliseconds));
         }
 

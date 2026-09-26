@@ -77,5 +77,14 @@ namespace KakaoTalkAdBlockPlus.Tests.Settings
         {
             Assert.AreEqual(IntervalParseStatus.NotANumber, CheckInterval.ParseSeconds(text).Status);
         }
+
+        [DataTestMethod]
+        [DataRow("0.04")]
+        [DataRow("0")]
+        [DataRow("-1")]
+        public void ShouldRejectTooSmallText(string text)
+        {
+            Assert.AreEqual(IntervalParseStatus.TooSmall, CheckInterval.ParseSeconds(text).Status);
+        }
     }
 }
