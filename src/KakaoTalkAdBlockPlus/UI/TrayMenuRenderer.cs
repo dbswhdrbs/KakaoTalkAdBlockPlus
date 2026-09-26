@@ -84,18 +84,16 @@ namespace KakaoTalkAdBlockPlus.UI
             e.Graphics.FillPath(brush, path);
         }
 
+        /// <summary>
+        /// 글자는 직접 그린다: WinForms는 위아래 여백이 있는 항목에서 글자 상자를 위쪽에 붙이고,
+        /// 누를 수 없는 항목(제목/상태)은 시스템 회색으로 칠하기 때문이다.
+        /// </summary>
         protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
         {
-            if (TrayMenu.IsHeader(e.Item) || TrayMenu.IsStatus(e.Item))
-            {
-                // 누를 수 없는 항목은 기본 렌더러가 시스템 회색으로 칠하므로 테마 색으로 직접 쓴다.
-                var color = TrayMenu.IsHeader(e.Item) ? _palette.Text : _palette.SecondaryText;
-                TextRenderer.DrawText(e.Graphics, e.Text, e.TextFont, e.TextRectangle, color, e.TextFormat);
-                return;
-            }
-
-            e.TextColor = e.Item.Enabled ? _palette.Text : _palette.SecondaryText;
-            base.OnRenderItemText(e);
+            var color = e.Item.Enabled || TrayMenu.IsHeader(e.Item) ? _palette.Text : _palette.SecondaryText;
+            var top = MenuTextLayout.CenteredTop(e.Text, e.TextFont, e.Item.Height);
+            var bounds = new Rectangle(e.TextRectangle.X, top, e.Item.Width - e.TextRectangle.X, e.TextFont.Height);
+            TextRenderer.DrawText(e.Graphics, e.Text, e.TextFont, bounds, color, MenuTextLayout.Flags);
         }
 
         protected override void OnRenderItemImage(ToolStripItemImageRenderEventArgs e)

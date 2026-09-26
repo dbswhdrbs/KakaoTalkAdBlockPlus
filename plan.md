@@ -152,7 +152,7 @@
 
 ### 16. 사용자 피드백 반영
 - [x] 글자 줄을 영역 가운데에 두면 실제로 칠해지는 글자도 가운데에 온다 (맑은 고딕: 위 9px / 아래 10px) — `ShouldCenterMenuTextInkVertically`
-- [ ] 트레이 메뉴 항목 글자를 항목 높이의 가운데에 그린다 — `ShouldDrawMenuItemTextVerticallyCentered`
+- [x] 트레이 메뉴 항목 글자를 항목 높이의 가운데에 그린다 — `ShouldDrawMenuItemTextVerticallyCentered`
   (측정: 기존에는 WinForms가 글자 상자를 항목 위쪽에 붙여, 모든 항목에서 글자가 가운데보다 4.5px 위에 있었다)
 
 ## 테스트가 아닌 작업 (테스트 목록 완료 후)
