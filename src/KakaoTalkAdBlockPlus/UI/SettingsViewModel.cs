@@ -41,7 +41,15 @@ namespace KakaoTalkAdBlockPlus.UI
         public bool IsDefaultInterval => _interval.Milliseconds == CheckInterval.DefaultMilliseconds;
 
         /// <summary>윈도우 시작 시 자동 실행 스위치.</summary>
-        public bool StartWithWindows => _startup.IsEnabled;
+        public bool StartWithWindows
+        {
+            get => _startup.IsEnabled;
+            set
+            {
+                if (value) _startup.Enable();
+                else _startup.Disable();
+            }
+        }
 
         /// <summary>입력칸 값이 잘못됐을 때 보여 줄 문구. 문제가 없으면 null.</summary>
         public string? IntervalError { get; private set; }

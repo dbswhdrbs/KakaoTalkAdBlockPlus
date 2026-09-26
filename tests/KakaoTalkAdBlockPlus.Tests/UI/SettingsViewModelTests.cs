@@ -112,5 +112,17 @@ namespace KakaoTalkAdBlockPlus.Tests.UI
 
             Assert.IsTrue(CreateViewModel().StartWithWindows);
         }
+
+        [TestMethod]
+        public void ShouldToggleStartupRegistration()
+        {
+            var viewModel = CreateViewModel();
+
+            viewModel.StartWithWindows = true;
+            Assert.IsTrue(_startup.IsEnabled);
+
+            viewModel.StartWithWindows = false;
+            Assert.IsFalse(_startup.IsEnabled);
+        }
     }
 }
