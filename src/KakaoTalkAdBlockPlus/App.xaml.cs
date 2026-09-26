@@ -40,6 +40,25 @@ namespace KakaoTalkAdBlockPlus
             base.OnStartup(e);
             DispatcherUnhandledException += OnDispatcherUnhandledException;
 
+            try
+            {
+                StartAdBlocking();
+            }
+            catch (Exception exception)
+            {
+                // 트레이 아이콘 없이 보이지 않는 프로세스로 남지 않게 끝낸다.
+                ErrorLog.Write(exception);
+                MessageBox.Show(
+                    "카카오톡 광고 차단을 시작하지 못했어요.\n자세한 내용: " + AppInfo.ErrorLogFile,
+                    AppInfo.DisplayName,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                ExitApplication();
+            }
+        }
+
+        private void StartAdBlocking()
+        {
             _theme = new ThemeManager(this);
             _settingsStore = new JsonSettingsStore(AppInfo.SettingsFile);
             _startup = CreateStartupRegistration();
