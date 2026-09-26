@@ -53,7 +53,8 @@ namespace KakaoTalkAdBlockPlus.AdBlock
 
                 if (IsBannerAd(child)) _windows.Close(child);
 
-                if (_windows.GetText(child).StartsWith(MainViewTextPrefix, StringComparison.Ordinal))
+                if (_windows.GetText(child).StartsWith(MainViewTextPrefix, StringComparison.Ordinal) &&
+                    mainRect.Height - 31 >= 1)
                 {
                     _windows.Resize(child, mainRect.Width - 2, mainRect.Height - 31);
                 }

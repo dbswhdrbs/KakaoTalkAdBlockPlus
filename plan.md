@@ -74,7 +74,7 @@
 - [x] 이름 있는 자식은 닫지 않는다 — `ShouldNotCloseNamedChildren`
 - [x] 제목이 없거나, 소유자가 있거나, `EVA_Window_Dblclk`가 아닌 창은 메인 창이 아니다 — `ShouldIgnoreUntitledOrOwnedWindows`
 - [x] `OnlineMainView`를 (메인 폭-2, 높이-31)로 늘려 배너 자리를 덮는다 — `ShouldResizeOnlineMainViewOverBannerArea`
-- [ ] 창이 너무 작으면 `OnlineMainView` 크기 조정을 건너뛴다 — `ShouldSkipOnlineMainViewResizeWhenWindowTooSmall`
+- [x] 창이 너무 작으면 `OnlineMainView` 크기 조정을 건너뛴다 — `ShouldSkipOnlineMainViewResizeWhenWindowTooSmall`
 - [ ] `LockModeView`를 (메인 폭-2, 높이)로 맞춘다 — `ShouldResizeLockModeViewToFullHeight`
 - [ ] `Chrome Legacy Window`를 품은 이름 없는 `EVA_Window` 팝업을 숨긴다 — `ShouldHidePopupAdContainingChromeLegacyWindow`
 - [ ] 메인 창이 소유한 이름 없는 `EVA_Window_Dblclk` 팝업을 숨긴다 — `ShouldHideOwnedPopupAdOfMainWindow`
