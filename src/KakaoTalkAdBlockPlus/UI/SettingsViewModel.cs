@@ -28,7 +28,15 @@ namespace KakaoTalkAdBlockPlus.UI
         /// <summary>입력칸에서 Enter를 누르거나 포커스가 떠날 때 부른다.</summary>
         public void ApplyIntervalText()
         {
-            var interval = CheckInterval.ParseSeconds(IntervalText).Interval;
+            var result = CheckInterval.ParseSeconds(IntervalText);
+            if (result.Status != IntervalParseStatus.Ok)
+            {
+                IntervalError = "숫자로 입력해 주세요 (예: 0.5)";
+                return;
+            }
+
+            var interval = result.Interval;
+            IntervalError = null;
             _service.Interval = interval;
             _store.Save(new AppSettings(interval));
             IntervalText = interval.ToSecondsText();

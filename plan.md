@@ -123,7 +123,7 @@
 ### 14. 설정창 뷰모델 — `SettingsViewModel`
 - [x] 현재 주기를 초 단위로 보여 준다 — `ShouldShowCurrentIntervalInSeconds`
 - [x] 올바른 입력은 바로 적용하고 저장한다 — `ShouldApplyAndSaveValidIntervalText`
-- [ ] 숫자가 아닌 입력은 오류를 보여 주고 적용하지 않는다 — `ShouldShowErrorForInvalidIntervalText`
+- [x] 숫자가 아닌 입력은 오류를 보여 주고 적용하지 않는다 — `ShouldShowErrorForInvalidIntervalText`
 - [ ] 범위를 벗어난 입력은 허용 범위를 알려 준다 — `ShouldShowRangeErrorForOutOfRangeText`
 - [ ] 슬라이더 단계를 고르면 적용·저장하고 입력칸도 바뀐다 — `ShouldApplySliderStep`
 - [ ] 직접 입력한 값에 가장 가까운 단계로 슬라이더가 움직인다 — `ShouldMoveSliderToNearestStepWhenTextApplied`

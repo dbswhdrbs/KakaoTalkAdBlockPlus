@@ -34,5 +34,19 @@ namespace KakaoTalkAdBlockPlus.Tests.UI
             Assert.AreEqual("0.5", viewModel.IntervalText);
             Assert.IsNull(viewModel.IntervalError);
         }
+
+        [TestMethod]
+        public void ShouldShowErrorForInvalidIntervalText()
+        {
+            _service.Interval = CheckInterval.FromMilliseconds(300);
+            var viewModel = CreateViewModel();
+
+            viewModel.IntervalText = "빠르게";
+            viewModel.ApplyIntervalText();
+
+            Assert.AreEqual("숫자로 입력해 주세요 (예: 0.5)", viewModel.IntervalError);
+            Assert.AreEqual(300, _service.Interval.Milliseconds);
+            Assert.AreEqual(0, _store.Saved.Count);
+        }
     }
 }
