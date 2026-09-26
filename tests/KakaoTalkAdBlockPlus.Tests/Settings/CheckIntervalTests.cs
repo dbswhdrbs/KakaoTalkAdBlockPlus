@@ -17,5 +17,11 @@ namespace KakaoTalkAdBlockPlus.Tests.Settings
         {
             Assert.AreEqual(50, CheckInterval.FromMilliseconds(10).Milliseconds);
         }
+
+        [TestMethod]
+        public void ShouldClampAboveMaximumToSixtySeconds()
+        {
+            Assert.AreEqual(60_000, CheckInterval.FromMilliseconds(90_000).Milliseconds);
+        }
     }
 }

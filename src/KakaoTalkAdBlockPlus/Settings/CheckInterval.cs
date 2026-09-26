@@ -4,6 +4,7 @@ namespace KakaoTalkAdBlockPlus.Settings
     public readonly struct CheckInterval
     {
         public const int MinMilliseconds = 50;
+        public const int MaxMilliseconds = 60_000;
 
         private CheckInterval(int milliseconds)
         {
@@ -15,7 +16,11 @@ namespace KakaoTalkAdBlockPlus.Settings
 
         public int Milliseconds { get; }
 
-        public static CheckInterval FromMilliseconds(int milliseconds) =>
-            new CheckInterval(milliseconds < MinMilliseconds ? MinMilliseconds : milliseconds);
+        public static CheckInterval FromMilliseconds(int milliseconds)
+        {
+            if (milliseconds < MinMilliseconds) return new CheckInterval(MinMilliseconds);
+            if (milliseconds > MaxMilliseconds) return new CheckInterval(MaxMilliseconds);
+            return new CheckInterval(milliseconds);
+        }
     }
 }
