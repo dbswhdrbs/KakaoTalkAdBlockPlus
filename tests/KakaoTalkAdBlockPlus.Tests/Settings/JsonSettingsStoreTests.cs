@@ -65,5 +65,17 @@ namespace KakaoTalkAdBlockPlus.Tests.Settings
 
             Assert.AreEqual(CheckInterval.DefaultMilliseconds, settings.CheckInterval.Milliseconds);
         }
+
+        [DataTestMethod]
+        [DataRow(5, 50)]
+        [DataRow(999_999, 60_000)]
+        public void ShouldClampOutOfRangeIntervalWhenLoading(int storedMilliseconds, int expectedMilliseconds)
+        {
+            File.WriteAllText(SettingsPath, "{ \"checkIntervalMs\": " + storedMilliseconds + " }");
+
+            var settings = new JsonSettingsStore(SettingsPath).Load();
+
+            Assert.AreEqual(expectedMilliseconds, settings.CheckInterval.Milliseconds);
+        }
     }
 }
