@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using KakaoTalkAdBlockPlus.AdBlock;
 using KakaoTalkAdBlockPlus.Native;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -88,6 +90,37 @@ namespace KakaoTalkAdBlockPlus.Tests.Native
             var rect = _api.GetRect(mainView);
             Assert.AreEqual(321, rect.Width);
             Assert.AreEqual(123, rect.Height);
+        }
+
+        [TestMethod]
+        public void ShouldRemoveBannerFromSimulatedKakaoTalkWindow()
+        {
+            using var factory = new TestWindowFactory();
+            var main = factory.CreateTopLevel("EVA_Window_Dblclk", "카카오톡");
+            var first = factory.CreateChild(main, "EVA_ChildWindow", "");
+            var mainView = factory.CreateChild(main, "EVA_ChildWindow", "OnlineMainView_0x0001");
+            var banner = factory.CreateChild(main, "EVA_ChildWindow", "");
+            using var current = Process.GetCurrentProcess();
+            var engine = new AdBlockEngine(_api, new CurrentProcessOnly(current.Id));
+
+            var report = engine.RunOnce();
+
+            Assert.IsFalse(TestWindowFactory.Exists(banner), "배너가 닫혀야 한다");
+            Assert.IsTrue(TestWindowFactory.Exists(first), "첫 번째 자식은 남아야 한다");
+            Assert.AreEqual(600 - 31, _api.GetRect(mainView).Height, "목록 화면이 배너 자리까지 늘어나야 한다");
+            CollectionAssert.AreEqual(new[] { banner }, report.RemovedAds.ToList());
+        }
+
+        private sealed class CurrentProcessOnly : IProcessIdSource
+        {
+            private readonly int[] _processIds;
+
+            public CurrentProcessOnly(int processId)
+            {
+                _processIds = new[] { processId };
+            }
+
+            public IReadOnlyCollection<int> GetProcessIds() => _processIds;
         }
     }
 }

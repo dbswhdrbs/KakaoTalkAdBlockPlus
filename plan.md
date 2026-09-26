@@ -96,7 +96,7 @@
 - [x] 창을 닫는다 (WM_CLOSE) — `ShouldCloseWindow`
 - [x] 창을 숨기고 표시 여부를 읽는다 — `ShouldHideWindow`
 - [x] 창 크기를 바꾼다 — `ShouldResizeWindow`
-- [ ] 엔진 + 실제 창: 카카오톡 구조를 흉내 낸 창에서 배너를 제거한다 — `ShouldRemoveBannerFromSimulatedKakaoTalkWindow`
+- [x] 엔진 + 실제 창: 카카오톡 구조를 흉내 낸 창에서 배너를 제거한다 — `ShouldRemoveBannerFromSimulatedKakaoTalkWindow`
 
 ### 10. 상태 집계 — `AdBlockStatusTracker`
 - [ ] 처음에는 카카오톡 미실행, 제거 0개다 — `ShouldStartWithNothingRemoved`
