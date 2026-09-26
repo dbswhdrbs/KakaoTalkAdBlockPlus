@@ -52,7 +52,7 @@
 - [x] 작업 관리자에서 "사용"으로 표시돼 있으면 켜져 있다 — `ShouldStayEnabledWhenTaskManagerEnabledIt`
 - [x] 켜면 작업 관리자의 "사용 안 함" 표시를 지운다 — `ShouldClearTaskManagerFlagWhenEnabled`
 - [x] 켜져 있는데 실행 파일이 옮겨졌으면 현재 경로로 고친다 — `ShouldRepairCommandWhenExecutableMoved`
-- [ ] 꺼져 있으면 고치지 않는다 — `ShouldNotRepairWhenDisabled`
+- [x] 꺼져 있으면 고치지 않는다 — `ShouldNotRepairWhenDisabled`
 
 ### 5. 실제 레지스트리 — `CurrentUserRegistryStore` (HKCU 임시 키)
 - [ ] 문자열 값을 쓰고, 읽고, 지운다 — `ShouldWriteReadAndDeleteStringValue`
