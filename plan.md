@@ -131,6 +131,7 @@
 - [x] 자동 실행 상태를 보여 준다 — `ShouldReflectStartupRegistration`
 - [x] 스위치로 자동 실행을 켜고 끈다 — `ShouldToggleStartupRegistration`
 - [x] 레지스트리 오류가 나면 스위치를 되돌리고 오류를 보여 준다 — `ShouldRevertStartupToggleWhenRegistryFails`
+- [x] 주기가 바뀌면 입력칸·슬라이더·오류 문구 변경을 화면에 알린다 — `ShouldNotifyIntervalChanges`
 - [ ] 상태 문구를 새로 고친다 — `ShouldRefreshStatusText`
 
 ## 테스트가 아닌 작업 (테스트 목록 완료 후)

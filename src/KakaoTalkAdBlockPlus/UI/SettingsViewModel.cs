@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using KakaoTalkAdBlockPlus.AdBlock;
 using KakaoTalkAdBlockPlus.Settings;
 using KakaoTalkAdBlockPlus.Startup;
@@ -15,6 +17,9 @@ namespace KakaoTalkAdBlockPlus.UI
         private readonly IStartupRegistration _startup;
         private int _intervalStepIndex;
         private CheckInterval _interval;
+        private string _intervalText;
+        private string? _intervalError;
+        private string? _startupError;
 
         public SettingsViewModel(ISettingsStore store, IAdBlockService service, IStartupRegistration startup)
         {
@@ -22,14 +27,18 @@ namespace KakaoTalkAdBlockPlus.UI
             _service = service;
             _startup = startup;
             _interval = store.Load().CheckInterval;
-            IntervalText = _interval.ToSecondsText();
+            _intervalText = _interval.ToSecondsText();
             _intervalStepIndex = IntervalSteps.IndexOfNearest(_interval);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>확인 주기 입력칸 (초 단위).</summary>
-        public string IntervalText { get; set; }
+        public string IntervalText
+        {
+            get => _intervalText;
+            set => SetField(ref _intervalText, value);
+        }
 
         /// <summary>슬라이더 위치 (IntervalSteps 인덱스). 바꾸면 그 단계의 주기를 바로 적용한다.</summary>
         public int IntervalStepIndex
@@ -69,10 +78,18 @@ namespace KakaoTalkAdBlockPlus.UI
         }
 
         /// <summary>자동 실행을 바꾸지 못했을 때 보여 줄 문구. 문제가 없으면 null.</summary>
-        public string? StartupError { get; private set; }
+        public string? StartupError
+        {
+            get => _startupError;
+            private set => SetField(ref _startupError, value);
+        }
 
         /// <summary>입력칸 값이 잘못됐을 때 보여 줄 문구. 문제가 없으면 null.</summary>
-        public string? IntervalError { get; private set; }
+        public string? IntervalError
+        {
+            get => _intervalError;
+            private set => SetField(ref _intervalError, value);
+        }
 
         /// <summary>입력칸에서 Enter를 누르거나 포커스가 떠날 때 부른다.</summary>
         public void ApplyIntervalText()
@@ -98,10 +115,20 @@ namespace KakaoTalkAdBlockPlus.UI
             _store.Save(new AppSettings(interval));
             IntervalText = interval.ToSecondsText();
             _intervalStepIndex = IntervalSteps.IndexOfNearest(interval);
+            OnPropertyChanged(nameof(IntervalStepIndex));
+            OnPropertyChanged(nameof(IsDefaultInterval));
         }
 
         private void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private void SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return;
+
+            field = value;
+            OnPropertyChanged(propertyName);
+        }
 
         private static string ErrorMessageFor(IntervalParseStatus status) =>
             status is IntervalParseStatus.TooSmall or IntervalParseStatus.TooLarge

@@ -141,5 +141,31 @@ namespace KakaoTalkAdBlockPlus.Tests.UI
             Assert.AreEqual("윈도우 시작 설정을 바꾸지 못했어요. 잠시 후 다시 시도해 주세요.", viewModel.StartupError);
             CollectionAssert.Contains(changed, nameof(SettingsViewModel.StartWithWindows), "스위치가 원래대로 돌아가도록 알려야 한다");
         }
+
+        [TestMethod]
+        public void ShouldNotifyIntervalChanges()
+        {
+            var viewModel = CreateViewModel();
+            var changed = new List<string?>();
+            viewModel.PropertyChanged += (_, e) => changed.Add(e.PropertyName);
+
+            viewModel.IntervalText = "abc";
+            viewModel.ApplyIntervalText();
+            CollectionAssert.Contains(changed, nameof(SettingsViewModel.IntervalError));
+
+            changed.Clear();
+            viewModel.IntervalText = "2";
+            viewModel.ApplyIntervalText();
+
+            CollectionAssert.IsSubsetOf(
+                new[]
+                {
+                    nameof(SettingsViewModel.IntervalText),
+                    nameof(SettingsViewModel.IntervalStepIndex),
+                    nameof(SettingsViewModel.IsDefaultInterval),
+                    nameof(SettingsViewModel.IntervalError),
+                },
+                changed);
+        }
     }
 }
