@@ -62,5 +62,17 @@ namespace KakaoTalkAdBlockPlus.Tests.UI
             Assert.AreEqual("0.05초 ~ 60초 사이로 입력해 주세요", viewModel.IntervalError);
             Assert.AreEqual(0, _store.Saved.Count);
         }
+
+        [TestMethod]
+        public void ShouldApplySliderStep()
+        {
+            var viewModel = CreateViewModel();
+
+            viewModel.IntervalStepIndex = 4;
+
+            Assert.AreEqual(500, _service.Interval.Milliseconds);
+            Assert.AreEqual(500, _store.Stored.CheckInterval.Milliseconds);
+            Assert.AreEqual("0.5", viewModel.IntervalText);
+        }
     }
 }

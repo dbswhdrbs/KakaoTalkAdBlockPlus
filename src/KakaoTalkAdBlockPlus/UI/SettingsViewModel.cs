@@ -10,6 +10,7 @@ namespace KakaoTalkAdBlockPlus.UI
         private readonly ISettingsStore _store;
         private readonly IAdBlockService _service;
         private readonly IStartupRegistration _startup;
+        private int _intervalStepIndex;
 
         public SettingsViewModel(ISettingsStore store, IAdBlockService service, IStartupRegistration startup)
         {
@@ -21,6 +22,17 @@ namespace KakaoTalkAdBlockPlus.UI
 
         /// <summary>확인 주기 입력칸 (초 단위).</summary>
         public string IntervalText { get; set; }
+
+        /// <summary>슬라이더 위치 (IntervalSteps 인덱스). 바꾸면 그 단계의 주기를 바로 적용한다.</summary>
+        public int IntervalStepIndex
+        {
+            get => _intervalStepIndex;
+            set
+            {
+                _intervalStepIndex = value;
+                ApplyInterval(IntervalSteps.At(value));
+            }
+        }
 
         /// <summary>입력칸 값이 잘못됐을 때 보여 줄 문구. 문제가 없으면 null.</summary>
         public string? IntervalError { get; private set; }
@@ -35,7 +47,11 @@ namespace KakaoTalkAdBlockPlus.UI
                 return;
             }
 
-            var interval = result.Interval;
+            ApplyInterval(result.Interval);
+        }
+
+        private void ApplyInterval(CheckInterval interval)
+        {
             IntervalError = null;
             _service.Interval = interval;
             _store.Save(new AppSettings(interval));
