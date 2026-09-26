@@ -26,6 +26,21 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
             CollectionAssert.AreEquivalent(new[] { 10 }, new List<int>(ids));
         }
 
+        [TestMethod]
+        public void ShouldResolveEachProcessNameOnce()
+        {
+            _names.Add(10, "KakaoTalk.exe");
+            _names.Add(20, "explorer.exe");
+            _windows.AddTopLevel(10, "EVA_Window_Dblclk", "카카오톡");
+            _windows.AddTopLevel(20, "Shell_TrayWnd", "");
+            var source = CreateSource();
+
+            source.GetProcessIds();
+            source.GetProcessIds();
+
+            CollectionAssert.AreEquivalent(new[] { 10, 20 }, _names.Resolved);
+        }
+
         private sealed class FakeProcessNames : IProcessNameResolver
         {
             private readonly Dictionary<int, string> _names = new Dictionary<int, string>();
