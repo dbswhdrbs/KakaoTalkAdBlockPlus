@@ -39,6 +39,8 @@ namespace KakaoTalkAdBlockPlus.Settings
                 return new IntervalParseResult(IntervalParseStatus.NotANumber, Default);
             }
 
+            if (seconds > MaxMilliseconds / 1000m) return new IntervalParseResult(IntervalParseStatus.TooLarge, Default);
+
             var milliseconds = (int)decimal.Round(seconds * 1000m, MidpointRounding.AwayFromZero);
             if (milliseconds < MinMilliseconds) return new IntervalParseResult(IntervalParseStatus.TooSmall, Default);
 

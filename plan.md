@@ -27,7 +27,7 @@
 - [x] 빈 문자열은 `Empty`로 거부한다 — `ShouldRejectEmptyText`
 - [x] 숫자가 아니면 `NotANumber`로 거부한다 — `ShouldRejectNonNumericText`
 - [x] 최소보다 작으면 `TooSmall`로 거부한다 — `ShouldRejectTooSmallText`
-- [ ] 최대보다 크면 `TooLarge`로 거부한다 — `ShouldRejectTooLargeText`
+- [x] 최대보다 크면 `TooLarge`로 거부한다 — `ShouldRejectTooLargeText`
 
 ### 2. 슬라이더 단계 — `IntervalSteps`
 - [ ] 인덱스로 단계 값을 얻는다 (0→50ms, 1→100ms, 마지막→60초) — `ShouldReturnStepValueForIndex`
