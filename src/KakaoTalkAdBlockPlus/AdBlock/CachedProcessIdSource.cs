@@ -9,6 +9,7 @@ namespace KakaoTalkAdBlockPlus.AdBlock
         private readonly IProcessIdSource _inner;
         private readonly TimeSpan _refreshPeriod;
         private readonly Func<TimeSpan> _clock;
+        private IReadOnlyCollection<int>? _cached;
 
         /// <param name="clock">단조 증가하는 현재 시각 (예: Stopwatch.Elapsed).</param>
         public CachedProcessIdSource(IProcessIdSource inner, TimeSpan refreshPeriod, Func<TimeSpan> clock)
@@ -18,6 +19,6 @@ namespace KakaoTalkAdBlockPlus.AdBlock
             _clock = clock;
         }
 
-        public IReadOnlyCollection<int> GetProcessIds() => _inner.GetProcessIds();
+        public IReadOnlyCollection<int> GetProcessIds() => _cached ??= _inner.GetProcessIds();
     }
 }

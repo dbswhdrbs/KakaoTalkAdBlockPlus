@@ -26,6 +26,21 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
             Assert.AreEqual(1, _inner.CallCount);
         }
 
+        [TestMethod]
+        public void ShouldReuseIdsWithinRefreshPeriod()
+        {
+            var cache = CreateCache();
+            _inner.ProcessIds = new[] { 10 };
+            cache.GetProcessIds();
+
+            _inner.ProcessIds = new[] { 99 };
+            _now += TimeSpan.FromMilliseconds(999);
+            var ids = cache.GetProcessIds();
+
+            CollectionAssert.AreEquivalent(new[] { 10 }, new List<int>(ids));
+            Assert.AreEqual(1, _inner.CallCount);
+        }
+
         private sealed class CountingProcessIdSource : IProcessIdSource
         {
             public int[] ProcessIds { get; set; } = new int[0];

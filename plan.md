@@ -84,7 +84,7 @@
 
 ### 8. 카카오톡 프로세스 찾기
 - [x] 캐시: 처음 호출하면 실제로 조회한다 — `ShouldQueryInnerSourceOnFirstCall`
-- [ ] 캐시: 갱신 주기 안에서는 결과를 재사용한다 — `ShouldReuseIdsWithinRefreshPeriod`
+- [x] 캐시: 갱신 주기 안에서는 결과를 재사용한다 — `ShouldReuseIdsWithinRefreshPeriod`
 - [ ] 캐시: 갱신 주기가 지나면 다시 조회한다 — `ShouldRefreshAfterRefreshPeriod`
 - [ ] Toolhelp: 실행 파일 이름(대소문자 무시)으로 현재 프로세스를 찾는다 — `ShouldFindCurrentProcessByImageName`
 - [ ] Toolhelp: 없는 이름이면 빈 목록이다 — `ShouldReturnEmptyForUnknownImageName`
