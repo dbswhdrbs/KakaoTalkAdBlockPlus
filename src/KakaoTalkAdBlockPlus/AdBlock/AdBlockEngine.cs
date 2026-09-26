@@ -15,6 +15,20 @@ namespace KakaoTalkAdBlockPlus.AdBlock
             _kakaoTalkProcesses = kakaoTalkProcesses;
         }
 
-        public AdBlockReport RunOnce() => new AdBlockReport(isKakaoTalkRunning: false);
+        public AdBlockReport RunOnce()
+        {
+            foreach (var window in _windows.GetTopLevelWindows())
+            {
+                foreach (var child in _windows.GetDescendantWindows(window))
+                {
+                    if (_windows.GetClassName(child) == "EVA_ChildWindow" && _windows.GetText(child).Length == 0)
+                    {
+                        _windows.Close(child);
+                    }
+                }
+            }
+
+            return new AdBlockReport(isKakaoTalkRunning: false);
+        }
     }
 }
