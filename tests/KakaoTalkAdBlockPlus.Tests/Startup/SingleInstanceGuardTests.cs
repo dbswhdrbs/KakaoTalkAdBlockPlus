@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using KakaoTalkAdBlockPlus.Startup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -25,6 +26,19 @@ namespace KakaoTalkAdBlockPlus.Tests.Startup
             using var second = SingleInstanceGuard.Acquire(_name);
 
             Assert.IsFalse(second.IsFirstInstance);
+        }
+
+        [TestMethod]
+        public void ShouldSignalFirstInstanceWhenSecondStarts()
+        {
+            using var signaled = new ManualResetEventSlim();
+            using var first = SingleInstanceGuard.Acquire(_name);
+            first.ListenForSignal(signaled.Set);
+
+            using var second = SingleInstanceGuard.Acquire(_name);
+            second.SignalFirstInstance();
+
+            Assert.IsTrue(signaled.Wait(TimeSpan.FromSeconds(3)));
         }
     }
 }
