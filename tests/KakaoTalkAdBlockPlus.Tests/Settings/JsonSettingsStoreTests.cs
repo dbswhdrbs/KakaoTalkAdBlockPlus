@@ -52,5 +52,18 @@ namespace KakaoTalkAdBlockPlus.Tests.Settings
 
             Assert.AreEqual(300, new JsonSettingsStore(path).Load().CheckInterval.Milliseconds);
         }
+
+        [DataTestMethod]
+        [DataRow("{ this is not json")]
+        [DataRow("")]
+        [DataRow("{ \"checkIntervalMs\": \"fast\" }")]
+        public void ShouldLoadDefaultsWhenFileIsCorrupted(string content)
+        {
+            File.WriteAllText(SettingsPath, content);
+
+            var settings = new JsonSettingsStore(SettingsPath).Load();
+
+            Assert.AreEqual(CheckInterval.DefaultMilliseconds, settings.CheckInterval.Milliseconds);
+        }
     }
 }

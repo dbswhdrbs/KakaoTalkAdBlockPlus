@@ -21,9 +21,16 @@ namespace KakaoTalkAdBlockPlus.Settings
         {
             if (!File.Exists(_filePath)) return AppSettings.Default;
 
-            using var stream = File.OpenRead(_filePath);
-            var document = (SettingsDocument)Serializer.ReadObject(stream);
-            return new AppSettings(CheckInterval.FromMilliseconds(document.CheckIntervalMs));
+            try
+            {
+                using var stream = File.OpenRead(_filePath);
+                var document = (SettingsDocument)Serializer.ReadObject(stream);
+                return new AppSettings(CheckInterval.FromMilliseconds(document.CheckIntervalMs));
+            }
+            catch (SerializationException)
+            {
+                return AppSettings.Default;
+            }
         }
 
         public void Save(AppSettings settings)
