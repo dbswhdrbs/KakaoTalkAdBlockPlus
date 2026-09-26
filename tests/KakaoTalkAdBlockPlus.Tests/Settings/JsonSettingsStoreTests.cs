@@ -32,5 +32,15 @@ namespace KakaoTalkAdBlockPlus.Tests.Settings
 
             Assert.AreEqual(CheckInterval.DefaultMilliseconds, settings.CheckInterval.Milliseconds);
         }
+
+        [TestMethod]
+        public void ShouldRoundTripCheckInterval()
+        {
+            new JsonSettingsStore(SettingsPath).Save(new AppSettings(CheckInterval.FromMilliseconds(750)));
+
+            var loaded = new JsonSettingsStore(SettingsPath).Load();
+
+            Assert.AreEqual(750, loaded.CheckInterval.Milliseconds);
+        }
     }
 }
