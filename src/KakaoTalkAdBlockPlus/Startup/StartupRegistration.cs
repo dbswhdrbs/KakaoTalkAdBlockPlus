@@ -26,7 +26,11 @@ namespace KakaoTalkAdBlockPlus.Startup
         private bool IsDisabledInTaskManager =>
             _registry.GetBinary(StartupApprovedKeyPath, _appName) is { Length: > 0 } flag && (flag[0] & 1) == 1;
 
-        public void Enable() => _registry.SetString(RunKeyPath, _appName, "\"" + _executablePath + "\" --autostart");
+        public void Enable()
+        {
+            _registry.SetString(RunKeyPath, _appName, "\"" + _executablePath + "\" --autostart");
+            _registry.DeleteValue(StartupApprovedKeyPath, _appName);
+        }
 
         public void Disable() => _registry.DeleteValue(RunKeyPath, _appName);
     }
