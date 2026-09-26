@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
 using KakaoTalkAdBlockPlus.AdBlock;
 using KakaoTalkAdBlockPlus.Settings;
@@ -125,7 +126,16 @@ namespace KakaoTalkAdBlockPlus.UI
             _interval = interval;
             IntervalError = null;
             _service.Interval = interval;
-            _store.Save(new AppSettings(interval));
+            try
+            {
+                _store.Save(new AppSettings(interval));
+            }
+            catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+            {
+                Trace.TraceWarning("설정 저장 실패: {0}", exception);
+                IntervalError = "설정을 저장하지 못했어요. 다음에 실행할 때는 이전 값으로 시작해요.";
+            }
+
             IntervalText = interval.ToSecondsText();
             _intervalStepIndex = IntervalSteps.IndexOfNearest(interval);
             OnPropertyChanged(nameof(IntervalStepIndex));

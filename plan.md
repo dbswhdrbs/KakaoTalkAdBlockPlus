@@ -130,6 +130,7 @@
 - [x] 슬라이더 단계를 고르면 적용·저장하고 입력칸도 바뀐다 — `ShouldApplySliderStep`
 - [x] 직접 입력한 값에 가장 가까운 단계로 슬라이더가 움직인다 — `ShouldMoveSliderToNearestStepWhenTextApplied`
 - [x] 기본값으로 되돌린다 — `ShouldResetIntervalToDefault`
+- [x] 저장에 실패해도 이번 실행에는 적용하고 저장 실패를 알려 준다 — `ShouldApplyButWarnWhenSaveFails`
 - [x] 자동 실행 상태를 보여 준다 — `ShouldReflectStartupRegistration`
 - [x] 스위치로 자동 실행을 켜고 끈다 — `ShouldToggleStartupRegistration`
 - [x] 레지스트리 오류가 나면 스위치를 되돌리고 오류를 보여 준다 — `ShouldRevertStartupToggleWhenRegistryFails`

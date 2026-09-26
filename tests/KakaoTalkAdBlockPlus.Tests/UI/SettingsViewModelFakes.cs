@@ -12,10 +12,15 @@ namespace KakaoTalkAdBlockPlus.Tests.UI
 
         public List<AppSettings> Saved { get; } = new List<AppSettings>();
 
+        /// <summary>지정하면 Save가 이 예외를 던진다 (디스크 권한 문제 흉내).</summary>
+        public Exception? SaveFailure { get; set; }
+
         public AppSettings Load() => Stored;
 
         public void Save(AppSettings settings)
         {
+            if (SaveFailure != null) throw SaveFailure;
+
             Saved.Add(settings);
             Stored = settings;
         }

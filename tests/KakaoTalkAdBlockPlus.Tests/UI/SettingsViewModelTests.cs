@@ -109,6 +109,20 @@ namespace KakaoTalkAdBlockPlus.Tests.UI
         }
 
         [TestMethod]
+        public void ShouldApplyButWarnWhenSaveFails()
+        {
+            var viewModel = CreateViewModel();
+            _store.SaveFailure = new UnauthorizedAccessException("설정 폴더에 쓸 수 없음");
+
+            viewModel.IntervalText = "0.5";
+            viewModel.ApplyIntervalText();
+
+            Assert.AreEqual(500, _service.Interval.Milliseconds, "이번 실행에는 적용돼야 한다");
+            Assert.AreEqual("0.5", viewModel.IntervalText);
+            Assert.AreEqual("설정을 저장하지 못했어요. 다음에 실행할 때는 이전 값으로 시작해요.", viewModel.IntervalError);
+        }
+
+        [TestMethod]
         public void ShouldReflectStartupRegistration()
         {
             _startup.IsEnabled = true;
