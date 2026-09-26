@@ -30,7 +30,7 @@
 - [x] 최대보다 크면 `TooLarge`로 거부한다 — `ShouldRejectTooLargeText`
 
 ### 2. 슬라이더 단계 — `IntervalSteps`
-- [ ] 인덱스로 단계 값을 얻는다 (0→50ms, 1→100ms, 마지막→60초) — `ShouldReturnStepValueForIndex`
+- [x] 인덱스로 단계 값을 얻는다 (0→50ms, 1→100ms, 마지막→60초) — `ShouldReturnStepValueForIndex`
 - [ ] 값에 가장 가까운 단계를 찾는다 — `ShouldFindNearestStepIndex`
 
 ### 3. 설정 저장 — `JsonSettingsStore`
