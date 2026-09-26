@@ -7,7 +7,7 @@ namespace KakaoTalkAdBlockPlus.Tests.Settings
     public class CheckIntervalTests
     {
         [TestMethod]
-        public void ShouldDefaultToOriginalHundredMilliseconds()
+        public void ShouldDefaultToHundredMilliseconds()
         {
             Assert.AreEqual(100, CheckInterval.Default.Milliseconds);
         }

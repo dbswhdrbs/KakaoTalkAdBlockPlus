@@ -1,11 +1,9 @@
 # KakaoTalkAdBlockPlus 개발 계획 (TDD)
 
-`D:\Sources\KakaoTalkAdBlock-2.1.4`(Go)를 분석해 C#(.NET Framework 4.8, WPF)으로 다시 만든다.
+카카오톡 PC 광고를 트레이에서 자동으로 정리하는 Windows 프로그램 (C#, .NET Framework 4.8, WPF).
 
-- 광고 제거 기능은 원본과 같다. 다만 설치된 카카오톡 26.8.1에서 동작하도록,
-  같은 원본 저장소의 최신판(2.2.4)이 쓰는 **일반(Win32) 클라이언트용 규칙**을 옮긴다.
-  (2.1.4의 `BannerAdWnd`/`BannerAdContainer`/`AdFitWebView` 규칙은 원본에서도 이미 폐기됨)
-- 바뀌는 점: 트레이 **우클릭 메뉴(설정/종료)**, **설정창**(확인 주기, 윈도우 시작 시 자동 실행),
+- 카카오톡 PC(일반 Win32 클라이언트, 26.8.1에서 확인)의 광고 창을 찾아 닫거나 숨긴다.
+- 트레이 **우클릭 메뉴(설정/종료)**, **설정창**(확인 주기, 윈도우 시작 시 자동 실행),
   재부팅 후에도 유지되는 설정 저장.
 
 ## 작업 규칙
@@ -18,7 +16,7 @@
 ## 테스트 목록
 
 ### 1. 확인 주기 — `CheckInterval`
-- [x] 기본값은 원본과 같은 100ms이다 — `ShouldDefaultToOriginalHundredMilliseconds`
+- [x] 기본값은 100ms(0.1초)이다 — `ShouldDefaultToHundredMilliseconds`
 - [x] 50ms보다 짧으면 50ms로 보정한다 — `ShouldClampBelowMinimumToFiftyMilliseconds`
 - [x] 60초보다 길면 60초로 보정한다 — `ShouldClampAboveMaximumToSixtySeconds`
 - [x] 초 단위 문자열로 표시한다 (100ms→"0.1", 1500ms→"1.5") — `ShouldFormatAsSecondsText`
@@ -69,8 +67,8 @@
 - [x] 메인 창의 이름 없는 `EVA_ChildWindow`(배너)에 WM_CLOSE를 보낸다 — `ShouldCloseUnnamedBannerChildOfMainWindow`
 - [x] 메인 창의 첫 번째 자식은 닫지 않는다 — `ShouldNotCloseFirstChildOfMainWindow`
 - [x] 다른 프로세스의 창은 건드리지 않는다 — `ShouldIgnoreWindowsOfOtherProcesses`
-- [x] `OnlineMainView`/`LockModeView`가 없는 창(동영상 플레이어 등, 원본 #99)은 건드리지 않는다 — `ShouldIgnoreWindowWithoutMainOrLockView`
-- [x] `_EVA_` 클래스 자손이 있는 자식(이모티콘 화면 등, 원본 #97)은 닫지 않는다 — `ShouldNotCloseChildContainingCustomScroll`
+- [x] `OnlineMainView`/`LockModeView`가 없는 창(동영상 플레이어 등)은 건드리지 않는다 — `ShouldIgnoreWindowWithoutMainOrLockView`
+- [x] `_EVA_` 클래스 자손이 있는 자식(이모티콘 화면 등)은 닫지 않는다 — `ShouldNotCloseChildContainingCustomScroll`
 - [x] 직계 자식이 아닌 창은 닫지 않는다 — `ShouldNotCloseNestedDescendants`
 - [x] 이름 있는 자식은 닫지 않는다 — `ShouldNotCloseNamedChildren`
 - [x] 제목이 없거나, 소유자가 있거나, `EVA_Window_Dblclk`가 아닌 창은 메인 창이 아니다 — `ShouldIgnoreUntitledOrOwnedWindows`
