@@ -27,7 +27,8 @@ namespace KakaoTalkAdBlockPlus.AdBlock
                 .Where(window => kakaoTalkProcessIds.Contains(_windows.GetProcessId(window)))
                 .ToList();
 
-            foreach (var window in kakaoTalkWindows.Where(IsMainWindowCandidate))
+            var mainWindows = kakaoTalkWindows.Where(IsMainWindowCandidate).ToList();
+            foreach (var window in mainWindows)
             {
                 var descendants = _windows.GetDescendantWindows(window);
                 if (!HasMainOrLockView(descendants)) continue;
@@ -35,7 +36,7 @@ namespace KakaoTalkAdBlockPlus.AdBlock
                 RemoveMainWindowAds(window, descendants);
             }
 
-            foreach (var popup in kakaoTalkWindows.Where(IsPopupAdCandidate))
+            foreach (var popup in kakaoTalkWindows.Where(window => IsPopupAdCandidate(window, mainWindows)))
             {
                 if (ContainsChromeLegacyWindow(popup)) _windows.Hide(popup);
             }
@@ -85,11 +86,19 @@ namespace KakaoTalkAdBlockPlus.AdBlock
             _windows.GetText(child).Length == 0 &&
             !HasCustomScroll(child);
 
-        /// <summary>팝업 광고 후보: 제목도 소유자도 없는 EVA_Window.</summary>
-        private bool IsPopupAdCandidate(IntPtr window) =>
-            _windows.GetClassName(window) == PopupWindowClass &&
-            _windows.GetText(window).Length == 0 &&
-            _windows.GetParent(window) == IntPtr.Zero;
+        /// <summary>
+        /// 팝업 광고 후보: 제목 없는 창 중
+        /// 소유자가 없는 EVA_Window, 또는 메인 창이 소유한 EVA_Window_Dblclk.
+        /// </summary>
+        private bool IsPopupAdCandidate(IntPtr window, ICollection<IntPtr> mainWindows)
+        {
+            if (_windows.GetText(window).Length != 0) return false;
+
+            var className = _windows.GetClassName(window);
+            var owner = _windows.GetParent(window);
+            return (className == PopupWindowClass && owner == IntPtr.Zero) ||
+                   (className == MainWindowClass && mainWindows.Contains(owner));
+        }
 
         /// <summary>광고 웹뷰가 들어 있는지.</summary>
         private bool ContainsChromeLegacyWindow(IntPtr window) =>
