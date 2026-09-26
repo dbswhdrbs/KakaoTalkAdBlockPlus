@@ -1,14 +1,18 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using KakaoTalkAdBlockPlus.AdBlock;
 
 namespace KakaoTalkAdBlockPlus.Native
 {
-    /// <summary>IWindowApi의 실제 구현 (user32.dll).</summary>
+    /// <summary>
+    /// IWindowApi의 실제 구현 (user32.dll).
+    /// 창 이름을 읽는 버퍼를 재사용하므로 한 스레드(광고 검사 스레드)에서만 쓴다.
+    /// </summary>
     public sealed class Win32WindowApi : IWindowApi
     {
         private const uint CloseTimeoutMilliseconds = 1000;
+
+        private readonly char[] _nameBuffer = new char[256];
 
         public IReadOnlyList<IntPtr> GetTopLevelWindows() => Collect(callback => User32.EnumWindows(callback, IntPtr.Zero));
 
@@ -21,19 +25,11 @@ namespace KakaoTalkAdBlockPlus.Native
             return (int)processId;
         }
 
-        public string GetClassName(IntPtr window)
-        {
-            var className = new StringBuilder(256);
-            User32.GetClassName(window, className, className.Capacity);
-            return className.ToString();
-        }
+        public string GetClassName(IntPtr window) =>
+            ToName(User32.GetClassName(window, _nameBuffer, _nameBuffer.Length));
 
-        public string GetText(IntPtr window)
-        {
-            var text = new StringBuilder(256);
-            User32.GetWindowText(window, text, text.Capacity);
-            return text.ToString();
-        }
+        public string GetText(IntPtr window) =>
+            ToName(User32.GetWindowText(window, _nameBuffer, _nameBuffer.Length));
 
         public IntPtr GetParent(IntPtr window) => User32.GetParent(window);
 
@@ -54,6 +50,8 @@ namespace KakaoTalkAdBlockPlus.Native
             User32.UpdateWindow(window);
             User32.SetWindowPos(window, IntPtr.Zero, 0, 0, width, height, User32.SwpNoMove);
         }
+
+        private string ToName(int length) => length > 0 ? new string(_nameBuffer, 0, length) : string.Empty;
 
         private static IReadOnlyList<IntPtr> Collect(Action<User32.EnumWindowsProc> enumerate)
         {
