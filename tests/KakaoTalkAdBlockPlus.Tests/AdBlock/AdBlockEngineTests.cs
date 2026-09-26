@@ -191,6 +191,21 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
             CollectionAssert.Contains(_windows.Hidden, popup.Handle);
         }
 
+        [TestMethod]
+        public void ShouldNotHidePopupWithoutChromeLegacyWindow()
+        {
+            _kakaoTalkProcesses.Add(KakaoTalkPid);
+            var scene = AddMainWindowWithBanner(KakaoTalkPid);
+            var notification = _windows.AddTopLevel(KakaoTalkPid, "EVA_Window", "");
+            _windows.AddChild(notification, "EVA_ChildWindow", "새 메시지");
+            var ownedMenu = _windows.AddTopLevel(KakaoTalkPid, "EVA_Window_Dblclk", "", owner: scene.Main);
+            _windows.AddChild(ownedMenu, "EVA_ChildWindow", "");
+
+            CreateEngine().RunOnce();
+
+            Assert.AreEqual(0, _windows.Hidden.Count);
+        }
+
         /// <summary>
         /// 카카오톡 메인 창 구조:
         /// "카카오톡" EVA_Window_Dblclk ─┬─ "" EVA_ChildWindow (첫 번째 자식)
