@@ -19,6 +19,9 @@ namespace KakaoTalkAdBlockPlus.AdBlock
 
         string GetText(IntPtr window);
 
+        /// <summary>GetParent: 자식 창이면 부모, 최상위 창이면 소유자(없으면 IntPtr.Zero).</summary>
+        IntPtr GetParent(IntPtr window);
+
         /// <summary>WM_CLOSE를 보낸다.</summary>
         void Close(IntPtr window);
     }

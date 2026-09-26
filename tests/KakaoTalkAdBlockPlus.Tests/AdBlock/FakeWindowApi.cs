@@ -40,6 +40,8 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
 
         public string GetText(IntPtr window) => _windows[window].Text;
 
+        public IntPtr GetParent(IntPtr window) => _windows[window].Parent?.Handle ?? IntPtr.Zero;
+
         public void Close(IntPtr window) => Closed.Add(window);
 
         private static IEnumerable<FakeWindow> Descendants(FakeWindow window) =>

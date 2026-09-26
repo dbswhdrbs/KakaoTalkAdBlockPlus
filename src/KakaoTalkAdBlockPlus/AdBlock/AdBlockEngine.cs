@@ -32,6 +32,8 @@ namespace KakaoTalkAdBlockPlus.AdBlock
                 // 원본(#99 수정)과 같이 첫 번째 자식은 건너뛴다.
                 foreach (var child in descendants.Skip(1))
                 {
+                    if (_windows.GetParent(child) != window) continue;
+
                     if (_windows.GetClassName(child) == "EVA_ChildWindow" && _windows.GetText(child).Length == 0 &&
                         !HasCustomScroll(child))
                     {

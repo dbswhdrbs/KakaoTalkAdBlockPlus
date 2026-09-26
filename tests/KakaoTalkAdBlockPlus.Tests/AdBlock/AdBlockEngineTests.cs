@@ -83,6 +83,18 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
             CollectionAssert.Contains(_windows.Closed, scene.Banner.Handle);
         }
 
+        [TestMethod]
+        public void ShouldNotCloseNestedDescendants()
+        {
+            _kakaoTalkProcesses.Add(KakaoTalkPid);
+            var scene = AddMainWindowWithBanner(KakaoTalkPid);
+            var nested = _windows.AddChild(scene.MainView, "EVA_ChildWindow", "");
+
+            CreateEngine().RunOnce();
+
+            CollectionAssert.DoesNotContain(_windows.Closed, nested.Handle);
+        }
+
         /// <summary>
         /// 카카오톡 메인 창 구조:
         /// "카카오톡" EVA_Window_Dblclk ─┬─ "" EVA_ChildWindow (첫 번째 자식)
