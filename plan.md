@@ -18,7 +18,7 @@
 ## 테스트 목록
 
 ### 1. 확인 주기 — `CheckInterval`
-- [ ] 기본값은 원본과 같은 100ms이다 — `ShouldDefaultToOriginalHundredMilliseconds`
+- [x] 기본값은 원본과 같은 100ms이다 — `ShouldDefaultToOriginalHundredMilliseconds`
 - [ ] 50ms보다 짧으면 50ms로 보정한다 — `ShouldClampBelowMinimumToFiftyMilliseconds`
 - [ ] 60초보다 길면 60초로 보정한다 — `ShouldClampAboveMaximumToSixtySeconds`
 - [ ] 초 단위 문자열로 표시한다 (100ms→"0.1", 1500ms→"1.5") — `ShouldFormatAsSecondsText`
