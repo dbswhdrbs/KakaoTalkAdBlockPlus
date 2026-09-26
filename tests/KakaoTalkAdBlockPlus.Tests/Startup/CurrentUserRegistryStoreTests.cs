@@ -35,5 +35,17 @@ namespace KakaoTalkAdBlockPlus.Tests.Startup
             _store.DeleteValue(_keyPath, "App");
             Assert.IsNull(_store.GetString(_keyPath, "App"));
         }
+
+        [TestMethod]
+        public void ShouldReturnNullForMissingValue()
+        {
+            _store.SetString(_keyPath, "Other", "value");
+
+            Assert.IsNull(_store.GetString(_keyPath + @"\Missing", "App"));
+            Assert.IsNull(_store.GetString(_keyPath, "App"));
+            Assert.IsNull(_store.GetBinary(_keyPath, "App"));
+            _store.DeleteValue(_keyPath + @"\Missing", "App");
+            _store.DeleteValue(_keyPath, "App");
+        }
     }
 }

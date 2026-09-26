@@ -56,7 +56,7 @@
 
 ### 5. 실제 레지스트리 — `CurrentUserRegistryStore` (HKCU 임시 키)
 - [x] 문자열 값을 쓰고, 읽고, 지운다 — `ShouldWriteReadAndDeleteStringValue`
-- [ ] 없는 키나 값은 null이다 — `ShouldReturnNullForMissingValue`
+- [x] 없는 키나 값은 null이다 — `ShouldReturnNullForMissingValue`
 - [ ] 이진 값을 읽는다 — `ShouldReadBinaryValue`
 
 ### 6. 명령줄 — `CommandLineOptions`
