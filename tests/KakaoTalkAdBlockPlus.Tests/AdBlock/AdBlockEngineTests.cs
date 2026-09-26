@@ -126,6 +126,18 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
             CollectionAssert.DoesNotContain(_windows.Closed, banner.Handle);
         }
 
+        [TestMethod]
+        public void ShouldResizeOnlineMainViewOverBannerArea()
+        {
+            _kakaoTalkProcesses.Add(KakaoTalkPid);
+            var scene = AddMainWindowWithBanner(KakaoTalkPid);
+            scene.Main.Rect = new WindowRect(100, 100, 500, 700);
+
+            CreateEngine().RunOnce();
+
+            CollectionAssert.Contains(_windows.Resized, new ResizedWindow(scene.MainView.Handle, 398, 569));
+        }
+
         /// <summary>
         /// 카카오톡 메인 창 구조:
         /// "카카오톡" EVA_Window_Dblclk ─┬─ "" EVA_ChildWindow (첫 번째 자식)

@@ -22,7 +22,13 @@ namespace KakaoTalkAdBlockPlus.AdBlock
         /// <summary>GetParent: 자식 창이면 부모, 최상위 창이면 소유자(없으면 IntPtr.Zero).</summary>
         IntPtr GetParent(IntPtr window);
 
+        /// <summary>GetWindowRect: 화면 좌표.</summary>
+        WindowRect GetRect(IntPtr window);
+
         /// <summary>WM_CLOSE를 보낸다.</summary>
         void Close(IntPtr window);
+
+        /// <summary>원본과 같이 UpdateWindow 후 SetWindowPos(HWND_TOP, SWP_NOMOVE)로 크기를 바꾼다.</summary>
+        void Resize(IntPtr window, int width, int height);
     }
 }

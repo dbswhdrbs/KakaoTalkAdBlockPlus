@@ -14,6 +14,8 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
 
         public List<IntPtr> Closed { get; } = new List<IntPtr>();
 
+        public List<ResizedWindow> Resized { get; } = new List<ResizedWindow>();
+
         public FakeWindow AddTopLevel(int processId, string className, string text, FakeWindow? owner = null)
         {
             var window = Register(new FakeWindow(NextHandle(), processId, className, text, parent: null) { Owner = owner });
@@ -43,7 +45,11 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
         public IntPtr GetParent(IntPtr window) =>
             _windows[window].Parent?.Handle ?? _windows[window].Owner?.Handle ?? IntPtr.Zero;
 
+        public WindowRect GetRect(IntPtr window) => _windows[window].Rect;
+
         public void Close(IntPtr window) => Closed.Add(window);
+
+        public void Resize(IntPtr window, int width, int height) => Resized.Add(new ResizedWindow(window, width, height));
 
         private static IEnumerable<FakeWindow> Descendants(FakeWindow window) =>
             window.Children.SelectMany(child => new[] { child }.Concat(Descendants(child)));
@@ -82,5 +88,32 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
         public FakeWindow? Owner { get; set; }
 
         public List<FakeWindow> Children { get; } = new List<FakeWindow>();
+
+        public WindowRect Rect { get; set; } = new WindowRect(0, 0, 400, 600);
+    }
+
+    /// <summary>엔진이 Resize를 부른 기록.</summary>
+    internal readonly struct ResizedWindow : IEquatable<ResizedWindow>
+    {
+        public ResizedWindow(IntPtr window, int width, int height)
+        {
+            Window = window;
+            Width = width;
+            Height = height;
+        }
+
+        public IntPtr Window { get; }
+
+        public int Width { get; }
+
+        public int Height { get; }
+
+        public bool Equals(ResizedWindow other) => Window == other.Window && Width == other.Width && Height == other.Height;
+
+        public override bool Equals(object? obj) => obj is ResizedWindow other && Equals(other);
+
+        public override int GetHashCode() => (Window, Width, Height).GetHashCode();
+
+        public override string ToString() => $"0x{Window.ToInt64():X} → {Width}x{Height}";
     }
 }

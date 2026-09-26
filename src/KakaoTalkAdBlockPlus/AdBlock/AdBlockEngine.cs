@@ -31,24 +31,36 @@ namespace KakaoTalkAdBlockPlus.AdBlock
                 var descendants = _windows.GetDescendantWindows(window);
                 if (!HasMainOrLockView(descendants)) continue;
 
-                CloseBannerAds(window, descendants);
+                RemoveMainWindowAds(window, descendants);
             }
 
             return new AdBlockReport(isKakaoTalkRunning: false);
         }
 
-        /// <summary>메인 창의 직계 자식 중 이름 없는 EVA_ChildWindow(하단 배너 광고)에 WM_CLOSE를 보낸다.</summary>
-        private void CloseBannerAds(IntPtr mainWindow, IReadOnlyList<IntPtr> descendants)
+        /// <summary>
+        /// 메인 창의 직계 자식을 살펴
+        /// 이름 없는 EVA_ChildWindow(하단 배너 광고)에는 WM_CLOSE를 보내고,
+        /// 친구/채팅 목록(OnlineMainView)은 배너가 있던 자리까지 늘린다.
+        /// </summary>
+        private void RemoveMainWindowAds(IntPtr mainWindow, IReadOnlyList<IntPtr> descendants)
         {
+            var mainRect = _windows.GetRect(mainWindow);
+
             // 원본(#99 수정)과 같이 첫 번째 자식은 건너뛴다.
             foreach (var child in descendants.Skip(1))
             {
-                if (IsBannerAd(mainWindow, child)) _windows.Close(child);
+                if (_windows.GetParent(child) != mainWindow) continue;
+
+                if (IsBannerAd(child)) _windows.Close(child);
+
+                if (_windows.GetText(child).StartsWith(MainViewTextPrefix, StringComparison.Ordinal))
+                {
+                    _windows.Resize(child, mainRect.Width - 2, mainRect.Height - 31);
+                }
             }
         }
 
-        private bool IsBannerAd(IntPtr mainWindow, IntPtr child) =>
-            _windows.GetParent(child) == mainWindow &&
+        private bool IsBannerAd(IntPtr child) =>
             _windows.GetClassName(child) == ChildWindowClass &&
             _windows.GetText(child).Length == 0 &&
             !HasCustomScroll(child);
