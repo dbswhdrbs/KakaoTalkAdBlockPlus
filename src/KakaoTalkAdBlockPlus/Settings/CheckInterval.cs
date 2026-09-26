@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 
 namespace KakaoTalkAdBlockPlus.Settings
@@ -23,6 +24,14 @@ namespace KakaoTalkAdBlockPlus.Settings
             if (milliseconds < MinMilliseconds) return new CheckInterval(MinMilliseconds);
             if (milliseconds > MaxMilliseconds) return new CheckInterval(MaxMilliseconds);
             return new CheckInterval(milliseconds);
+        }
+
+        /// <summary>초 단위 입력 문자열 (예: "0.25" → 250ms)을 해석한다.</summary>
+        public static IntervalParseResult ParseSeconds(string? text)
+        {
+            var seconds = decimal.Parse(text, NumberStyles.Float, CultureInfo.InvariantCulture);
+            var milliseconds = (int)decimal.Round(seconds * 1000m, MidpointRounding.AwayFromZero);
+            return new IntervalParseResult(IntervalParseStatus.Ok, new CheckInterval(milliseconds));
         }
 
         /// <summary>초 단위 표시 문자열 (예: 100ms → "0.1").</summary>

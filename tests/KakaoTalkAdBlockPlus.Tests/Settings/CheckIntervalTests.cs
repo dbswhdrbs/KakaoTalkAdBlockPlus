@@ -34,5 +34,14 @@ namespace KakaoTalkAdBlockPlus.Tests.Settings
         {
             Assert.AreEqual(expected, CheckInterval.FromMilliseconds(milliseconds).ToSecondsText());
         }
+
+        [TestMethod]
+        public void ShouldParseSecondsText()
+        {
+            var result = CheckInterval.ParseSeconds("0.25");
+
+            Assert.AreEqual(IntervalParseStatus.Ok, result.Status);
+            Assert.AreEqual(250, result.Interval.Milliseconds);
+        }
     }
 }
