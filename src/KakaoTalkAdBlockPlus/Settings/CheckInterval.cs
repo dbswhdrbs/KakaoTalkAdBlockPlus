@@ -32,19 +32,18 @@ namespace KakaoTalkAdBlockPlus.Settings
         public static IntervalParseResult ParseSeconds(string? text)
         {
             var normalized = NormalizeSecondsText(text);
-            if (normalized.Length == 0) return new IntervalParseResult(IntervalParseStatus.Empty, Default);
+            if (normalized.Length == 0) return IntervalParseResult.Failure(IntervalParseStatus.Empty);
 
             if (!decimal.TryParse(normalized, NumberStyles.Float, CultureInfo.InvariantCulture, out var seconds))
             {
-                return new IntervalParseResult(IntervalParseStatus.NotANumber, Default);
+                return IntervalParseResult.Failure(IntervalParseStatus.NotANumber);
             }
 
-            if (seconds > MaxMilliseconds / 1000m) return new IntervalParseResult(IntervalParseStatus.TooLarge, Default);
-            if (seconds < MinMilliseconds / 1000m) return new IntervalParseResult(IntervalParseStatus.TooSmall, Default);
+            if (seconds > MaxMilliseconds / 1000m) return IntervalParseResult.Failure(IntervalParseStatus.TooLarge);
+            if (seconds < MinMilliseconds / 1000m) return IntervalParseResult.Failure(IntervalParseStatus.TooSmall);
 
             var milliseconds = (int)decimal.Round(seconds * 1000m, MidpointRounding.AwayFromZero);
-
-            return new IntervalParseResult(IntervalParseStatus.Ok, new CheckInterval(milliseconds));
+            return IntervalParseResult.Success(new CheckInterval(milliseconds));
         }
 
         /// <summary>앞뒤 공백과 "초"/"s" 단위를 떼고, 쉼표 소수점을 점으로 바꾼다.</summary>
