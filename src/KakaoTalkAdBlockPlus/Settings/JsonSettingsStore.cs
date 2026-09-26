@@ -25,8 +25,8 @@ namespace KakaoTalkAdBlockPlus.Settings
             try
             {
                 using var stream = File.OpenRead(_filePath);
-                var document = (SettingsDocument)Serializer.ReadObject(stream);
-                return document.CheckIntervalMs is int milliseconds
+                var document = (SettingsDocument?)Serializer.ReadObject(stream);
+                return document?.CheckIntervalMs is int milliseconds
                     ? new AppSettings(CheckInterval.FromMilliseconds(milliseconds))
                     : AppSettings.Default;
             }

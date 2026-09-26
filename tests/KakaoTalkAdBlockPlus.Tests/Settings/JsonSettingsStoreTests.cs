@@ -82,6 +82,7 @@ namespace KakaoTalkAdBlockPlus.Tests.Settings
         [DataRow("{}")]
         [DataRow("{ \"somethingElse\": 1 }")]
         [DataRow("[1, 2, 3]")]
+        [DataRow("null")]
         public void ShouldUseDefaultIntervalWhenFieldIsMissing(string content)
         {
             File.WriteAllText(SettingsPath, content);
