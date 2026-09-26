@@ -23,6 +23,8 @@ namespace KakaoTalkAdBlockPlus.AdBlock
         public AdBlockReport RunOnce()
         {
             var kakaoTalkProcessIds = _kakaoTalkProcesses.GetProcessIds();
+            if (kakaoTalkProcessIds.Count == 0) return new AdBlockReport(isKakaoTalkRunning: false, new IntPtr[0]);
+
             var kakaoTalkWindows = _windows.GetTopLevelWindows()
                 .Where(window => kakaoTalkProcessIds.Contains(_windows.GetProcessId(window)))
                 .ToList();
@@ -39,7 +41,7 @@ namespace KakaoTalkAdBlockPlus.AdBlock
 
             HidePopupAds(kakaoTalkWindows, mainWindows, removedAds);
 
-            return new AdBlockReport(isKakaoTalkRunning: kakaoTalkProcessIds.Count > 0, removedAds);
+            return new AdBlockReport(isKakaoTalkRunning: true, removedAds);
         }
 
         /// <summary>
