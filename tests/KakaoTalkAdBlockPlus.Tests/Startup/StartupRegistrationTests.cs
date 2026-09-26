@@ -18,5 +18,15 @@ namespace KakaoTalkAdBlockPlus.Tests.Startup
         {
             Assert.IsFalse(CreateRegistration().IsEnabled);
         }
+
+        [TestMethod]
+        public void ShouldWriteQuotedPathWithAutostartArgumentWhenEnabled()
+        {
+            CreateRegistration().Enable();
+
+            Assert.AreEqual(
+                "\"" + ExecutablePath + "\" --autostart",
+                _registry.GetString(@"Software\Microsoft\Windows\CurrentVersion\Run", AppName));
+        }
     }
 }

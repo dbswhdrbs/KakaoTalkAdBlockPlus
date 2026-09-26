@@ -5,5 +5,8 @@ namespace KakaoTalkAdBlockPlus.Startup
     {
         /// <summary>값이 없거나 문자열이 아니면 null.</summary>
         string? GetString(string keyPath, string valueName);
+
+        /// <summary>키가 없으면 만든다.</summary>
+        void SetString(string keyPath, string valueName, string value);
     }
 }

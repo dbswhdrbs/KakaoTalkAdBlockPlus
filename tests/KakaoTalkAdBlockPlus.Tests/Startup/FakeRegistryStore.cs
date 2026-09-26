@@ -11,6 +11,8 @@ namespace KakaoTalkAdBlockPlus.Tests.Startup
         public string? GetString(string keyPath, string valueName) =>
             _values.TryGetValue(Key(keyPath, valueName), out var value) ? value as string : null;
 
+        public void SetString(string keyPath, string valueName, string value) => _values[Key(keyPath, valueName)] = value;
+
         private static string Key(string keyPath, string valueName) => keyPath.ToLowerInvariant() + "|" + valueName.ToLowerInvariant();
     }
 }
