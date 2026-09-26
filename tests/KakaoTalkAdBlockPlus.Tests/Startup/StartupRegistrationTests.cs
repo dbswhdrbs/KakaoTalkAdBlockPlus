@@ -38,5 +38,17 @@ namespace KakaoTalkAdBlockPlus.Tests.Startup
 
             Assert.IsTrue(registration.IsEnabled);
         }
+
+        [TestMethod]
+        public void ShouldDeleteRunValueWhenDisabled()
+        {
+            var registration = CreateRegistration();
+            registration.Enable();
+
+            registration.Disable();
+
+            Assert.IsNull(_registry.GetString(StartupRegistration.RunKeyPath, AppName));
+            Assert.IsFalse(registration.IsEnabled);
+        }
     }
 }

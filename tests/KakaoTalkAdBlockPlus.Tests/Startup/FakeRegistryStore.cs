@@ -13,6 +13,8 @@ namespace KakaoTalkAdBlockPlus.Tests.Startup
 
         public void SetString(string keyPath, string valueName, string value) => _values[Key(keyPath, valueName)] = value;
 
+        public void DeleteValue(string keyPath, string valueName) => _values.Remove(Key(keyPath, valueName));
+
         private static string Key(string keyPath, string valueName) => keyPath.ToLowerInvariant() + "|" + valueName.ToLowerInvariant();
     }
 }

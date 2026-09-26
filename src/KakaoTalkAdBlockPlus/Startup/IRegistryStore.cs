@@ -8,5 +8,8 @@ namespace KakaoTalkAdBlockPlus.Startup
 
         /// <summary>키가 없으면 만든다.</summary>
         void SetString(string keyPath, string valueName, string value);
+
+        /// <summary>키나 값이 없으면 아무 일도 하지 않는다.</summary>
+        void DeleteValue(string keyPath, string valueName);
     }
 }
