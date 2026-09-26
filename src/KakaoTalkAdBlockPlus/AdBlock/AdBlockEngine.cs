@@ -89,12 +89,24 @@ namespace KakaoTalkAdBlockPlus.AdBlock
             if (text.StartsWith(MainViewTextPrefix, StringComparison.Ordinal))
             {
                 var height = mainRect.Height - MainViewPadding;
-                if (height >= 1) _windows.Resize(view, width, height);
+                if (height >= 1) ResizeIfNeeded(view, width, height);
             }
             else if (text.StartsWith(LockViewTextPrefix, StringComparison.Ordinal))
             {
-                _windows.Resize(view, width, mainRect.Height);
+                ResizeIfNeeded(view, width, mainRect.Height);
             }
+        }
+
+        /// <summary>
+        /// 원본은 매번 크기를 다시 맞췄지만, 이미 맞으면 건너뛴다:
+        /// 카카오톡에 검사마다 창 메시지를 보내지 않고, 카카오톡이 멈췄을 때 기다릴 일도 줄인다.
+        /// </summary>
+        private void ResizeIfNeeded(IntPtr view, int width, int height)
+        {
+            var current = _windows.GetRect(view);
+            if (current.Width == width && current.Height == height) return;
+
+            _windows.Resize(view, width, height);
         }
 
         private bool IsBannerAd(IntPtr child) =>

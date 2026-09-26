@@ -145,7 +145,7 @@
 
 ### 15. 코드 리뷰 반영
 - [x] 설정 파일 내용이 `null`이어도 기본 설정을 읽는다 — `ShouldUseDefaultIntervalWhenFieldIsMissing` (DataRow 추가)
-- [ ] 이미 맞는 크기인 화면은 다시 크기를 바꾸지 않는다 (카카오톡에 매번 메시지를 보내지 않게) — `ShouldNotResizeViewAlreadyAtTargetSize`
+- [x] 이미 맞는 크기인 화면은 다시 크기를 바꾸지 않는다 (카카오톡에 매번 메시지를 보내지 않게) — `ShouldNotResizeViewAlreadyAtTargetSize`
 - [ ] 창 주인 스레드가 멈춰 있어도 숨기기/크기 조정이 기다리지 않는다 — `ShouldNotWaitForHungWindowOwner`
 - [ ] 엔진이 멈춰 있어도 서비스 중지는 제한 시간 안에 끝난다 (종료가 멈추지 않게) — `ShouldStopEvenWhenEngineIsStuck`
 - [ ] 다른 권한(관리자)으로 실행 중인 인스턴스가 있으면 첫 인스턴스가 아니고, 신호도 보낼 수 없다 — `ShouldTreatInaccessibleInstanceAsAlreadyRunning`

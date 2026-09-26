@@ -140,6 +140,19 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
         }
 
         [TestMethod]
+        public void ShouldNotResizeViewAlreadyAtTargetSize()
+        {
+            _kakaoTalkProcesses.Add(KakaoTalkPid);
+            var scene = AddMainWindowWithBanner(KakaoTalkPid);
+            scene.Main.Rect = new WindowRect(100, 100, 500, 700);
+            scene.MainView.Rect = new WindowRect(101, 131, 499, 700);
+
+            CreateEngine().RunOnce();
+
+            Assert.AreEqual(0, _windows.Resized.Count);
+        }
+
+        [TestMethod]
         public void ShouldSkipOnlineMainViewResizeWhenWindowTooSmall()
         {
             _kakaoTalkProcesses.Add(KakaoTalkPid);
