@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Threading;
 using KakaoTalkAdBlockPlus.AdBlock;
 using KakaoTalkAdBlockPlus.Settings;
@@ -59,6 +60,27 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
             service.Start();
 
             Assert.IsTrue(_engine.WaitForCalls(3, Timeout), $"엔진 실행 횟수: {_engine.Calls}");
+        }
+
+        [TestMethod]
+        public void ShouldStopEvenWhenEngineIsStuck()
+        {
+            using var release = new ManualResetEventSlim();
+            _engine.Behavior = () =>
+            {
+                release.Wait(TimeSpan.FromSeconds(5));
+                return new AdBlockReport(isKakaoTalkRunning: false, new IntPtr[0]);
+            };
+            var service = new AdBlockService(_engine, Fastest, stopTimeout: TimeSpan.FromMilliseconds(200));
+            service.Start();
+            Assert.IsTrue(_engine.WaitForCalls(1, Timeout));
+
+            var watch = Stopwatch.StartNew();
+            service.Dispose();
+            watch.Stop();
+            release.Set();
+
+            Assert.IsTrue(watch.Elapsed < TimeSpan.FromSeconds(2), $"중지에 걸린 시간: {watch.Elapsed}");
         }
 
         [TestMethod]
