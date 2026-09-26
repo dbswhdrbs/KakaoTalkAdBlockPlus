@@ -8,27 +8,10 @@ namespace KakaoTalkAdBlockPlus.Native
     /// <summary>IWindowApi의 실제 구현 (user32.dll).</summary>
     public sealed class Win32WindowApi : IWindowApi
     {
-        public IReadOnlyList<IntPtr> GetTopLevelWindows()
-        {
-            var windows = new List<IntPtr>();
-            User32.EnumWindows((window, _) =>
-            {
-                windows.Add(window);
-                return true;
-            }, IntPtr.Zero);
-            return windows;
-        }
+        public IReadOnlyList<IntPtr> GetTopLevelWindows() => Collect(callback => User32.EnumWindows(callback, IntPtr.Zero));
 
-        public IReadOnlyList<IntPtr> GetDescendantWindows(IntPtr parent)
-        {
-            var windows = new List<IntPtr>();
-            User32.EnumChildWindows(parent, (window, _) =>
-            {
-                windows.Add(window);
-                return true;
-            }, IntPtr.Zero);
-            return windows;
-        }
+        public IReadOnlyList<IntPtr> GetDescendantWindows(IntPtr parent) =>
+            Collect(callback => User32.EnumChildWindows(parent, callback, IntPtr.Zero));
 
         public int GetProcessId(IntPtr window)
         {
@@ -53,6 +36,17 @@ namespace KakaoTalkAdBlockPlus.Native
         public IntPtr GetParent(IntPtr window) => User32.GetParent(window);
 
         public WindowRect GetRect(IntPtr window) => throw new NotImplementedException();
+
+        private static IReadOnlyList<IntPtr> Collect(Action<User32.EnumWindowsProc> enumerate)
+        {
+            var windows = new List<IntPtr>();
+            enumerate((window, _) =>
+            {
+                windows.Add(window);
+                return true;
+            });
+            return windows;
+        }
 
         public bool IsVisible(IntPtr window) => throw new NotImplementedException();
 
