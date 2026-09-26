@@ -57,5 +57,15 @@ namespace KakaoTalkAdBlockPlus.Tests.Settings
             Assert.AreEqual(IntervalParseStatus.Ok, result.Status);
             Assert.AreEqual(expectedMilliseconds, result.Interval.Milliseconds);
         }
+
+        [DataTestMethod]
+        [DataRow(null)]
+        [DataRow("")]
+        [DataRow("   ")]
+        [DataRow("초")]
+        public void ShouldRejectEmptyText(string? text)
+        {
+            Assert.AreEqual(IntervalParseStatus.Empty, CheckInterval.ParseSeconds(text).Status);
+        }
     }
 }

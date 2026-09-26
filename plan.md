@@ -24,7 +24,7 @@
 - [x] 초 단위 문자열로 표시한다 (100ms→"0.1", 1500ms→"1.5") — `ShouldFormatAsSecondsText`
 - [x] 초 단위 문자열을 해석한다 ("0.25"→250ms) — `ShouldParseSecondsText`
 - [x] 쉼표 소수점, "초"/"s" 단위, 앞뒤 공백을 허용한다 — `ShouldParseCommaDecimalAndUnitSuffix`
-- [ ] 빈 문자열은 `Empty`로 거부한다 — `ShouldRejectEmptyText`
+- [x] 빈 문자열은 `Empty`로 거부한다 — `ShouldRejectEmptyText`
 - [ ] 숫자가 아니면 `NotANumber`로 거부한다 — `ShouldRejectNonNumericText`
 - [ ] 최소보다 작으면 `TooSmall`로 거부한다 — `ShouldRejectTooSmallText`
 - [ ] 최대보다 크면 `TooLarge`로 거부한다 — `ShouldRejectTooLargeText`

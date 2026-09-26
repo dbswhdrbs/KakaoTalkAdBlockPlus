@@ -31,7 +31,10 @@ namespace KakaoTalkAdBlockPlus.Settings
         /// <summary>초 단위 입력 문자열 (예: "0.25" → 250ms)을 해석한다.</summary>
         public static IntervalParseResult ParseSeconds(string? text)
         {
-            var seconds = decimal.Parse(NormalizeSecondsText(text), NumberStyles.Float, CultureInfo.InvariantCulture);
+            var normalized = NormalizeSecondsText(text);
+            if (normalized.Length == 0) return new IntervalParseResult(IntervalParseStatus.Empty, Default);
+
+            var seconds = decimal.Parse(normalized, NumberStyles.Float, CultureInfo.InvariantCulture);
             var milliseconds = (int)decimal.Round(seconds * 1000m, MidpointRounding.AwayFromZero);
             return new IntervalParseResult(IntervalParseStatus.Ok, new CheckInterval(milliseconds));
         }

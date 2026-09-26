@@ -3,6 +3,7 @@ namespace KakaoTalkAdBlockPlus.Settings
     public enum IntervalParseStatus
     {
         Ok,
+        Empty,
     }
 
     /// <summary>사용자가 입력한 확인 주기 문자열을 해석한 결과.</summary>
