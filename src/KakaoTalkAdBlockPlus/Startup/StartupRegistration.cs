@@ -1,7 +1,7 @@
 namespace KakaoTalkAdBlockPlus.Startup
 {
     /// <summary>윈도우 시작 시 자동 실행 (HKCU\...\CurrentVersion\Run).</summary>
-    public sealed class StartupRegistration
+    public sealed class StartupRegistration : IStartupRegistration
     {
         public const string RunKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Run";
 
