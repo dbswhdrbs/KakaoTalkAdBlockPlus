@@ -120,10 +120,6 @@ plan.md                             테스트 목록 (TDD)
 테스트 주도 개발(TDD)로 만들었습니다. `plan.md`의 테스트를 하나씩 레드 → 그린 → 리팩터 순서로 구현했고,
 커밋은 행위 변경(`[행위]`)과 구조 변경(`[구조]`)을 나눴습니다.
 
-## 참고
-
-카카오톡 광고 창을 찾는 방법은 [blurfx/KakaoTalkAdBlock](https://github.com/blurfx/KakaoTalkAdBlock)의 분석을 참고했습니다.
-
 ## 라이선스
 
 [MIT](LICENSE)
