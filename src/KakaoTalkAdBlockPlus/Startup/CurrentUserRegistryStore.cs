@@ -23,6 +23,10 @@ namespace KakaoTalkAdBlockPlus.Startup
             key?.DeleteValue(valueName, throwOnMissingValue: false);
         }
 
-        public byte[]? GetBinary(string keyPath, string valueName) => null;
+        public byte[]? GetBinary(string keyPath, string valueName)
+        {
+            using var key = Registry.CurrentUser.OpenSubKey(keyPath);
+            return key?.GetValue(valueName) as byte[];
+        }
     }
 }

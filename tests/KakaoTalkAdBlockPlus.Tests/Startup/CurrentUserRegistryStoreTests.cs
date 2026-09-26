@@ -47,5 +47,17 @@ namespace KakaoTalkAdBlockPlus.Tests.Startup
             _store.DeleteValue(_keyPath + @"\Missing", "App");
             _store.DeleteValue(_keyPath, "App");
         }
+
+        [TestMethod]
+        public void ShouldReadBinaryValue()
+        {
+            using (var key = Registry.CurrentUser.CreateSubKey(_keyPath))
+            {
+                key.SetValue("App", new byte[] { 0x03, 0x00, 0x01 }, RegistryValueKind.Binary);
+            }
+
+            CollectionAssert.AreEqual(new byte[] { 0x03, 0x00, 0x01 }, _store.GetBinary(_keyPath, "App"));
+            Assert.IsNull(_store.GetString(_keyPath, "App"));
+        }
     }
 }
