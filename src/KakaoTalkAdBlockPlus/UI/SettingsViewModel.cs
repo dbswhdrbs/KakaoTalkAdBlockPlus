@@ -21,5 +21,17 @@ namespace KakaoTalkAdBlockPlus.UI
 
         /// <summary>확인 주기 입력칸 (초 단위).</summary>
         public string IntervalText { get; set; }
+
+        /// <summary>입력칸 값이 잘못됐을 때 보여 줄 문구. 문제가 없으면 null.</summary>
+        public string? IntervalError { get; private set; }
+
+        /// <summary>입력칸에서 Enter를 누르거나 포커스가 떠날 때 부른다.</summary>
+        public void ApplyIntervalText()
+        {
+            var interval = CheckInterval.ParseSeconds(IntervalText).Interval;
+            _service.Interval = interval;
+            _store.Save(new AppSettings(interval));
+            IntervalText = interval.ToSecondsText();
+        }
     }
 }
