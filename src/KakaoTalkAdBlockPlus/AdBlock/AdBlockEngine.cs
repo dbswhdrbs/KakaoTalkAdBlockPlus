@@ -37,13 +37,7 @@ namespace KakaoTalkAdBlockPlus.AdBlock
                 RemoveMainWindowAds(window, descendants, removedAds);
             }
 
-            foreach (var popup in kakaoTalkWindows.Where(window => IsPopupAdCandidate(window, mainWindows)))
-            {
-                if (!_windows.IsVisible(popup) || !ContainsChromeLegacyWindow(popup)) continue;
-
-                _windows.Hide(popup);
-                removedAds.Add(popup);
-            }
+            HidePopupAds(kakaoTalkWindows, mainWindows, removedAds);
 
             return new AdBlockReport(isKakaoTalkRunning: kakaoTalkProcessIds.Count > 0, removedAds);
         }
@@ -69,6 +63,18 @@ namespace KakaoTalkAdBlockPlus.AdBlock
                 }
 
                 ExpandViewOverAdArea(child, mainRect);
+            }
+        }
+
+        /// <summary>광고 웹뷰를 품은 팝업 창을 숨긴다.</summary>
+        private void HidePopupAds(IEnumerable<IntPtr> kakaoTalkWindows, ICollection<IntPtr> mainWindows, List<IntPtr> removedAds)
+        {
+            foreach (var popup in kakaoTalkWindows.Where(window => IsPopupAdCandidate(window, mainWindows)))
+            {
+                if (!_windows.IsVisible(popup) || !ContainsChromeLegacyWindow(popup)) continue;
+
+                _windows.Hide(popup);
+                removedAds.Add(popup);
             }
         }
 
