@@ -10,6 +10,8 @@ namespace KakaoTalkAdBlockPlus.AdBlock
     {
         private readonly IAdBlockEngine _engine;
         private readonly AutoResetEvent _wakeUp = new AutoResetEvent(initialState: false);
+        private readonly AdBlockStatusTracker _tracker = new AdBlockStatusTracker();
+        private volatile AdBlockStatus _status = AdBlockStatus.Initial;
         private volatile int _intervalMilliseconds;
         private volatile bool _stopRequested;
         private Thread? _thread;
@@ -30,6 +32,9 @@ namespace KakaoTalkAdBlockPlus.AdBlock
                 _wakeUp.Set();
             }
         }
+
+        /// <summary>어느 스레드에서 읽어도 되는 최신 상태.</summary>
+        public AdBlockStatus Status => _status;
 
         public void Start()
         {
@@ -53,7 +58,8 @@ namespace KakaoTalkAdBlockPlus.AdBlock
             {
                 try
                 {
-                    _engine.RunOnce();
+                    _tracker.Apply(_engine.RunOnce());
+                    _status = _tracker.Current;
                 }
                 catch (Exception exception)
                 {

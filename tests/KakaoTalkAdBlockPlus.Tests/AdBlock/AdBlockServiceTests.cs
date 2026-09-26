@@ -61,6 +61,19 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
             Assert.IsTrue(_engine.WaitForCalls(3, Timeout), $"엔진 실행 횟수: {_engine.Calls}");
         }
 
+        [TestMethod]
+        public void ShouldPublishStatusFromEngineReports()
+        {
+            _engine.Behavior = () => new AdBlockReport(isKakaoTalkRunning: true, new[] { new IntPtr(0x1234) });
+            using var service = new AdBlockService(_engine, Fastest);
+            Assert.IsFalse(service.Status.IsKakaoTalkRunning);
+
+            service.Start();
+
+            Assert.IsTrue(SpinWait.SpinUntil(() => service.Status.IsKakaoTalkRunning, Timeout));
+            Assert.AreEqual(1, service.Status.RemovedAdCount);
+        }
+
         private sealed class CountingEngine : IAdBlockEngine
         {
             private int _calls;
