@@ -1,3 +1,6 @@
+using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using KakaoTalkAdBlockPlus.AdBlock;
 using KakaoTalkAdBlockPlus.Settings;
 using KakaoTalkAdBlockPlus.Startup;
@@ -5,7 +8,7 @@ using KakaoTalkAdBlockPlus.Startup;
 namespace KakaoTalkAdBlockPlus.UI
 {
     /// <summary>설정창: 확인 주기, 윈도우 시작 시 자동 실행, 현재 상태.</summary>
-    public sealed class SettingsViewModel
+    public sealed class SettingsViewModel : INotifyPropertyChanged
     {
         private readonly ISettingsStore _store;
         private readonly IAdBlockService _service;
@@ -22,6 +25,8 @@ namespace KakaoTalkAdBlockPlus.UI
             IntervalText = _interval.ToSecondsText();
             _intervalStepIndex = IntervalSteps.IndexOfNearest(_interval);
         }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>확인 주기 입력칸 (초 단위).</summary>
         public string IntervalText { get; set; }
@@ -46,10 +51,25 @@ namespace KakaoTalkAdBlockPlus.UI
             get => _startup.IsEnabled;
             set
             {
-                if (value) _startup.Enable();
-                else _startup.Disable();
+                try
+                {
+                    if (value) _startup.Enable();
+                    else _startup.Disable();
+                    StartupError = null;
+                }
+                catch (Exception exception)
+                {
+                    Trace.TraceWarning("자동 실행 설정 실패: {0}", exception);
+                    StartupError = "윈도우 시작 설정을 바꾸지 못했어요. 잠시 후 다시 시도해 주세요.";
+                }
+
+                // 실패했으면 스위치가 실제 상태로 돌아가도록 알린다.
+                OnPropertyChanged(nameof(StartWithWindows));
             }
         }
+
+        /// <summary>자동 실행을 바꾸지 못했을 때 보여 줄 문구. 문제가 없으면 null.</summary>
+        public string? StartupError { get; private set; }
 
         /// <summary>입력칸 값이 잘못됐을 때 보여 줄 문구. 문제가 없으면 null.</summary>
         public string? IntervalError { get; private set; }
@@ -79,6 +99,9 @@ namespace KakaoTalkAdBlockPlus.UI
             IntervalText = interval.ToSecondsText();
             _intervalStepIndex = IntervalSteps.IndexOfNearest(interval);
         }
+
+        private void OnPropertyChanged(string propertyName) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         private static string ErrorMessageFor(IntervalParseStatus status) =>
             status is IntervalParseStatus.TooSmall or IntervalParseStatus.TooLarge

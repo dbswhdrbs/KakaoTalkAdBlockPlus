@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using KakaoTalkAdBlockPlus.Settings;
 using KakaoTalkAdBlockPlus.UI;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -123,6 +125,21 @@ namespace KakaoTalkAdBlockPlus.Tests.UI
 
             viewModel.StartWithWindows = false;
             Assert.IsFalse(_startup.IsEnabled);
+        }
+
+        [TestMethod]
+        public void ShouldRevertStartupToggleWhenRegistryFails()
+        {
+            var viewModel = CreateViewModel();
+            var changed = new List<string?>();
+            viewModel.PropertyChanged += (_, e) => changed.Add(e.PropertyName);
+            _startup.Failure = new UnauthorizedAccessException("레지스트리 접근 거부");
+
+            viewModel.StartWithWindows = true;
+
+            Assert.IsFalse(viewModel.StartWithWindows);
+            Assert.AreEqual("윈도우 시작 설정을 바꾸지 못했어요. 잠시 후 다시 시도해 주세요.", viewModel.StartupError);
+            CollectionAssert.Contains(changed, nameof(SettingsViewModel.StartWithWindows), "스위치가 원래대로 돌아가도록 알려야 한다");
         }
     }
 }
