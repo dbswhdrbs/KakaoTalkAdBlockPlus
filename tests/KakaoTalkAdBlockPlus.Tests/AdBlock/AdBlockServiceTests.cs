@@ -24,6 +24,20 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
             Assert.IsTrue(_engine.WaitForCalls(3, Timeout), $"엔진 실행 횟수: {_engine.Calls}");
         }
 
+        [TestMethod]
+        public void ShouldStopRunningAfterStop()
+        {
+            var service = new AdBlockService(_engine, Fastest);
+            service.Start();
+            Assert.IsTrue(_engine.WaitForCalls(1, Timeout));
+
+            service.Stop();
+            var callsAfterStop = _engine.Calls;
+            Thread.Sleep(Fastest.Milliseconds * 4);
+
+            Assert.AreEqual(callsAfterStop, _engine.Calls);
+        }
+
         private sealed class CountingEngine : IAdBlockEngine
         {
             private int _calls;
