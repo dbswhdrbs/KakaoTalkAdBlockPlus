@@ -104,7 +104,7 @@
 - [x] 같은 창은 한 번만 센다 — `ShouldCountSameWindowOnce`
 
 ### 11. 상태 문구 — `StatusText`
-- [ ] 카카오톡이 없으면 "카카오톡 실행을 기다리는 중" — `ShouldDescribeWaitingForKakaoTalk`
+- [x] 카카오톡이 없으면 "카카오톡 실행을 기다리는 중" — `ShouldDescribeWaitingForKakaoTalk`
 - [ ] 카카오톡이 있으면 제거 수와 함께 "광고를 차단하고 있어요" — `ShouldDescribeBlockingWithCount`
 
 ### 12. 백그라운드 실행 — `AdBlockService`
