@@ -9,6 +9,8 @@ namespace KakaoTalkAdBlockPlus.Settings
         public const int MinMilliseconds = 50;
         public const int MaxMilliseconds = 60_000;
 
+        private static readonly string[] SecondUnits = { "초", "s" };
+
         private CheckInterval(int milliseconds)
         {
             Milliseconds = milliseconds;
@@ -38,7 +40,7 @@ namespace KakaoTalkAdBlockPlus.Settings
         private static string NormalizeSecondsText(string? text)
         {
             var normalized = (text ?? string.Empty).Trim();
-            foreach (var unit in new[] { "초", "s" })
+            foreach (var unit in SecondUnits)
             {
                 if (normalized.EndsWith(unit, StringComparison.OrdinalIgnoreCase))
                 {
