@@ -29,9 +29,25 @@ namespace KakaoTalkAdBlockPlus.Settings
         /// <summary>초 단위 입력 문자열 (예: "0.25" → 250ms)을 해석한다.</summary>
         public static IntervalParseResult ParseSeconds(string? text)
         {
-            var seconds = decimal.Parse(text, NumberStyles.Float, CultureInfo.InvariantCulture);
+            var seconds = decimal.Parse(NormalizeSecondsText(text), NumberStyles.Float, CultureInfo.InvariantCulture);
             var milliseconds = (int)decimal.Round(seconds * 1000m, MidpointRounding.AwayFromZero);
             return new IntervalParseResult(IntervalParseStatus.Ok, new CheckInterval(milliseconds));
+        }
+
+        /// <summary>앞뒤 공백과 "초"/"s" 단위를 떼고, 쉼표 소수점을 점으로 바꾼다.</summary>
+        private static string NormalizeSecondsText(string? text)
+        {
+            var normalized = (text ?? string.Empty).Trim();
+            foreach (var unit in new[] { "초", "s" })
+            {
+                if (normalized.EndsWith(unit, StringComparison.OrdinalIgnoreCase))
+                {
+                    normalized = normalized.Substring(0, normalized.Length - unit.Length).TrimEnd();
+                    break;
+                }
+            }
+
+            return normalized.Replace(',', '.');
         }
 
         /// <summary>초 단위 표시 문자열 (예: 100ms → "0.1").</summary>

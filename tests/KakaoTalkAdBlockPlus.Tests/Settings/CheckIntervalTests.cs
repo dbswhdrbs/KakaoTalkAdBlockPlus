@@ -43,5 +43,19 @@ namespace KakaoTalkAdBlockPlus.Tests.Settings
             Assert.AreEqual(IntervalParseStatus.Ok, result.Status);
             Assert.AreEqual(250, result.Interval.Milliseconds);
         }
+
+        [DataTestMethod]
+        [DataRow("0,5", 500)]
+        [DataRow(" 1.5초 ", 1500)]
+        [DataRow("0.3 초", 300)]
+        [DataRow("2s", 2000)]
+        [DataRow("1 S", 1000)]
+        public void ShouldParseCommaDecimalAndUnitSuffix(string text, int expectedMilliseconds)
+        {
+            var result = CheckInterval.ParseSeconds(text);
+
+            Assert.AreEqual(IntervalParseStatus.Ok, result.Status);
+            Assert.AreEqual(expectedMilliseconds, result.Interval.Milliseconds);
+        }
     }
 }
