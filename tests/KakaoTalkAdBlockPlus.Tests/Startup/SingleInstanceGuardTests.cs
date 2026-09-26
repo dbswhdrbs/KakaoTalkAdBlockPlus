@@ -1,4 +1,6 @@
 using System;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Threading;
 using KakaoTalkAdBlockPlus.Startup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -39,6 +41,22 @@ namespace KakaoTalkAdBlockPlus.Tests.Startup
             second.SignalFirstInstance();
 
             Assert.IsTrue(signaled.Wait(TimeSpan.FromSeconds(3)));
+        }
+
+        [TestMethod]
+        public void ShouldTreatInaccessibleInstanceAsAlreadyRunning()
+        {
+            // 관리자 권한으로 실행된 인스턴스처럼, 현재 사용자가 열 수 없는 이름을 먼저 만들어 둔다.
+            var systemOnly = new MutexSecurity();
+            systemOnly.AddAccessRule(new MutexAccessRule(
+                new SecurityIdentifier(WellKnownSidType.LocalSystemSid, null), MutexRights.FullControl, AccessControlType.Allow));
+            using var elevatedInstance = new Mutex(false, @"Local\" + _name, out _, systemOnly);
+
+            using var guard = SingleInstanceGuard.Acquire(_name);
+
+            Assert.IsFalse(guard.IsFirstInstance);
+            Assert.IsFalse(guard.CanSignalFirstInstance);
+            guard.SignalFirstInstance();
         }
 
         [TestMethod]

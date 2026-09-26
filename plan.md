@@ -148,7 +148,7 @@
 - [x] 이미 맞는 크기인 화면은 다시 크기를 바꾸지 않는다 (카카오톡에 매번 메시지를 보내지 않게) — `ShouldNotResizeViewAlreadyAtTargetSize`
 - [x] 창 주인 스레드가 멈춰 있어도 숨기기/크기 조정이 기다리지 않는다 — `ShouldNotWaitForHungWindowOwner`
 - [x] 엔진이 멈춰 있어도 서비스 중지는 제한 시간 안에 끝난다 (종료가 멈추지 않게) — `ShouldStopEvenWhenEngineIsStuck`
-- [ ] 다른 권한(관리자)으로 실행 중인 인스턴스가 있으면 첫 인스턴스가 아니고, 신호도 보낼 수 없다 — `ShouldTreatInaccessibleInstanceAsAlreadyRunning`
+- [x] 다른 권한(관리자)으로 실행 중인 인스턴스가 있으면 첫 인스턴스가 아니고, 신호도 보낼 수 없다 — `ShouldTreatInaccessibleInstanceAsAlreadyRunning`
 
 ## 테스트가 아닌 작업 (테스트 목록 완료 후)
 - [x] 아이콘 (XAML 벡터 → 다중 크기 .ico 생성 스크립트)
