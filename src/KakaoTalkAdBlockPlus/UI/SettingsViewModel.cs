@@ -52,11 +52,7 @@ namespace KakaoTalkAdBlockPlus.UI
         public int IntervalStepIndex
         {
             get => _intervalStepIndex;
-            set
-            {
-                _intervalStepIndex = value;
-                ApplyInterval(IntervalSteps.At(value));
-            }
+            set => ApplyInterval(IntervalSteps.At(value));
         }
 
         /// <summary>기본값이면 [기본값으로] 버튼을 감춘다.</summary>
