@@ -55,10 +55,13 @@ namespace KakaoTalkAdBlockPlus
 
         private static AdBlockEngine CreateEngine()
         {
+            var windows = new Win32WindowApi();
             var clock = Stopwatch.StartNew();
             var kakaoTalkProcesses = new CachedProcessIdSource(
-                new ToolhelpProcessIdSource(AppInfo.KakaoTalkExecutable), ProcessListRefreshPeriod, () => clock.Elapsed);
-            return new AdBlockEngine(new Win32WindowApi(), kakaoTalkProcesses);
+                new WindowOwnerProcessIdSource(windows, new ProcessNameResolver(), AppInfo.KakaoTalkExecutable),
+                ProcessListRefreshPeriod,
+                () => clock.Elapsed);
+            return new AdBlockEngine(windows, kakaoTalkProcesses);
         }
 
         private static IStartupRegistration CreateStartupRegistration()
