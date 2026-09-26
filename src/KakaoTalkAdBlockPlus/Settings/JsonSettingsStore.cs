@@ -25,7 +25,9 @@ namespace KakaoTalkAdBlockPlus.Settings
             {
                 using var stream = File.OpenRead(_filePath);
                 var document = (SettingsDocument)Serializer.ReadObject(stream);
-                return new AppSettings(CheckInterval.FromMilliseconds(document.CheckIntervalMs));
+                return document.CheckIntervalMs is int milliseconds
+                    ? new AppSettings(CheckInterval.FromMilliseconds(milliseconds))
+                    : AppSettings.Default;
             }
             catch (SerializationException)
             {
@@ -45,7 +47,7 @@ namespace KakaoTalkAdBlockPlus.Settings
         internal sealed class SettingsDocument
         {
             [DataMember(Name = "checkIntervalMs")]
-            public int CheckIntervalMs { get; set; }
+            public int? CheckIntervalMs { get; set; }
         }
     }
 }

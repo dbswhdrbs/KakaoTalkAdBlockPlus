@@ -77,5 +77,18 @@ namespace KakaoTalkAdBlockPlus.Tests.Settings
 
             Assert.AreEqual(expectedMilliseconds, settings.CheckInterval.Milliseconds);
         }
+
+        [DataTestMethod]
+        [DataRow("{}")]
+        [DataRow("{ \"somethingElse\": 1 }")]
+        [DataRow("[1, 2, 3]")]
+        public void ShouldUseDefaultIntervalWhenFieldIsMissing(string content)
+        {
+            File.WriteAllText(SettingsPath, content);
+
+            var settings = new JsonSettingsStore(SettingsPath).Load();
+
+            Assert.AreEqual(CheckInterval.DefaultMilliseconds, settings.CheckInterval.Milliseconds);
+        }
     }
 }

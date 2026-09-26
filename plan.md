@@ -39,7 +39,7 @@
 - [x] 폴더가 없어도 만들어서 저장한다 — `ShouldCreateDirectoryWhenSaving`
 - [x] 파일이 손상됐으면 기본 설정을 읽는다 — `ShouldLoadDefaultsWhenFileIsCorrupted`
 - [x] 범위를 벗어난 값은 보정해서 읽는다 — `ShouldClampOutOfRangeIntervalWhenLoading`
-- [ ] 값이 빠져 있으면 기본값을 쓴다 — `ShouldUseDefaultIntervalWhenFieldIsMissing`
+- [x] 값이 빠져 있으면 기본값을 쓴다 — `ShouldUseDefaultIntervalWhenFieldIsMissing`
 - [ ] 덮어써도 임시 파일을 남기지 않는다 — `ShouldOverwriteWithoutLeavingTemporaryFiles`
 
 ### 4. 윈도우 시작 시 자동 실행 — `StartupRegistration` (가짜 레지스트리)
