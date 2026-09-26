@@ -11,15 +11,16 @@ namespace KakaoTalkAdBlockPlus.UI
         private readonly IAdBlockService _service;
         private readonly IStartupRegistration _startup;
         private int _intervalStepIndex;
+        private CheckInterval _interval;
 
         public SettingsViewModel(ISettingsStore store, IAdBlockService service, IStartupRegistration startup)
         {
             _store = store;
             _service = service;
             _startup = startup;
-            var interval = store.Load().CheckInterval;
-            IntervalText = interval.ToSecondsText();
-            _intervalStepIndex = IntervalSteps.IndexOfNearest(interval);
+            _interval = store.Load().CheckInterval;
+            IntervalText = _interval.ToSecondsText();
+            _intervalStepIndex = IntervalSteps.IndexOfNearest(_interval);
         }
 
         /// <summary>확인 주기 입력칸 (초 단위).</summary>
@@ -35,6 +36,9 @@ namespace KakaoTalkAdBlockPlus.UI
                 ApplyInterval(IntervalSteps.At(value));
             }
         }
+
+        /// <summary>기본값이면 [기본값으로] 버튼을 감춘다.</summary>
+        public bool IsDefaultInterval => _interval.Milliseconds == CheckInterval.DefaultMilliseconds;
 
         /// <summary>입력칸 값이 잘못됐을 때 보여 줄 문구. 문제가 없으면 null.</summary>
         public string? IntervalError { get; private set; }
@@ -52,8 +56,12 @@ namespace KakaoTalkAdBlockPlus.UI
             ApplyInterval(result.Interval);
         }
 
+        /// <summary>원본과 같은 기본 주기(0.1초)로 되돌린다.</summary>
+        public void ResetInterval() => ApplyInterval(CheckInterval.Default);
+
         private void ApplyInterval(CheckInterval interval)
         {
+            _interval = interval;
             IntervalError = null;
             _service.Interval = interval;
             _store.Save(new AppSettings(interval));
