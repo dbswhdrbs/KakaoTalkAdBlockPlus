@@ -12,6 +12,9 @@ namespace KakaoTalkAdBlockPlus.AdBlock
         /// <summary>EnumChildWindows: 모든 자손 창 (전위 순서).</summary>
         IReadOnlyList<IntPtr> GetDescendantWindows(IntPtr parent);
 
+        /// <summary>GetWindowThreadProcessId: 창을 만든 프로세스.</summary>
+        int GetProcessId(IntPtr window);
+
         string GetClassName(IntPtr window);
 
         string GetText(IntPtr window);

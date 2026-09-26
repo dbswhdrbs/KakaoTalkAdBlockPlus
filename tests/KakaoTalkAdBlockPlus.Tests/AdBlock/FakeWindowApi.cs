@@ -34,6 +34,8 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
         public IReadOnlyList<IntPtr> GetDescendantWindows(IntPtr parent) =>
             Descendants(_windows[parent]).Select(w => w.Handle).ToList();
 
+        public int GetProcessId(IntPtr window) => _windows[window].ProcessId;
+
         public string GetClassName(IntPtr window) => _windows[window].ClassName;
 
         public string GetText(IntPtr window) => _windows[window].Text;

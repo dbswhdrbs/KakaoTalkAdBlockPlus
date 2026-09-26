@@ -7,6 +7,7 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
     public class AdBlockEngineTests
     {
         private const int KakaoTalkPid = 4242;
+        private const int OtherPid = 7777;
 
         private readonly FakeWindowApi _windows = new FakeWindowApi();
         private readonly FixedProcessIdSource _kakaoTalkProcesses = new FixedProcessIdSource();
@@ -47,6 +48,20 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
             CreateEngine().RunOnce();
 
             CollectionAssert.DoesNotContain(_windows.Closed, first.Handle);
+        }
+
+        [TestMethod]
+        public void ShouldIgnoreWindowsOfOtherProcesses()
+        {
+            _kakaoTalkProcesses.Add(KakaoTalkPid);
+            var main = _windows.AddTopLevel(OtherPid, "EVA_Window_Dblclk", "카카오톡");
+            _windows.AddChild(main, "EVA_ChildWindow", "");
+            _windows.AddChild(main, "EVA_ChildWindow", "OnlineMainView_0x00A1B2C3");
+            _windows.AddChild(main, "EVA_ChildWindow", "");
+
+            CreateEngine().RunOnce();
+
+            Assert.AreEqual(0, _windows.Closed.Count);
         }
     }
 }

@@ -9,5 +9,7 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
         private readonly List<int> _processIds = new List<int>();
 
         public void Add(int processId) => _processIds.Add(processId);
+
+        public IReadOnlyCollection<int> GetProcessIds() => _processIds;
     }
 }

@@ -19,8 +19,11 @@ namespace KakaoTalkAdBlockPlus.AdBlock
 
         public AdBlockReport RunOnce()
         {
+            var kakaoTalkProcessIds = _kakaoTalkProcesses.GetProcessIds();
             foreach (var window in _windows.GetTopLevelWindows())
             {
+                if (!kakaoTalkProcessIds.Contains(_windows.GetProcessId(window))) continue;
+
                 // 원본(#99 수정)과 같이 첫 번째 자식은 건너뛴다.
                 foreach (var child in _windows.GetDescendantWindows(window).Skip(1))
                 {
