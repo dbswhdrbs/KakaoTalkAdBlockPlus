@@ -99,7 +99,7 @@
 - [x] 엔진 + 실제 창: 카카오톡 구조를 흉내 낸 창에서 배너를 제거한다 — `ShouldRemoveBannerFromSimulatedKakaoTalkWindow`
 
 ### 10. 상태 집계 — `AdBlockStatusTracker`
-- [ ] 처음에는 카카오톡 미실행, 제거 0개다 — `ShouldStartWithNothingRemoved`
+- [x] 처음에는 카카오톡 미실행, 제거 0개다 — `ShouldStartWithNothingRemoved`
 - [ ] 보고서를 반영해 실행 여부와 제거 수를 누적한다 — `ShouldAccumulateRemovedAds`
 - [ ] 같은 창은 한 번만 센다 — `ShouldCountSameWindowOnce`
 
