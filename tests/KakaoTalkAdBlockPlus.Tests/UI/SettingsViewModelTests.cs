@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using KakaoTalkAdBlockPlus.AdBlock;
 using KakaoTalkAdBlockPlus.Settings;
 using KakaoTalkAdBlockPlus.UI;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -164,6 +165,29 @@ namespace KakaoTalkAdBlockPlus.Tests.UI
                     nameof(SettingsViewModel.IntervalStepIndex),
                     nameof(SettingsViewModel.IsDefaultInterval),
                     nameof(SettingsViewModel.IntervalError),
+                },
+                changed);
+        }
+
+        [TestMethod]
+        public void ShouldRefreshStatusText()
+        {
+            var viewModel = CreateViewModel();
+            var changed = new List<string?>();
+            viewModel.PropertyChanged += (_, e) => changed.Add(e.PropertyName);
+            _service.Status = new AdBlockStatus(isKakaoTalkRunning: true, removedAdCount: 2);
+
+            viewModel.RefreshStatus();
+
+            Assert.IsTrue(viewModel.IsKakaoTalkRunning);
+            Assert.AreEqual("광고를 차단하고 있어요", viewModel.StatusTitle);
+            Assert.AreEqual("이번 실행에서 광고 2개를 정리했어요", viewModel.StatusDetail);
+            CollectionAssert.IsSubsetOf(
+                new[]
+                {
+                    nameof(SettingsViewModel.IsKakaoTalkRunning),
+                    nameof(SettingsViewModel.StatusTitle),
+                    nameof(SettingsViewModel.StatusDetail),
                 },
                 changed);
         }

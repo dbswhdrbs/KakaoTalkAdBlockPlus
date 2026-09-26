@@ -20,6 +20,7 @@ namespace KakaoTalkAdBlockPlus.UI
         private string _intervalText;
         private string? _intervalError;
         private string? _startupError;
+        private AdBlockStatus _status;
 
         public SettingsViewModel(ISettingsStore store, IAdBlockService service, IStartupRegistration startup)
         {
@@ -29,9 +30,16 @@ namespace KakaoTalkAdBlockPlus.UI
             _interval = store.Load().CheckInterval;
             _intervalText = _interval.ToSecondsText();
             _intervalStepIndex = IntervalSteps.IndexOfNearest(_interval);
+            _status = service.Status;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        public bool IsKakaoTalkRunning => _status.IsKakaoTalkRunning;
+
+        public string StatusTitle => StatusText.Title(_status);
+
+        public string StatusDetail => StatusText.Detail(_status);
 
         /// <summary>확인 주기 입력칸 (초 단위).</summary>
         public string IntervalText
@@ -102,6 +110,15 @@ namespace KakaoTalkAdBlockPlus.UI
             }
 
             ApplyInterval(result.Interval);
+        }
+
+        /// <summary>설정창이 열려 있는 동안 주기적으로 불러 상태 문구를 새로 고친다.</summary>
+        public void RefreshStatus()
+        {
+            _status = _service.Status;
+            OnPropertyChanged(nameof(IsKakaoTalkRunning));
+            OnPropertyChanged(nameof(StatusTitle));
+            OnPropertyChanged(nameof(StatusDetail));
         }
 
         /// <summary>원본과 같은 기본 주기(0.1초)로 되돌린다.</summary>
