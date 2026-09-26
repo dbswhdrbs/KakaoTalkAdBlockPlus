@@ -104,5 +104,13 @@ namespace KakaoTalkAdBlockPlus.Tests.UI
             Assert.AreEqual(1, viewModel.IntervalStepIndex);
             Assert.IsTrue(viewModel.IsDefaultInterval);
         }
+
+        [TestMethod]
+        public void ShouldReflectStartupRegistration()
+        {
+            _startup.IsEnabled = true;
+
+            Assert.IsTrue(CreateViewModel().StartWithWindows);
+        }
     }
 }
