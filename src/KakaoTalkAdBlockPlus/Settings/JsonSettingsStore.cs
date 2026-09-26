@@ -6,7 +6,7 @@ using System.Text;
 namespace KakaoTalkAdBlockPlus.Settings
 {
     /// <summary>설정을 JSON 파일에 저장한다.</summary>
-    public sealed class JsonSettingsStore
+    public sealed class JsonSettingsStore : ISettingsStore
     {
         private static readonly DataContractJsonSerializer Serializer = new DataContractJsonSerializer(typeof(SettingsDocument));
 
