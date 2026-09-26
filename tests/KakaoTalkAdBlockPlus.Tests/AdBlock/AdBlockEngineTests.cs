@@ -26,42 +26,68 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
         public void ShouldCloseUnnamedBannerChildOfMainWindow()
         {
             _kakaoTalkProcesses.Add(KakaoTalkPid);
-            var main = _windows.AddTopLevel(KakaoTalkPid, "EVA_Window_Dblclk", "카카오톡");
-            _windows.AddChild(main, "EVA_ChildWindow", "");
-            _windows.AddChild(main, "EVA_ChildWindow", "OnlineMainView_0x00A1B2C3");
-            var banner = _windows.AddChild(main, "EVA_ChildWindow", "");
+            var scene = AddMainWindowWithBanner(KakaoTalkPid);
 
             CreateEngine().RunOnce();
 
-            CollectionAssert.Contains(_windows.Closed, banner.Handle);
+            CollectionAssert.Contains(_windows.Closed, scene.Banner.Handle);
         }
 
         [TestMethod]
         public void ShouldNotCloseFirstChildOfMainWindow()
         {
             _kakaoTalkProcesses.Add(KakaoTalkPid);
-            var main = _windows.AddTopLevel(KakaoTalkPid, "EVA_Window_Dblclk", "카카오톡");
-            var first = _windows.AddChild(main, "EVA_ChildWindow", "");
-            _windows.AddChild(main, "EVA_ChildWindow", "OnlineMainView_0x00A1B2C3");
-            _windows.AddChild(main, "EVA_ChildWindow", "");
+            var scene = AddMainWindowWithBanner(KakaoTalkPid);
 
             CreateEngine().RunOnce();
 
-            CollectionAssert.DoesNotContain(_windows.Closed, first.Handle);
+            CollectionAssert.DoesNotContain(_windows.Closed, scene.FirstChild.Handle);
         }
 
         [TestMethod]
         public void ShouldIgnoreWindowsOfOtherProcesses()
         {
             _kakaoTalkProcesses.Add(KakaoTalkPid);
-            var main = _windows.AddTopLevel(OtherPid, "EVA_Window_Dblclk", "카카오톡");
-            _windows.AddChild(main, "EVA_ChildWindow", "");
-            _windows.AddChild(main, "EVA_ChildWindow", "OnlineMainView_0x00A1B2C3");
-            _windows.AddChild(main, "EVA_ChildWindow", "");
+            AddMainWindowWithBanner(OtherPid);
 
             CreateEngine().RunOnce();
 
             Assert.AreEqual(0, _windows.Closed.Count);
+        }
+
+        /// <summary>
+        /// 카카오톡 메인 창 구조:
+        /// "카카오톡" EVA_Window_Dblclk ─┬─ "" EVA_ChildWindow (첫 번째 자식)
+        ///                              ├─ "OnlineMainView_…" EVA_ChildWindow (친구/채팅 목록)
+        ///                              └─ "" EVA_ChildWindow (하단 배너 광고)
+        /// </summary>
+        private MainWindowScene AddMainWindowWithBanner(int processId)
+        {
+            var main = _windows.AddTopLevel(processId, "EVA_Window_Dblclk", "카카오톡");
+            return new MainWindowScene(
+                main,
+                firstChild: _windows.AddChild(main, "EVA_ChildWindow", ""),
+                mainView: _windows.AddChild(main, "EVA_ChildWindow", "OnlineMainView_0x00A1B2C3"),
+                banner: _windows.AddChild(main, "EVA_ChildWindow", ""));
+        }
+
+        private sealed class MainWindowScene
+        {
+            public MainWindowScene(FakeWindow main, FakeWindow firstChild, FakeWindow mainView, FakeWindow banner)
+            {
+                Main = main;
+                FirstChild = firstChild;
+                MainView = mainView;
+                Banner = banner;
+            }
+
+            public FakeWindow Main { get; }
+
+            public FakeWindow FirstChild { get; }
+
+            public FakeWindow MainView { get; }
+
+            public FakeWindow Banner { get; }
         }
     }
 }
