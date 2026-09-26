@@ -80,7 +80,7 @@
 - [x] 메인 창이 소유한 이름 없는 `EVA_Window_Dblclk` 팝업을 숨긴다 — `ShouldHideOwnedPopupAdOfMainWindow`
 - [x] `Chrome Legacy Window`가 없으면 숨기지 않는다 — `ShouldNotHidePopupWithoutChromeLegacyWindow`
 - [x] 이미 숨겨진 팝업은 다시 숨기지 않는다 — `ShouldNotHideAlreadyHiddenPopup`
-- [ ] 제거한 광고 창 목록을 보고한다 — `ShouldReportRemovedAds`
+- [x] 제거한 광고 창 목록을 보고한다 — `ShouldReportRemovedAds`
 
 ### 8. 카카오톡 프로세스 찾기
 - [ ] 캐시: 처음 호출하면 실제로 조회한다 — `ShouldQueryInnerSourceOnFirstCall`

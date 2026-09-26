@@ -27,21 +27,25 @@ namespace KakaoTalkAdBlockPlus.AdBlock
                 .Where(window => kakaoTalkProcessIds.Contains(_windows.GetProcessId(window)))
                 .ToList();
 
+            var removedAds = new List<IntPtr>();
             var mainWindows = kakaoTalkWindows.Where(IsMainWindowCandidate).ToList();
             foreach (var window in mainWindows)
             {
                 var descendants = _windows.GetDescendantWindows(window);
                 if (!HasMainOrLockView(descendants)) continue;
 
-                RemoveMainWindowAds(window, descendants);
+                RemoveMainWindowAds(window, descendants, removedAds);
             }
 
             foreach (var popup in kakaoTalkWindows.Where(window => IsPopupAdCandidate(window, mainWindows)))
             {
-                if (_windows.IsVisible(popup) && ContainsChromeLegacyWindow(popup)) _windows.Hide(popup);
+                if (!_windows.IsVisible(popup) || !ContainsChromeLegacyWindow(popup)) continue;
+
+                _windows.Hide(popup);
+                removedAds.Add(popup);
             }
 
-            return new AdBlockReport(isKakaoTalkRunning: false);
+            return new AdBlockReport(isKakaoTalkRunning: kakaoTalkProcessIds.Count > 0, removedAds);
         }
 
         /// <summary>
@@ -49,7 +53,7 @@ namespace KakaoTalkAdBlockPlus.AdBlock
         /// 이름 없는 EVA_ChildWindow(하단 배너 광고)에는 WM_CLOSE를 보내고,
         /// 친구/채팅 목록(OnlineMainView)은 배너가 있던 자리까지 늘린다.
         /// </summary>
-        private void RemoveMainWindowAds(IntPtr mainWindow, IReadOnlyList<IntPtr> descendants)
+        private void RemoveMainWindowAds(IntPtr mainWindow, IReadOnlyList<IntPtr> descendants, List<IntPtr> removedAds)
         {
             var mainRect = _windows.GetRect(mainWindow);
 
@@ -58,7 +62,11 @@ namespace KakaoTalkAdBlockPlus.AdBlock
             {
                 if (_windows.GetParent(child) != mainWindow) continue;
 
-                if (IsBannerAd(child)) _windows.Close(child);
+                if (IsBannerAd(child))
+                {
+                    _windows.Close(child);
+                    removedAds.Add(child);
+                }
 
                 ExpandViewOverAdArea(child, mainRect);
             }

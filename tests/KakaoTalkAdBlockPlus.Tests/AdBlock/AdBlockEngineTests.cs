@@ -1,3 +1,4 @@
+using System.Linq;
 using KakaoTalkAdBlockPlus.AdBlock;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -218,6 +219,21 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
             CreateEngine().RunOnce();
 
             Assert.AreEqual(0, _windows.Hidden.Count);
+        }
+
+        [TestMethod]
+        public void ShouldReportRemovedAds()
+        {
+            _kakaoTalkProcesses.Add(KakaoTalkPid);
+            var scene = AddMainWindowWithBanner(KakaoTalkPid);
+            var popup = _windows.AddTopLevel(KakaoTalkPid, "EVA_Window", "");
+            var host = _windows.AddChild(popup, "Chrome_WidgetWin_0", "");
+            _windows.AddChild(host, "Chrome_RenderWidgetHostHWND", "Chrome Legacy Window");
+
+            var report = CreateEngine().RunOnce();
+
+            Assert.IsTrue(report.IsKakaoTalkRunning);
+            CollectionAssert.AreEquivalent(new[] { scene.Banner.Handle, popup.Handle }, report.RemovedAds.ToList());
         }
 
         /// <summary>
