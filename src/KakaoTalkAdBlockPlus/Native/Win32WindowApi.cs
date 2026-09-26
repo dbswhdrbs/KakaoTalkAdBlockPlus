@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using KakaoTalkAdBlockPlus.AdBlock;
 
 namespace KakaoTalkAdBlockPlus.Native
@@ -26,11 +27,21 @@ namespace KakaoTalkAdBlockPlus.Native
             return (int)processId;
         }
 
-        public string GetClassName(IntPtr window) => throw new NotImplementedException();
+        public string GetClassName(IntPtr window)
+        {
+            var className = new StringBuilder(256);
+            User32.GetClassName(window, className, className.Capacity);
+            return className.ToString();
+        }
 
-        public string GetText(IntPtr window) => throw new NotImplementedException();
+        public string GetText(IntPtr window)
+        {
+            var text = new StringBuilder(256);
+            User32.GetWindowText(window, text, text.Capacity);
+            return text.ToString();
+        }
 
-        public IntPtr GetParent(IntPtr window) => throw new NotImplementedException();
+        public IntPtr GetParent(IntPtr window) => User32.GetParent(window);
 
         public WindowRect GetRect(IntPtr window) => throw new NotImplementedException();
 

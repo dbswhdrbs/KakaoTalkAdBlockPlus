@@ -91,7 +91,7 @@
 
 ### 9. Win32 창 API — `Win32WindowApi` (테스트 프로세스 안의 진짜 창)
 - [x] 최상위 창과 그 프로세스 ID를 얻는다 — `ShouldListTopLevelWindowWithProcessId`
-- [ ] 클래스 이름, 텍스트, 부모를 읽는다 — `ShouldReadClassNameTextAndParent`
+- [x] 클래스 이름, 텍스트, 부모를 읽는다 — `ShouldReadClassNameTextAndParent`
 - [ ] 자손 창을 전위 순서로 얻는다 — `ShouldListDescendantsInPreOrder`
 - [ ] 창을 닫는다 (WM_CLOSE) — `ShouldCloseWindow`
 - [ ] 창을 숨기고 표시 여부를 읽는다 — `ShouldHideWindow`

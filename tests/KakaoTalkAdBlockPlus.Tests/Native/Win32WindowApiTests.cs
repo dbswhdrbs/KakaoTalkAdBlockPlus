@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.Linq;
 using KakaoTalkAdBlockPlus.Native;
@@ -20,6 +21,22 @@ namespace KakaoTalkAdBlockPlus.Tests.Native
             CollectionAssert.Contains(_api.GetTopLevelWindows().ToList(), window);
             using var current = Process.GetCurrentProcess();
             Assert.AreEqual(current.Id, _api.GetProcessId(window));
+        }
+
+        [TestMethod]
+        public void ShouldReadClassNameTextAndParent()
+        {
+            using var factory = new TestWindowFactory();
+            var main = factory.CreateTopLevel("EVA_Window_Dblclk", "카카오톡");
+            var child = factory.CreateChild(main, "EVA_ChildWindow", "OnlineMainView_0x0001");
+            var popup = factory.CreateTopLevel("EVA_Window_Dblclk", "", owner: main);
+
+            Assert.AreEqual("EVA_ChildWindow", _api.GetClassName(child));
+            Assert.AreEqual("카카오톡", _api.GetText(main));
+            Assert.AreEqual("OnlineMainView_0x0001", _api.GetText(child));
+            Assert.AreEqual(main, _api.GetParent(child));
+            Assert.AreEqual(main, _api.GetParent(popup));
+            Assert.AreEqual(IntPtr.Zero, _api.GetParent(main));
         }
     }
 }
