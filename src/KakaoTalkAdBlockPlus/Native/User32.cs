@@ -8,6 +8,7 @@ namespace KakaoTalkAdBlockPlus.Native
     {
         public const uint WmClose = 0x0010;
         public const uint SmtoAbortIfHung = 0x0002;
+        public const int SwHide = 0;
 
         public delegate bool EnumWindowsProc(IntPtr window, IntPtr parameter);
 
@@ -30,6 +31,14 @@ namespace KakaoTalkAdBlockPlus.Native
 
         [DllImport("user32.dll")]
         public static extern IntPtr GetParent(IntPtr window);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsWindowVisible(IntPtr window);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ShowWindow(IntPtr window, int command);
 
         [DllImport("user32.dll", EntryPoint = "SendMessageTimeoutW")]
         public static extern IntPtr SendMessageTimeout(

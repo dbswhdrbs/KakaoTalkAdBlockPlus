@@ -94,7 +94,7 @@
 - [x] 클래스 이름, 텍스트, 부모를 읽는다 — `ShouldReadClassNameTextAndParent`
 - [x] 자손 창을 전위 순서로 얻는다 — `ShouldListDescendantsInPreOrder`
 - [x] 창을 닫는다 (WM_CLOSE) — `ShouldCloseWindow`
-- [ ] 창을 숨기고 표시 여부를 읽는다 — `ShouldHideWindow`
+- [x] 창을 숨기고 표시 여부를 읽는다 — `ShouldHideWindow`
 - [ ] 창 크기를 바꾼다 — `ShouldResizeWindow`
 - [ ] 엔진 + 실제 창: 카카오톡 구조를 흉내 낸 창에서 배너를 제거한다 — `ShouldRemoveBannerFromSimulatedKakaoTalkWindow`
 

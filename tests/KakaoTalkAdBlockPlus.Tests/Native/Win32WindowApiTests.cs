@@ -63,5 +63,17 @@ namespace KakaoTalkAdBlockPlus.Tests.Native
             Assert.IsFalse(TestWindowFactory.Exists(banner));
             Assert.IsTrue(TestWindowFactory.Exists(main));
         }
+
+        [TestMethod]
+        public void ShouldHideWindow()
+        {
+            using var factory = new TestWindowFactory();
+            var popup = factory.CreateTopLevel("EVA_Window", "", visible: true);
+            Assert.IsTrue(_api.IsVisible(popup));
+
+            _api.Hide(popup);
+
+            Assert.IsFalse(_api.IsVisible(popup));
+        }
     }
 }

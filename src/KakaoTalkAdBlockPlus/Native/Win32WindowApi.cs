@@ -50,13 +50,13 @@ namespace KakaoTalkAdBlockPlus.Native
             return windows;
         }
 
-        public bool IsVisible(IntPtr window) => throw new NotImplementedException();
+        public bool IsVisible(IntPtr window) => User32.IsWindowVisible(window);
 
         /// <summary>원본은 SendMessage였지만, 카카오톡이 응답하지 않을 때 멈추지 않도록 시간 제한을 둔다.</summary>
         public void Close(IntPtr window) =>
             User32.SendMessageTimeout(window, User32.WmClose, IntPtr.Zero, IntPtr.Zero, User32.SmtoAbortIfHung, CloseTimeoutMilliseconds, out _);
 
-        public void Hide(IntPtr window) => throw new NotImplementedException();
+        public void Hide(IntPtr window) => User32.ShowWindow(window, User32.SwHide);
 
         public void Resize(IntPtr window, int width, int height) => throw new NotImplementedException();
     }
