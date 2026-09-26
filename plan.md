@@ -34,7 +34,7 @@
 - [x] 값에 가장 가까운 단계를 찾는다 — `ShouldFindNearestStepIndex`
 
 ### 3. 설정 저장 — `JsonSettingsStore`
-- [ ] 파일이 없으면 기본 설정을 읽는다 — `ShouldLoadDefaultsWhenFileDoesNotExist`
+- [x] 파일이 없으면 기본 설정을 읽는다 — `ShouldLoadDefaultsWhenFileDoesNotExist`
 - [ ] 저장한 확인 주기를 다시 읽는다 — `ShouldRoundTripCheckInterval`
 - [ ] 폴더가 없어도 만들어서 저장한다 — `ShouldCreateDirectoryWhenSaving`
 - [ ] 파일이 손상됐으면 기본 설정을 읽는다 — `ShouldLoadDefaultsWhenFileIsCorrupted`
