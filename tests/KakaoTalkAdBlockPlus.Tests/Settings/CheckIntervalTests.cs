@@ -11,5 +11,11 @@ namespace KakaoTalkAdBlockPlus.Tests.Settings
         {
             Assert.AreEqual(100, CheckInterval.Default.Milliseconds);
         }
+
+        [TestMethod]
+        public void ShouldClampBelowMinimumToFiftyMilliseconds()
+        {
+            Assert.AreEqual(50, CheckInterval.FromMilliseconds(10).Milliseconds);
+        }
     }
 }
