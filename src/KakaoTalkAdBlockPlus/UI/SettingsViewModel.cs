@@ -31,7 +31,7 @@ namespace KakaoTalkAdBlockPlus.UI
             var result = CheckInterval.ParseSeconds(IntervalText);
             if (result.Status != IntervalParseStatus.Ok)
             {
-                IntervalError = "숫자로 입력해 주세요 (예: 0.5)";
+                IntervalError = ErrorMessageFor(result.Status);
                 return;
             }
 
@@ -41,5 +41,11 @@ namespace KakaoTalkAdBlockPlus.UI
             _store.Save(new AppSettings(interval));
             IntervalText = interval.ToSecondsText();
         }
+
+        private static string ErrorMessageFor(IntervalParseStatus status) =>
+            status is IntervalParseStatus.TooSmall or IntervalParseStatus.TooLarge
+                ? $"{CheckInterval.FromMilliseconds(CheckInterval.MinMilliseconds).ToSecondsText()}초 ~ " +
+                  $"{CheckInterval.FromMilliseconds(CheckInterval.MaxMilliseconds).ToSecondsText()}초 사이로 입력해 주세요"
+                : "숫자로 입력해 주세요 (예: 0.5)";
     }
 }

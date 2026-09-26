@@ -48,5 +48,19 @@ namespace KakaoTalkAdBlockPlus.Tests.UI
             Assert.AreEqual(300, _service.Interval.Milliseconds);
             Assert.AreEqual(0, _store.Saved.Count);
         }
+
+        [DataTestMethod]
+        [DataRow("0.01")]
+        [DataRow("100")]
+        public void ShouldShowRangeErrorForOutOfRangeText(string text)
+        {
+            var viewModel = CreateViewModel();
+
+            viewModel.IntervalText = text;
+            viewModel.ApplyIntervalText();
+
+            Assert.AreEqual("0.05초 ~ 60초 사이로 입력해 주세요", viewModel.IntervalError);
+            Assert.AreEqual(0, _store.Saved.Count);
+        }
     }
 }
