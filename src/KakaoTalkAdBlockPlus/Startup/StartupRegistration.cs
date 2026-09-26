@@ -20,7 +20,7 @@ namespace KakaoTalkAdBlockPlus.Startup
         }
 
         /// <summary>Run 값에 기록할 명령줄: 따옴표로 감싼 실행 파일 경로 + --autostart.</summary>
-        public string Command => "\"" + _executablePath + "\" --autostart";
+        public string Command => "\"" + _executablePath + "\" " + CommandLineOptions.AutostartFlag;
 
         public bool IsEnabled =>
             _registry.GetString(RunKeyPath, _appName) != null && !IsDisabledInTaskManager;
