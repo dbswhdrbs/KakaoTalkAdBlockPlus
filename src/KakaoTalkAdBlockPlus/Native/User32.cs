@@ -6,6 +6,9 @@ namespace KakaoTalkAdBlockPlus.Native
 {
     internal static class User32
     {
+        public const uint WmClose = 0x0010;
+        public const uint SmtoAbortIfHung = 0x0002;
+
         public delegate bool EnumWindowsProc(IntPtr window, IntPtr parameter);
 
         [DllImport("user32.dll")]
@@ -27,5 +30,9 @@ namespace KakaoTalkAdBlockPlus.Native
 
         [DllImport("user32.dll")]
         public static extern IntPtr GetParent(IntPtr window);
+
+        [DllImport("user32.dll", EntryPoint = "SendMessageTimeoutW")]
+        public static extern IntPtr SendMessageTimeout(
+            IntPtr window, uint message, IntPtr wParam, IntPtr lParam, uint flags, uint timeoutMilliseconds, out IntPtr result);
     }
 }

@@ -37,6 +37,8 @@ namespace KakaoTalkAdBlockPlus.Tests.Native
         public IntPtr CreateChild(IntPtr parent, string className, string text) =>
             Create(className, text, WsChild | WsVisible, 0, parent, 0, 0, 100, 100);
 
+        public static bool Exists(IntPtr window) => IsWindow(window);
+
         public void Dispose()
         {
             // 소유된 창부터 닫히도록 나중에 만든 창부터 없앤다. 자식 창은 부모와 함께 없어진다.

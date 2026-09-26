@@ -50,5 +50,18 @@ namespace KakaoTalkAdBlockPlus.Tests.Native
 
             CollectionAssert.AreEqual(new[] { first, nested, second }, _api.GetDescendantWindows(main).ToList());
         }
+
+        [TestMethod]
+        public void ShouldCloseWindow()
+        {
+            using var factory = new TestWindowFactory();
+            var main = factory.CreateTopLevel("EVA_Window_Dblclk", "카카오톡");
+            var banner = factory.CreateChild(main, "EVA_ChildWindow", "");
+
+            _api.Close(banner);
+
+            Assert.IsFalse(TestWindowFactory.Exists(banner));
+            Assert.IsTrue(TestWindowFactory.Exists(main));
+        }
     }
 }

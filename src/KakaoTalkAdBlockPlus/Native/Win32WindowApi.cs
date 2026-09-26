@@ -8,6 +8,8 @@ namespace KakaoTalkAdBlockPlus.Native
     /// <summary>IWindowApi의 실제 구현 (user32.dll).</summary>
     public sealed class Win32WindowApi : IWindowApi
     {
+        private const uint CloseTimeoutMilliseconds = 1000;
+
         public IReadOnlyList<IntPtr> GetTopLevelWindows() => Collect(callback => User32.EnumWindows(callback, IntPtr.Zero));
 
         public IReadOnlyList<IntPtr> GetDescendantWindows(IntPtr parent) =>
@@ -50,7 +52,9 @@ namespace KakaoTalkAdBlockPlus.Native
 
         public bool IsVisible(IntPtr window) => throw new NotImplementedException();
 
-        public void Close(IntPtr window) => throw new NotImplementedException();
+        /// <summary>원본은 SendMessage였지만, 카카오톡이 응답하지 않을 때 멈추지 않도록 시간 제한을 둔다.</summary>
+        public void Close(IntPtr window) =>
+            User32.SendMessageTimeout(window, User32.WmClose, IntPtr.Zero, IntPtr.Zero, User32.SmtoAbortIfHung, CloseTimeoutMilliseconds, out _);
 
         public void Hide(IntPtr window) => throw new NotImplementedException();
 
