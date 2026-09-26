@@ -34,7 +34,11 @@ namespace KakaoTalkAdBlockPlus.Settings
             var normalized = NormalizeSecondsText(text);
             if (normalized.Length == 0) return new IntervalParseResult(IntervalParseStatus.Empty, Default);
 
-            var seconds = decimal.Parse(normalized, NumberStyles.Float, CultureInfo.InvariantCulture);
+            if (!decimal.TryParse(normalized, NumberStyles.Float, CultureInfo.InvariantCulture, out var seconds))
+            {
+                return new IntervalParseResult(IntervalParseStatus.NotANumber, Default);
+            }
+
             var milliseconds = (int)decimal.Round(seconds * 1000m, MidpointRounding.AwayFromZero);
             return new IntervalParseResult(IntervalParseStatus.Ok, new CheckInterval(milliseconds));
         }

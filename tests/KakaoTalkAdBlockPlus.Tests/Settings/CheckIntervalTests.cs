@@ -67,5 +67,15 @@ namespace KakaoTalkAdBlockPlus.Tests.Settings
         {
             Assert.AreEqual(IntervalParseStatus.Empty, CheckInterval.ParseSeconds(text).Status);
         }
+
+        [DataTestMethod]
+        [DataRow("abc")]
+        [DataRow("1.2.3")]
+        [DataRow("1e999")]
+        [DataRow("0x10")]
+        public void ShouldRejectNonNumericText(string text)
+        {
+            Assert.AreEqual(IntervalParseStatus.NotANumber, CheckInterval.ParseSeconds(text).Status);
+        }
     }
 }
