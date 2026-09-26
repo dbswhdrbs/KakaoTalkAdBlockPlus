@@ -75,5 +75,19 @@ namespace KakaoTalkAdBlockPlus.Tests.Native
 
             Assert.IsFalse(_api.IsVisible(popup));
         }
+
+        [TestMethod]
+        public void ShouldResizeWindow()
+        {
+            using var factory = new TestWindowFactory();
+            var main = factory.CreateTopLevel("EVA_Window_Dblclk", "카카오톡");
+            var mainView = factory.CreateChild(main, "EVA_ChildWindow", "OnlineMainView_0x0001");
+
+            _api.Resize(mainView, 321, 123);
+
+            var rect = _api.GetRect(mainView);
+            Assert.AreEqual(321, rect.Width);
+            Assert.AreEqual(123, rect.Height);
+        }
     }
 }

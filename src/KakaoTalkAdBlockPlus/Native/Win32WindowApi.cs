@@ -37,7 +37,8 @@ namespace KakaoTalkAdBlockPlus.Native
 
         public IntPtr GetParent(IntPtr window) => User32.GetParent(window);
 
-        public WindowRect GetRect(IntPtr window) => throw new NotImplementedException();
+        public WindowRect GetRect(IntPtr window) =>
+            User32.GetWindowRect(window, out var rect) ? new WindowRect(rect.Left, rect.Top, rect.Right, rect.Bottom) : default;
 
         private static IReadOnlyList<IntPtr> Collect(Action<User32.EnumWindowsProc> enumerate)
         {
@@ -58,6 +59,11 @@ namespace KakaoTalkAdBlockPlus.Native
 
         public void Hide(IntPtr window) => User32.ShowWindow(window, User32.SwHide);
 
-        public void Resize(IntPtr window, int width, int height) => throw new NotImplementedException();
+        /// <summary>원본 HideMainViewAdArea와 같이 UpdateWindow 후 SetWindowPos(HWND_TOP, SWP_NOMOVE).</summary>
+        public void Resize(IntPtr window, int width, int height)
+        {
+            User32.UpdateWindow(window);
+            User32.SetWindowPos(window, IntPtr.Zero, 0, 0, width, height, User32.SwpNoMove);
+        }
     }
 }
