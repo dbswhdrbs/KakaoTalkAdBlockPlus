@@ -19,6 +19,9 @@ namespace KakaoTalkAdBlockPlus.Startup
             _executablePath = executablePath;
         }
 
+        /// <summary>Run 값에 기록할 명령줄: 따옴표로 감싼 실행 파일 경로 + --autostart.</summary>
+        public string Command => "\"" + _executablePath + "\" --autostart";
+
         public bool IsEnabled =>
             _registry.GetString(RunKeyPath, _appName) != null && !IsDisabledInTaskManager;
 
@@ -28,7 +31,7 @@ namespace KakaoTalkAdBlockPlus.Startup
 
         public void Enable()
         {
-            _registry.SetString(RunKeyPath, _appName, "\"" + _executablePath + "\" --autostart");
+            _registry.SetString(RunKeyPath, _appName, Command);
             _registry.DeleteValue(StartupApprovedKeyPath, _appName);
         }
 
@@ -37,7 +40,7 @@ namespace KakaoTalkAdBlockPlus.Startup
         /// <summary>자동 실행이 켜져 있으면 Run 값을 현재 실행 파일 경로로 다시 쓴다 (실행 파일을 옮긴 경우 대비).</summary>
         public void RepairIfEnabled()
         {
-            if (IsEnabled) _registry.SetString(RunKeyPath, _appName, "\"" + _executablePath + "\" --autostart");
+            if (IsEnabled) _registry.SetString(RunKeyPath, _appName, Command);
         }
     }
 }
