@@ -150,6 +150,11 @@
 - [x] 엔진이 멈춰 있어도 서비스 중지는 제한 시간 안에 끝난다 (종료가 멈추지 않게) — `ShouldStopEvenWhenEngineIsStuck`
 - [x] 다른 권한(관리자)으로 실행 중인 인스턴스가 있으면 첫 인스턴스가 아니고, 신호도 보낼 수 없다 — `ShouldTreatInaccessibleInstanceAsAlreadyRunning`
 
+### 16. 사용자 피드백 반영
+- [x] 글자 줄을 영역 가운데에 두면 실제로 칠해지는 글자도 가운데에 온다 (맑은 고딕: 위 9px / 아래 10px) — `ShouldCenterMenuTextInkVertically`
+- [ ] 트레이 메뉴 항목 글자를 항목 높이의 가운데에 그린다 — `ShouldDrawMenuItemTextVerticallyCentered`
+  (측정: 기존에는 WinForms가 글자 상자를 항목 위쪽에 붙여, 모든 항목에서 글자가 가운데보다 4.5px 위에 있었다)
+
 ## 테스트가 아닌 작업 (테스트 목록 완료 후)
 - [x] 아이콘 (XAML 벡터 → 다중 크기 .ico 생성 스크립트)
 - [x] 트레이 아이콘 + 우클릭 메뉴(설정/종료), 더블클릭 시 설정창
