@@ -8,6 +8,7 @@ namespace KakaoTalkAdBlockPlus.Tests.Startup
     {
         private const string AppName = "KakaoTalkAdBlockPlus";
         private const string ExecutablePath = @"C:\Apps\KakaoTalkAdBlockPlus\KakaoTalkAdBlockPlus.exe";
+        private const string StartupApprovedKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run";
 
         private readonly FakeRegistryStore _registry = new FakeRegistryStore();
 
@@ -50,5 +51,19 @@ namespace KakaoTalkAdBlockPlus.Tests.Startup
             Assert.IsNull(_registry.GetString(StartupRegistration.RunKeyPath, AppName));
             Assert.IsFalse(registration.IsEnabled);
         }
+
+        [TestMethod]
+        public void ShouldBeDisabledWhenTaskManagerDisabledIt()
+        {
+            var registration = CreateRegistration();
+            registration.Enable();
+
+            _registry.SetBinary(StartupApprovedKeyPath, AppName, TaskManagerFlag(0x03));
+
+            Assert.IsFalse(registration.IsEnabled);
+        }
+
+        /// <summary>작업 관리자가 기록하는 12바이트 값: 첫 바이트가 상태, 나머지는 시각.</summary>
+        private static byte[] TaskManagerFlag(byte state) => new byte[] { state, 0, 0, 0, 0x5B, 0x2E, 0x1F, 0x83, 0x3A, 0x9D, 0xDA, 0x01 };
     }
 }

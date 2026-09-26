@@ -11,5 +11,8 @@ namespace KakaoTalkAdBlockPlus.Startup
 
         /// <summary>키나 값이 없으면 아무 일도 하지 않는다.</summary>
         void DeleteValue(string keyPath, string valueName);
+
+        /// <summary>값이 없거나 이진 값이 아니면 null.</summary>
+        byte[]? GetBinary(string keyPath, string valueName);
     }
 }

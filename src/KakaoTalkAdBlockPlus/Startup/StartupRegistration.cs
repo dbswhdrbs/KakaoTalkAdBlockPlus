@@ -5,6 +5,9 @@ namespace KakaoTalkAdBlockPlus.Startup
     {
         public const string RunKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Run";
 
+        /// <summary>작업 관리자 [시작 앱] 탭의 사용/사용 안 함 상태가 기록되는 곳.</summary>
+        public const string StartupApprovedKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run";
+
         private readonly IRegistryStore _registry;
         private readonly string _appName;
         private readonly string _executablePath;
@@ -16,7 +19,9 @@ namespace KakaoTalkAdBlockPlus.Startup
             _executablePath = executablePath;
         }
 
-        public bool IsEnabled => _registry.GetString(RunKeyPath, _appName) != null;
+        public bool IsEnabled =>
+            _registry.GetString(RunKeyPath, _appName) != null &&
+            _registry.GetBinary(StartupApprovedKeyPath, _appName) == null;
 
         public void Enable() => _registry.SetString(RunKeyPath, _appName, "\"" + _executablePath + "\" --autostart");
 
