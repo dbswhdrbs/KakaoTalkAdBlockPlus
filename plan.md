@@ -69,7 +69,7 @@
 - [x] 메인 창의 첫 번째 자식은 닫지 않는다 — `ShouldNotCloseFirstChildOfMainWindow`
 - [x] 다른 프로세스의 창은 건드리지 않는다 — `ShouldIgnoreWindowsOfOtherProcesses`
 - [x] `OnlineMainView`/`LockModeView`가 없는 창(동영상 플레이어 등, 원본 #99)은 건드리지 않는다 — `ShouldIgnoreWindowWithoutMainOrLockView`
-- [ ] `_EVA_` 클래스 자손이 있는 자식(이모티콘 화면 등, 원본 #97)은 닫지 않는다 — `ShouldNotCloseChildContainingCustomScroll`
+- [x] `_EVA_` 클래스 자손이 있는 자식(이모티콘 화면 등, 원본 #97)은 닫지 않는다 — `ShouldNotCloseChildContainingCustomScroll`
 - [ ] 직계 자식이 아닌 창은 닫지 않는다 — `ShouldNotCloseNestedDescendants`
 - [ ] 이름 있는 자식은 닫지 않는다 — `ShouldNotCloseNamedChildren`
 - [ ] 제목이 없거나 소유자가 있는 창은 메인 창이 아니다 — `ShouldIgnoreUntitledOrOwnedWindows`

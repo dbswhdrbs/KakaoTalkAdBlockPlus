@@ -32,7 +32,8 @@ namespace KakaoTalkAdBlockPlus.AdBlock
                 // 원본(#99 수정)과 같이 첫 번째 자식은 건너뛴다.
                 foreach (var child in descendants.Skip(1))
                 {
-                    if (_windows.GetClassName(child) == "EVA_ChildWindow" && _windows.GetText(child).Length == 0)
+                    if (_windows.GetClassName(child) == "EVA_ChildWindow" && _windows.GetText(child).Length == 0 &&
+                        !HasCustomScroll(child))
                     {
                         _windows.Close(child);
                     }
@@ -41,6 +42,11 @@ namespace KakaoTalkAdBlockPlus.AdBlock
 
             return new AdBlockReport(isKakaoTalkRunning: false);
         }
+
+        /// <summary>카카오톡 자체 스크롤(_EVA_…)이 들어 있으면 광고가 아닌 화면이다 (이모티콘 화면 등, 원본 #97).</summary>
+        private bool HasCustomScroll(IntPtr window) =>
+            _windows.GetDescendantWindows(window).Any(child =>
+                _windows.GetClassName(child).StartsWith("_EVA_", StringComparison.Ordinal));
 
         /// <summary>친구/채팅 목록(OnlineMainView)이나 잠금 화면(LockModeView)이 있어야 진짜 메인 창이다 (동영상 플레이어 등 제외, 원본 #99).</summary>
         private bool HasMainOrLockView(IEnumerable<IntPtr> descendants) =>
