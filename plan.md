@@ -31,7 +31,7 @@
 
 ### 2. 슬라이더 단계 — `IntervalSteps`
 - [x] 인덱스로 단계 값을 얻는다 (0→50ms, 1→100ms, 마지막→60초) — `ShouldReturnStepValueForIndex`
-- [ ] 값에 가장 가까운 단계를 찾는다 — `ShouldFindNearestStepIndex`
+- [x] 값에 가장 가까운 단계를 찾는다 — `ShouldFindNearestStepIndex`
 
 ### 3. 설정 저장 — `JsonSettingsStore`
 - [ ] 파일이 없으면 기본 설정을 읽는다 — `ShouldLoadDefaultsWhenFileDoesNotExist`

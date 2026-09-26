@@ -11,5 +11,19 @@ namespace KakaoTalkAdBlockPlus.Settings
         public static int Count => StepMilliseconds.Length;
 
         public static CheckInterval At(int index) => CheckInterval.FromMilliseconds(StepMilliseconds[index]);
+
+        /// <summary>주어진 주기와 가장 가까운 단계. 두 단계의 한가운데면 짧은 쪽을 고른다.</summary>
+        public static int IndexOfNearest(CheckInterval interval)
+        {
+            var nearest = 0;
+            for (var i = 1; i < StepMilliseconds.Length; i++)
+            {
+                if (Distance(i) < Distance(nearest)) nearest = i;
+            }
+
+            return nearest;
+
+            int Distance(int index) => System.Math.Abs(StepMilliseconds[index] - interval.Milliseconds);
+        }
     }
 }
