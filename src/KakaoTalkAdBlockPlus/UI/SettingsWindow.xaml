@@ -111,12 +111,7 @@
                 </DockPanel>
 
                 <Border Style="{StaticResource Divider}" />
-                <!-- 한글은 글자 단위로 줄이 바뀌므로 문장마다 직접 줄을 나눈다. -->
-                <TextBlock Style="{StaticResource CaptionText}">
-                    <Run Text="짧을수록 광고가 빨리 사라지지만 CPU를 조금 더 써요." />
-                    <LineBreak />
-                    <Run Text="원본 프로그램은 0.1초마다 확인해요." />
-                </TextBlock>
+                <TextBlock Style="{StaticResource CaptionText}" Text="짧을수록 광고가 빨리 사라지지만 CPU를 조금 더 써요." />
             </StackPanel>
         </Border>
 
