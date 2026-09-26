@@ -76,7 +76,7 @@
 - [x] `OnlineMainView`를 (메인 폭-2, 높이-31)로 늘려 배너 자리를 덮는다 — `ShouldResizeOnlineMainViewOverBannerArea`
 - [x] 창이 너무 작으면 `OnlineMainView` 크기 조정을 건너뛴다 — `ShouldSkipOnlineMainViewResizeWhenWindowTooSmall`
 - [x] `LockModeView`를 (메인 폭-2, 높이)로 맞춘다 — `ShouldResizeLockModeViewToFullHeight`
-- [ ] `Chrome Legacy Window`를 품은 이름 없는 `EVA_Window` 팝업을 숨긴다 — `ShouldHidePopupAdContainingChromeLegacyWindow`
+- [x] `Chrome Legacy Window`를 품은 이름 없는 `EVA_Window` 팝업을 숨긴다 — `ShouldHidePopupAdContainingChromeLegacyWindow`
 - [ ] 메인 창이 소유한 이름 없는 `EVA_Window_Dblclk` 팝업을 숨긴다 — `ShouldHideOwnedPopupAdOfMainWindow`
 - [ ] `Chrome Legacy Window`가 없으면 숨기지 않는다 — `ShouldNotHidePopupWithoutChromeLegacyWindow`
 - [ ] 이미 숨겨진 팝업은 다시 숨기지 않는다 — `ShouldNotHideAlreadyHiddenPopup`

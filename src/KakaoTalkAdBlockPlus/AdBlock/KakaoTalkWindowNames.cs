@@ -6,6 +6,12 @@ namespace KakaoTalkAdBlockPlus.AdBlock
         /// <summary>메인 창, 메인 창이 소유한 팝업.</summary>
         public const string MainWindowClass = "EVA_Window_Dblclk";
 
+        /// <summary>팝업 창.</summary>
+        public const string PopupWindowClass = "EVA_Window";
+
+        /// <summary>광고 웹뷰(Chromium) 안쪽 창의 텍스트.</summary>
+        public const string ChromeLegacyWindowText = "Chrome Legacy Window";
+
         /// <summary>메인 창 안의 화면 조각 (목록, 배너 광고 등).</summary>
         public const string ChildWindowClass = "EVA_ChildWindow";
 

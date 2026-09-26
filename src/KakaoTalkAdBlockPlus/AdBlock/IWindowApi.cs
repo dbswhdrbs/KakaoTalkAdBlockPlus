@@ -28,6 +28,9 @@ namespace KakaoTalkAdBlockPlus.AdBlock
         /// <summary>WM_CLOSE를 보낸다.</summary>
         void Close(IntPtr window);
 
+        /// <summary>ShowWindow(SW_HIDE).</summary>
+        void Hide(IntPtr window);
+
         /// <summary>원본과 같이 UpdateWindow 후 SetWindowPos(HWND_TOP, SWP_NOMOVE)로 크기를 바꾼다.</summary>
         void Resize(IntPtr window, int width, int height);
     }

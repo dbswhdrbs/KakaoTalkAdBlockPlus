@@ -16,6 +16,8 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
 
         public List<ResizedWindow> Resized { get; } = new List<ResizedWindow>();
 
+        public List<IntPtr> Hidden { get; } = new List<IntPtr>();
+
         public FakeWindow AddTopLevel(int processId, string className, string text, FakeWindow? owner = null)
         {
             var window = Register(new FakeWindow(NextHandle(), processId, className, text, parent: null) { Owner = owner });
@@ -50,6 +52,8 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
         public void Close(IntPtr window) => Closed.Add(window);
 
         public void Resize(IntPtr window, int width, int height) => Resized.Add(new ResizedWindow(window, width, height));
+
+        public void Hide(IntPtr window) => Hidden.Add(window);
 
         private static IEnumerable<FakeWindow> Descendants(FakeWindow window) =>
             window.Children.SelectMany(child => new[] { child }.Concat(Descendants(child)));

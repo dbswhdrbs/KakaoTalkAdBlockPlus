@@ -23,15 +23,21 @@ namespace KakaoTalkAdBlockPlus.AdBlock
         public AdBlockReport RunOnce()
         {
             var kakaoTalkProcessIds = _kakaoTalkProcesses.GetProcessIds();
-            foreach (var window in _windows.GetTopLevelWindows())
-            {
-                if (!kakaoTalkProcessIds.Contains(_windows.GetProcessId(window))) continue;
-                if (!IsMainWindowCandidate(window)) continue;
+            var kakaoTalkWindows = _windows.GetTopLevelWindows()
+                .Where(window => kakaoTalkProcessIds.Contains(_windows.GetProcessId(window)))
+                .ToList();
 
+            foreach (var window in kakaoTalkWindows.Where(IsMainWindowCandidate))
+            {
                 var descendants = _windows.GetDescendantWindows(window);
                 if (!HasMainOrLockView(descendants)) continue;
 
                 RemoveMainWindowAds(window, descendants);
+            }
+
+            foreach (var popup in kakaoTalkWindows.Where(IsPopupAdCandidate))
+            {
+                if (ContainsChromeLegacyWindow(popup)) _windows.Hide(popup);
             }
 
             return new AdBlockReport(isKakaoTalkRunning: false);
@@ -78,6 +84,16 @@ namespace KakaoTalkAdBlockPlus.AdBlock
             _windows.GetClassName(child) == ChildWindowClass &&
             _windows.GetText(child).Length == 0 &&
             !HasCustomScroll(child);
+
+        /// <summary>팝업 광고 후보: 제목도 소유자도 없는 EVA_Window.</summary>
+        private bool IsPopupAdCandidate(IntPtr window) =>
+            _windows.GetClassName(window) == PopupWindowClass &&
+            _windows.GetText(window).Length == 0 &&
+            _windows.GetParent(window) == IntPtr.Zero;
+
+        /// <summary>광고 웹뷰가 들어 있는지.</summary>
+        private bool ContainsChromeLegacyWindow(IntPtr window) =>
+            _windows.GetDescendantWindows(window).Any(child => _windows.GetText(child) == ChromeLegacyWindowText);
 
         /// <summary>메인 창 후보: 제목이 있고 소유자가 없는 EVA_Window_Dblclk.</summary>
         private bool IsMainWindowCandidate(IntPtr window) =>
