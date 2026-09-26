@@ -28,6 +28,7 @@ namespace KakaoTalkAdBlockPlus.Settings
 
         public void Save(AppSettings settings)
         {
+            Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(_filePath)));
             using var stream = File.Create(_filePath);
             using var writer = JsonReaderWriterFactory.CreateJsonWriter(stream, Encoding.UTF8, ownsStream: false, indent: true);
             Serializer.WriteObject(writer, new SettingsDocument { CheckIntervalMs = settings.CheckInterval.Milliseconds });

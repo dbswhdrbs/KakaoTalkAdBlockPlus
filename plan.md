@@ -36,7 +36,7 @@
 ### 3. 설정 저장 — `JsonSettingsStore`
 - [x] 파일이 없으면 기본 설정을 읽는다 — `ShouldLoadDefaultsWhenFileDoesNotExist`
 - [x] 저장한 확인 주기를 다시 읽는다 — `ShouldRoundTripCheckInterval`
-- [ ] 폴더가 없어도 만들어서 저장한다 — `ShouldCreateDirectoryWhenSaving`
+- [x] 폴더가 없어도 만들어서 저장한다 — `ShouldCreateDirectoryWhenSaving`
 - [ ] 파일이 손상됐으면 기본 설정을 읽는다 — `ShouldLoadDefaultsWhenFileIsCorrupted`
 - [ ] 범위를 벗어난 값은 보정해서 읽는다 — `ShouldClampOutOfRangeIntervalWhenLoading`
 - [ ] 값이 빠져 있으면 기본값을 쓴다 — `ShouldUseDefaultIntervalWhenFieldIsMissing`

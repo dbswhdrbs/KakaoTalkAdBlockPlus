@@ -42,5 +42,15 @@ namespace KakaoTalkAdBlockPlus.Tests.Settings
 
             Assert.AreEqual(750, loaded.CheckInterval.Milliseconds);
         }
+
+        [TestMethod]
+        public void ShouldCreateDirectoryWhenSaving()
+        {
+            var path = Path.Combine(_directory, "not", "yet", "created", "settings.json");
+
+            new JsonSettingsStore(path).Save(new AppSettings(CheckInterval.FromMilliseconds(300)));
+
+            Assert.AreEqual(300, new JsonSettingsStore(path).Load().CheckInterval.Milliseconds);
+        }
     }
 }
