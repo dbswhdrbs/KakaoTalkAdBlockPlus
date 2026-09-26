@@ -63,6 +63,17 @@ namespace KakaoTalkAdBlockPlus.Tests.Startup
             Assert.IsFalse(registration.IsEnabled);
         }
 
+        [TestMethod]
+        public void ShouldStayEnabledWhenTaskManagerEnabledIt()
+        {
+            var registration = CreateRegistration();
+            registration.Enable();
+
+            _registry.SetBinary(StartupApprovedKeyPath, AppName, TaskManagerFlag(0x02));
+
+            Assert.IsTrue(registration.IsEnabled);
+        }
+
         /// <summary>작업 관리자가 기록하는 12바이트 값: 첫 바이트가 상태, 나머지는 시각.</summary>
         private static byte[] TaskManagerFlag(byte state) => new byte[] { state, 0, 0, 0, 0x5B, 0x2E, 0x1F, 0x83, 0x3A, 0x9D, 0xDA, 0x01 };
     }

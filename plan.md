@@ -49,7 +49,7 @@
 - [x] 켠 뒤에는 켜져 있다 — `ShouldBeEnabledAfterEnable`
 - [x] 끄면 Run 값을 지운다 — `ShouldDeleteRunValueWhenDisabled`
 - [x] 작업 관리자에서 "사용 안 함"이면 꺼져 있다 — `ShouldBeDisabledWhenTaskManagerDisabledIt`
-- [ ] 작업 관리자에서 "사용"으로 표시돼 있으면 켜져 있다 — `ShouldStayEnabledWhenTaskManagerEnabledIt`
+- [x] 작업 관리자에서 "사용"으로 표시돼 있으면 켜져 있다 — `ShouldStayEnabledWhenTaskManagerEnabledIt`
 - [ ] 켜면 작업 관리자의 "사용 안 함" 표시를 지운다 — `ShouldClearTaskManagerFlagWhenEnabled`
 - [ ] 켜져 있는데 실행 파일이 옮겨졌으면 현재 경로로 고친다 — `ShouldRepairCommandWhenExecutableMoved`
 - [ ] 꺼져 있으면 고치지 않는다 — `ShouldNotRepairWhenDisabled`
