@@ -121,7 +121,7 @@
 - [x] 해제하면 다시 첫 인스턴스가 될 수 있다 — `ShouldReleaseNameOnDispose`
 
 ### 14. 설정창 뷰모델 — `SettingsViewModel`
-- [ ] 현재 주기를 초 단위로 보여 준다 — `ShouldShowCurrentIntervalInSeconds`
+- [x] 현재 주기를 초 단위로 보여 준다 — `ShouldShowCurrentIntervalInSeconds`
 - [ ] 올바른 입력은 바로 적용하고 저장한다 — `ShouldApplyAndSaveValidIntervalText`
 - [ ] 숫자가 아닌 입력은 오류를 보여 주고 적용하지 않는다 — `ShouldShowErrorForInvalidIntervalText`
 - [ ] 범위를 벗어난 입력은 허용 범위를 알려 준다 — `ShouldShowRangeErrorForOutOfRangeText`
