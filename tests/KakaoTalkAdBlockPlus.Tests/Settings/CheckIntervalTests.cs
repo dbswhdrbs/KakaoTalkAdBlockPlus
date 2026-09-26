@@ -23,5 +23,16 @@ namespace KakaoTalkAdBlockPlus.Tests.Settings
         {
             Assert.AreEqual(60_000, CheckInterval.FromMilliseconds(90_000).Milliseconds);
         }
+
+        [DataTestMethod]
+        [DataRow(100, "0.1")]
+        [DataRow(50, "0.05")]
+        [DataRow(125, "0.125")]
+        [DataRow(1500, "1.5")]
+        [DataRow(60_000, "60")]
+        public void ShouldFormatAsSecondsText(int milliseconds, string expected)
+        {
+            Assert.AreEqual(expected, CheckInterval.FromMilliseconds(milliseconds).ToSecondsText());
+        }
     }
 }

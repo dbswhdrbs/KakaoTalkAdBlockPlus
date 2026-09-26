@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace KakaoTalkAdBlockPlus.Settings
 {
     /// <summary>카카오톡 창을 검사해 광고를 제거하는 간격.</summary>
@@ -22,5 +24,9 @@ namespace KakaoTalkAdBlockPlus.Settings
             if (milliseconds > MaxMilliseconds) return new CheckInterval(MaxMilliseconds);
             return new CheckInterval(milliseconds);
         }
+
+        /// <summary>초 단위 표시 문자열 (예: 100ms → "0.1").</summary>
+        public string ToSecondsText() =>
+            (Milliseconds / 1000m).ToString("0.###", CultureInfo.InvariantCulture);
     }
 }
