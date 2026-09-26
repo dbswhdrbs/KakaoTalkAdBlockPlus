@@ -58,6 +58,11 @@ namespace KakaoTalkAdBlockPlus.AdBlock
                 {
                     _windows.Resize(child, mainRect.Width - 2, mainRect.Height - 31);
                 }
+
+                if (_windows.GetText(child).StartsWith(LockViewTextPrefix, StringComparison.Ordinal))
+                {
+                    _windows.Resize(child, mainRect.Width - 2, mainRect.Height);
+                }
             }
         }
 

@@ -150,6 +150,20 @@ namespace KakaoTalkAdBlockPlus.Tests.AdBlock
             Assert.AreEqual(0, _windows.Resized.Count);
         }
 
+        [TestMethod]
+        public void ShouldResizeLockModeViewToFullHeight()
+        {
+            _kakaoTalkProcesses.Add(KakaoTalkPid);
+            var main = _windows.AddTopLevel(KakaoTalkPid, "EVA_Window_Dblclk", "카카오톡");
+            main.Rect = new WindowRect(100, 100, 500, 700);
+            _windows.AddChild(main, "EVA_ChildWindow", "");
+            var lockView = _windows.AddChild(main, "EVA_ChildWindow", "LockModeView_0x00D4E5F6");
+
+            CreateEngine().RunOnce();
+
+            CollectionAssert.Contains(_windows.Resized, new ResizedWindow(lockView.Handle, 398, 600));
+        }
+
         /// <summary>
         /// 카카오톡 메인 창 구조:
         /// "카카오톡" EVA_Window_Dblclk ─┬─ "" EVA_ChildWindow (첫 번째 자식)
